@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="220e8cb9-900d-41cb-a4ae-b9bb42d33f10" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/Ad.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/AdExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/Admin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/AdminExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/Adress.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/AdressExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/Brand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/BrandExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/Cart.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/CartExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/Category.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/CategoryExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/Collect.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/CollectExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/Comment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/CommentExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/Coupon.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/CouponExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/CouponUser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/CouponUserExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/Feedback.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/FeedbackExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/Footprint.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/FootprintExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/Goods.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/GoodsAttribute.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/GoodsAttributeExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/GoodsExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/GoodsProduct.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/GoodsProductExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/GoodsSpecification.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/GoodsSpecificationExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/Groupon.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/GrouponExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/Issue.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/IssueExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/KeyWord.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/KeyWordExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/Log.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/LogExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/Order.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/OrderExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/OrderGoods.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/OrderGoodsExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/Permission.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/PermissionExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/Region.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/RegionExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/Role.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/RoleExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/SearchHistory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/SearchHistoryExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/Storage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/StorageExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/System.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/SystemExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/Topic.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/TopicExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/UserExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/UserFormid.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/UserFormidExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/AdMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/AdminMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/AdressMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/BrandMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/CartMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/CategoryMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/CollectMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/CommentMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/CouponMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/CouponUserMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/FeedbackMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/FootprintMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/GoodsAttributeMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/GoodsMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/GoodsProductMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/GoodsSpecificationMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/GrouponMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/IssueMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/KeyWordMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/LogMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/OrderGoodsMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/OrderMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/PermissionMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/RegionMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/RoleMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/SearchHistoryMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/StorageMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/SystemMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/TopicMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/UserFormidMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/UserMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/AdMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/AdminMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/AdressMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/BrandMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/CartMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/CategoryMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/CollectMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/CommentMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/CouponMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/CouponUserMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/FeedbackMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/FootprintMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/GoodsAttributeMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/GoodsMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/GoodsProductMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/GoodsSpecificationMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/GrouponMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/IssueMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/KeyWordMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/LogMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/OrderGoodsMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/OrderMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/PermissionMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/RegionMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/RoleMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/SearchHistoryMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/StorageMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/SystemMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/TopicMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/UserFormidMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/UserMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/mall_admin/target/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/Ad.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="84">
+              <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/AdExample.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="63">
+              <caret line="5" selection-start-line="5" selection-end-line="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mall_admin/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="277">
+              <caret line="23" column="1" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mall_admin/src/test/java/com/skyblue/MallAdminApplicationTests.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mall_admin/src/main/resources/application.properties">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/MallAdminApplication.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/AdMapper.xml">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/CommentMapper.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-62" />
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/AdMapper.java">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/BrandExample.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-189" />
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/main/java/com/cskaoyan/Generator.java" />
+        <option value="$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/AdExample.java" />
+        <option value="$PROJECT_DIR$/mall_admin/.gitignore" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="F:\java_developsoft\maven\repository" />
+        <option name="mavenHome" value="F:/java_developsoft/maven/apache-maven-3.6.0" />
+        <option name="userSettingsFile" value="F:\java_developsoft\maven\apache-maven-3.6.0\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="105" />
+    <option name="y" value="50" />
+    <option name="width" value="1238" />
+    <option name="height" value="696" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="mall" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mall" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mall" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mall" type="462c0819:PsiDirectoryNode" />
+              <item name="mall_admin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mall" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mall" type="462c0819:PsiDirectoryNode" />
+              <item name="mall_admin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mall" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mall" type="462c0819:PsiDirectoryNode" />
+              <item name="mall_admin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mall" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mall" type="462c0819:PsiDirectoryNode" />
+              <item name="mall_admin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mall" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mall" type="462c0819:PsiDirectoryNode" />
+              <item name="mall_admin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1577346014484" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="Errors" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\admin\Desktop\mall\mall_admin\src\main\resources" />
+      <recent name="C:\Users\admin\Desktop\mall\mall_admin\src\main\java\com\skyblue" />
+      <recent name="C:\Users\admin\Desktop\mall\mall_admin\src\main\java" />
+      <recent name="C:\Users\admin\Desktop\mall\mall_admin" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\admin\Desktop\mall" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="MallAdminApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="mall_admin" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.skyblue.MallAdminApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="220e8cb9-900d-41cb-a4ae-b9bb42d33f10" name="Default Changelist" comment="" />
+      <created>1577345050119</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1577345050119</updated>
+      <workItem from="1577345051801" duration="920000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="920000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="105" y="50" width="1238" height="696" extended-state="0" />
+    <layout>
+      <window_info id="JRebel" side_tool="true" />
+      <window_info id="Image Layers" />
+      <window_info id="UI Designer" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info id="Capture Tool" />
+      <window_info id="Designer" />
+      <window_info id="Web" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2801358" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Spring" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" visible="true" weight="0.044483986" />
+      <window_info anchor="bottom" id="Java Enterprise" />
+      <window_info anchor="bottom" id="Database Changes" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
+      <window_info anchor="bottom" id="JRebel Console" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Maven" />
+      <window_info anchor="right" id="Palette" />
+      <window_info anchor="right" id="Word Book" side_tool="true" />
+      <window_info anchor="right" id="Capture Analysis" />
+      <window_info anchor="right" id="Mybatis datasource" side_tool="true" />
+      <window_info anchor="right" id="Database" />
+      <window_info anchor="right" id="Palette&#9;" />
+      <window_info anchor="right" id="Theme Preview" />
+      <window_info anchor="right" id="Bean Validation" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/cskaoyan/Generator.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mall_admin/src/main/resources/com/skyblue/mapper/AdMapper.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/CommentMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-62" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/mapper/AdMapper.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/BrandExample.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-189" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/AdExample.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="63">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="2" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mall_admin/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="277">
+          <caret line="23" column="1" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mall_admin/src/test/java/com/skyblue/MallAdminApplicationTests.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mall_admin/src/main/resources/application.properties">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/MallAdminApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mall_admin/src/main/java/com/skyblue/bean/Ad.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>9</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
