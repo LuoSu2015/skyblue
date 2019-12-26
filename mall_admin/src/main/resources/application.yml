@@ -8,7 +8,7 @@ logging:
           controller: info
 spring:
   profiles:
-    active: Lai
+    active: Wang
 ---
 spring:
   profiles: Lai
