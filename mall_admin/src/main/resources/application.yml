@@ -1,15 +1,61 @@
 server:
   port: 8081
-
-spring:
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/skyblue?useUnicode=true&characterEncoding=utf-8
-    username: root
-    password: 521521
-  logging:
+logging:
     level:
       com:
         cskaoyan:
           mapper: debug
           controller: info
+spring:
+  profiles:
+    active: Lai
+---
+spring:
+  profiles: Lai
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/skyblue?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: 521521
+---
+spring:
+    profiles: Jiang
+    datasource:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/skyblue?useUnicode=true&characterEncoding=utf-8
+      username: root
+      password: root
+---
+spring:
+    profiles: Yuan
+    datasource:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/mall?useUnicode=true&characterEncoding=utf-8
+      username: root
+      password: root
+---
+spring:
+    profiles: Chen
+    datasource:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/skyblue?useUnicode=true&characterEncoding=utf-8
+      username: root
+      password: 123456
+---
+spring:
+    profiles: Wang
+    datasource:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/skyblue?useUnicode=true&characterEncoding=utf-8
+      username: root
+      password: 1095920109
+---
+spring:
+    profiles: Fang
+    datasource:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/mall?useUnicode=true&characterEncoding=utf-8
+      username: root
+      password: 199420
+
+
