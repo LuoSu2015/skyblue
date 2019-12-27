@@ -1,15 +1,17 @@
 server:
   port: 8081
 
+pagehelper:
+  helper-dialect: mysql
+mybatis:
+  type-handlers-package: com.cskaoyan.typehandler
+
 logging:
   level:
     com:
       cskaoyan:
         mapper: debug
         controller: info
-spring:
-  profiles:
-    active: Fang
 ---
 spring:
   profiles: Lai
@@ -37,8 +39,6 @@ spring:
     username: root
     password: root
 ---
-prop:
-  upload-folder: E:/test/
 spring:
   profiles: Yuan
   servlet:
@@ -50,6 +50,8 @@ spring:
     url: jdbc:mysql://localhost:3306/mall?useUnicode=true&characterEncoding=utf-8
     username: root
     password: root
+prop:
+  upload-folder: E:/test/
 ---
 spring:
   profiles: Chen
@@ -80,7 +82,5 @@ logging:
       cskaoyan:
         mapper: debug
         controller: info
-pagehelper:
-  helper-dialect: mysql
-mybatis:
-  type-handlers-package: com.cskaoyan.typehandler
+
+
