@@ -1,6 +1,5 @@
 server:
   port: 8081
-
 pagehelper:
   helper-dialect: mysql
 mybatis:
@@ -12,6 +11,14 @@ logging:
       cskaoyan:
         mapper: debug
         controller: info
+spring:
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+  resources:
+    static-locations: classpath:\META-INF\resources\,classpath:\resources\,classpath:\static\,classpath:\public\,file:D:\pic\
+
 ---
 spring:
   profiles: Lai
@@ -41,20 +48,15 @@ spring:
 ---
 spring:
   profiles: Yuan
-  servlet:
-    multipart:
-      max-file-size: 50MB
-      max-request-size: 50MB
+
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/mall?useUnicode=true&characterEncoding=utf-8
     username: root
     password: root
-  resources:
-    static-locations: classpath:\META-INF\resources\,classpath:\resources\,classpath:\static\,classpath:\public\,file:D:\pic\
-prop:
-  upload-folder: D://pic//
-  url: http://localhost:8081/
+  #prop:
+#  upload-folder: D://pic//
+#  url: http://localhost:8081/
 
 ---
 spring:

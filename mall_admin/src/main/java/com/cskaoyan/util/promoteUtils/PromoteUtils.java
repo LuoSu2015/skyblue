@@ -1,4 +1,4 @@
-package com.cskaoyan.util;
+package com.cskaoyan.util.promoteUtils;
 
 import com.cskaoyan.bean.Ad;
 import com.cskaoyan.bean.BaseRespVo;

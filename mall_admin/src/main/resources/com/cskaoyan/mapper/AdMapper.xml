@@ -107,7 +107,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.cskaoyan.bean.Ad">
+  <insert id="insert" parameterType="com.cskaoyan.bean.Ad" useGeneratedKeys="true" keyProperty="id">
     insert into cskaoyan_mall_ad (id, name, link, 
       url, position, content, 
       start_time, end_time, enabled, 
