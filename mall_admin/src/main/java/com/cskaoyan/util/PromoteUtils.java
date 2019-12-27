@@ -18,6 +18,7 @@ public class PromoteUtils<T> {
         String order = pageWrapper.getOrder();
         int page = pageWrapper.getPage();
         String sort = pageWrapper.getSort();
+
         BaseRespVo adBaseRespVo = new BaseRespVo<>();
         String orderBySort = sort + " " + order;
         PageHelper.startPage(page, limit, orderBySort);
