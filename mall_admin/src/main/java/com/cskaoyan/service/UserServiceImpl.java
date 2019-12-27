@@ -30,11 +30,12 @@ public class UserServiceImpl implements UserService {
     public List<User> listuser(int page, int limit,String username,String mobile,String sort,String order) {
         PageHelper.startPage(page,limit);
         String orderby = sort + " " + order;
+        String s = "%" + username + "%";
         PageHelper.orderBy(orderby);
         if (username != null && mobile != null){
-            userExample.createCriteria().andUsernameLike(username).andMobileEqualTo(mobile);
+            userExample.createCriteria().andUsernameLike(s).andMobileEqualTo(mobile);
         }else if (username != null){
-            userExample.createCriteria().andUsernameLike(username);
+            userExample.createCriteria().andUsernameLike(s);
         }else if (mobile != null){
             userExample.createCriteria().andMobileEqualTo(mobile);
         }
@@ -60,13 +61,14 @@ public class UserServiceImpl implements UserService {
     public List<Adress> listaddress(int page, int limit, Integer userId, String name,String sort,String order) {
         PageHelper.startPage(page,limit);
         String orderby = sort + " " + order;
+        String s = "%" + name + "%";
         PageHelper.orderBy(orderby);
         if (userId != null && name != null){
-            adressExample.createCriteria().andUserIdEqualTo(userId).andNameLike(name);
+            adressExample.createCriteria().andUserIdEqualTo(userId).andNameLike(s);
         }else if (userId != null){
             adressExample.createCriteria().andUserIdEqualTo(userId);
         }else if (name != null){
-            adressExample.createCriteria().andNameLike(name);
+            adressExample.createCriteria().andNameLike(s);
         }
         List<Adress> adressList = adressMapper.selectByExample(adressExample);
         return adressList;
@@ -152,13 +154,14 @@ public class UserServiceImpl implements UserService {
     public List<SearchHistory> listhistory(int page, int limit, Integer userId, String keyword, String sort, String order) {
         PageHelper.startPage(page,limit);
         String orderby = sort + " " + order;
+        String s = "%" + keyword + "%";
         PageHelper.orderBy(orderby);
         if (userId != null && keyword != null){
-            searchHistoryExample.createCriteria().andUserIdEqualTo(userId).andKeywordLike(keyword);
+            searchHistoryExample.createCriteria().andUserIdEqualTo(userId).andKeywordLike(s);
         }else if (userId != null){
             searchHistoryExample.createCriteria().andUserIdEqualTo(userId);
         }else if(keyword != null){
-            searchHistoryExample.createCriteria().andKeywordLike(keyword);
+            searchHistoryExample.createCriteria().andKeywordLike(s);
         }
         List<SearchHistory> searchHistoryList = searchHistoryMapper.selectByExample(searchHistoryExample);
         return searchHistoryList;
@@ -181,13 +184,14 @@ public class UserServiceImpl implements UserService {
     public List<Feedback> listfeedback(int page, int limit, Integer id, String username, String sort, String order) {
         PageHelper.startPage(page,limit);
         String orderby = sort + " " + order;
+        String s = "%" + username + "%";
         PageHelper.orderBy(orderby);
         if (id != null && username != null){
-            feedbackExample.createCriteria().andIdEqualTo(id).andUsernameLike(username);
+            feedbackExample.createCriteria().andIdEqualTo(id).andUsernameLike(s);
         }else if (id != null){
             feedbackExample.createCriteria().andIdEqualTo(id);
         }else if (username != null){
-            feedbackExample.createCriteria().andUsernameLike(username);
+            feedbackExample.createCriteria().andUsernameLike(s);
         }
         List<Feedback> feedbackList = feedbackMapper.selectByExample(feedbackExample);
         return feedbackList;

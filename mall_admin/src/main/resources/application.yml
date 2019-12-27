@@ -6,9 +6,6 @@ logging:
         cskaoyan:
           mapper: debug
           controller: info
-spring:
-  profiles:
-    active: Wang
 ---
 spring:
   profiles: Lai
@@ -49,6 +46,8 @@ spring:
       url: jdbc:mysql://localhost:3306/skyblue?useUnicode=true&characterEncoding=utf-8
       username: root
       password: 1095920109
+    jackson:
+      date-format: yyyy-MM-dd HH:mm:ss
 pagehelper:
   helper-dialect: mysql
 ---
@@ -59,5 +58,6 @@ spring:
       url: jdbc:mysql://localhost:3306/mall?useUnicode=true&characterEncoding=utf-8
       username: root
       password: 199420
+
 
 
