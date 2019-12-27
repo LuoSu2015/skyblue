@@ -4,7 +4,9 @@ import com.cskaoyan.bean.*;
 import com.cskaoyan.bean.propate.PageWrapper;
 import com.cskaoyan.service.promote.PromoteService;
 import com.cskaoyan.util.PromoteUtils;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,16 +27,26 @@ public class PromoteController {
     @Autowired
     PromoteService promoteService;
 
+    @Value("${prop.upload-folder}")
+    String filePath;
+
+    @Value("${prop.url}")
+    String pathUrl;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:SS",timezone = "GMT+8")
+    Date date;
+
     /*  图片上传 */
     @PostMapping("admin/storage/create")
-    public BaseRespVo<Storage> fileUpload(@RequestParam(name = "file", required = false) MultipartFile file, HttpServletRequest request) throws IOException {
+    public BaseRespVo<Storage> fileUpload(MultipartFile file, HttpServletRequest request) throws IOException {
 
         Storage storage = new Storage();
         BaseRespVo<Storage> baseRespVo = new BaseRespVo<>();
         //获取文件后缀
         String originalFilename = file.getOriginalFilename();
+        /*取. 后面的字符*/
         String suffix = originalFilename.substring(originalFilename.lastIndexOf(".") + 1, originalFilename.length());
-        String savePath = "D://pic";
+        String savePath = filePath;
         File savePathFile = new File(savePath);
         if (!savePathFile.exists()) {
             //若不存在该目录，则创建目录
@@ -47,8 +60,8 @@ public class PromoteController {
         storage.setName(originalFilename);
         storage.setType("image/jpeg");
         storage.setSize((int) file.getSize());
-        storage.setUrl(null);
-        storage.setAddTime(null);
+        storage.setUrl(pathUrl+filename);
+        storage.setAddTime(date);
         storage.setUpdateTime(null);
         baseRespVo.setErrno(0);
         baseRespVo.setErrmsg("成功");
@@ -108,10 +121,11 @@ public class PromoteController {
         return baseRespVo;
 
     }
+
     /*团购活动*/
 //     admin/groupon/listRecord?page=1&limit=20&sort=add_time&order=desc  grouponrules
     @RequestMapping("admin/groupon/listRecord")
-    public BaseRespVo queryGrouponListRecordByGoodsId(PageWrapper pageWrapper){
+    public BaseRespVo queryGrouponListRecordByGoodsId(PageWrapper pageWrapper) {
         PromoteUtils<Groupon> adPromoteUtils = new PromoteUtils<>();
         BaseRespVo baseRespVo = PromoteUtils.preSetBaseRespVo(pageWrapper);
         List<Groupon> grouponList = promoteService.queryGrouponListRecordByGoodsId(pageWrapper.getGoodsId());
