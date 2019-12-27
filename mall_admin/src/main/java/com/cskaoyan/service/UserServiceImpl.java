@@ -14,7 +14,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserMapper userMapper;
 
-    UserExample userExample = new UserExample();
+
 
     /**
      * 用户管理模块会员管理功能首页显示及指定查询
@@ -28,16 +28,19 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<User> listuser(int page, int limit,String username,String mobile,String sort,String order) {
+        UserExample userExample = new UserExample();
         PageHelper.startPage(page,limit);
         String orderby = sort + " " + order;
         String s = "%" + username + "%";
         PageHelper.orderBy(orderby);
-        if (username != null && mobile != null){
-            userExample.createCriteria().andUsernameLike(s).andMobileEqualTo(mobile);
-        }else if (username != null){
-            userExample.createCriteria().andUsernameLike(s);
-        }else if (mobile != null){
-            userExample.createCriteria().andMobileEqualTo(mobile);
+        if (username != null) {
+            if (mobile != null && !username.isEmpty()) {
+                userExample.createCriteria().andUsernameLike(s).andMobileEqualTo(mobile);
+            } else if (!username.isEmpty()) {
+                userExample.createCriteria().andUsernameLike(s);
+            } else if (mobile != null) {
+                userExample.createCriteria().andMobileEqualTo(mobile);
+            }
         }
         List<User> userList = userMapper.selectByExample(userExample);
         return userList;
@@ -45,7 +48,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     AdressMapper adressMapper;
-    AdressExample adressExample = new AdressExample();
+
 
     /**
      * 用户管理模块收货地址功能首页显示和查询具体User地址接口
@@ -59,16 +62,19 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<Adress> listaddress(int page, int limit, Integer userId, String name,String sort,String order) {
+        AdressExample adressExample = new AdressExample();
         PageHelper.startPage(page,limit);
         String orderby = sort + " " + order;
         String s = "%" + name + "%";
         PageHelper.orderBy(orderby);
-        if (userId != null && name != null){
-            adressExample.createCriteria().andUserIdEqualTo(userId).andNameLike(s);
-        }else if (userId != null){
-            adressExample.createCriteria().andUserIdEqualTo(userId);
-        }else if (name != null){
-            adressExample.createCriteria().andNameLike(s);
+        if (name.isEmpty() != true) {
+            if (userId != null && name != null) {
+                adressExample.createCriteria().andUserIdEqualTo(userId).andNameLike(s);
+            } else if (userId != null) {
+                adressExample.createCriteria().andUserIdEqualTo(userId);
+            } else if (name != null) {
+                adressExample.createCriteria().andNameLike(s);
+            }
         }
         List<Adress> adressList = adressMapper.selectByExample(adressExample);
         return adressList;
@@ -78,7 +84,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     CollectMapper collectMapper;
 
-    CollectExample collectExample = new CollectExample();
+
 
     /**
      * 用户管理模块会员收藏功能首页显示和查询具体User收藏商品接口
@@ -92,6 +98,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<Collect> listcollect(int page, int limit, Integer userId, Integer valueId,String sort,String order) {
+        CollectExample collectExample = new CollectExample();
         PageHelper.startPage(page,limit);
         String orderby = sort + " " + order;
         PageHelper.orderBy(orderby);
@@ -108,7 +115,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     FootprintMapper footprintMapper;
-    FootprintExample footprintExample = new FootprintExample();
+
 
     /**
      * 用户管理模块会员足迹功能首页显示及具体User浏览信息查询接口
@@ -123,6 +130,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Footprint> listfootprint(int page, int limit, Integer userId, Integer goodsId, String sort, String order) {
+        FootprintExample footprintExample = new FootprintExample();
         PageHelper.startPage(page,limit);
         String orderby = sort + " " + order;
         PageHelper.orderBy(orderby);
@@ -139,7 +147,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     SearchHistoryMapper searchHistoryMapper;
-    SearchHistoryExample searchHistoryExample = new SearchHistoryExample();
+
     /**
      * 用户管理模块搜索历史功能首页显示及具体User浏览信息查询接口
      * @param page 分页的当前页数
@@ -152,16 +160,19 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<SearchHistory> listhistory(int page, int limit, Integer userId, String keyword, String sort, String order) {
+        SearchHistoryExample searchHistoryExample = new SearchHistoryExample();
         PageHelper.startPage(page,limit);
         String orderby = sort + " " + order;
         String s = "%" + keyword + "%";
         PageHelper.orderBy(orderby);
-        if (userId != null && keyword != null){
-            searchHistoryExample.createCriteria().andUserIdEqualTo(userId).andKeywordLike(s);
-        }else if (userId != null){
-            searchHistoryExample.createCriteria().andUserIdEqualTo(userId);
-        }else if(keyword != null){
-            searchHistoryExample.createCriteria().andKeywordLike(s);
+        if (keyword.isEmpty() != true) {
+            if (userId != null && keyword != null) {
+                searchHistoryExample.createCriteria().andUserIdEqualTo(userId).andKeywordLike(s);
+            } else if (userId != null) {
+                searchHistoryExample.createCriteria().andUserIdEqualTo(userId);
+            } else if (keyword != null) {
+                searchHistoryExample.createCriteria().andKeywordLike(s);
+            }
         }
         List<SearchHistory> searchHistoryList = searchHistoryMapper.selectByExample(searchHistoryExample);
         return searchHistoryList;
@@ -169,7 +180,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     FeedbackMapper feedbackMapper;
-    FeedbackExample feedbackExample = new FeedbackExample();
+
     /**
      * 用户管理模块意见反馈功能首页显示及具体User反馈信息查询接口
      * @param page 分页的当前页数
@@ -182,16 +193,19 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<Feedback> listfeedback(int page, int limit, Integer id, String username, String sort, String order) {
+        FeedbackExample feedbackExample = new FeedbackExample();
         PageHelper.startPage(page,limit);
         String orderby = sort + " " + order;
         String s = "%" + username + "%";
         PageHelper.orderBy(orderby);
-        if (id != null && username != null){
-            feedbackExample.createCriteria().andIdEqualTo(id).andUsernameLike(s);
-        }else if (id != null){
-            feedbackExample.createCriteria().andIdEqualTo(id);
-        }else if (username != null){
-            feedbackExample.createCriteria().andUsernameLike(s);
+        if (username.isEmpty() != true) {
+            if (id != null && username != null) {
+                feedbackExample.createCriteria().andIdEqualTo(id).andUsernameLike(s);
+            } else if (id != null) {
+                feedbackExample.createCriteria().andIdEqualTo(id);
+            } else if (username != null) {
+                feedbackExample.createCriteria().andUsernameLike(s);
+            }
         }
         List<Feedback> feedbackList = feedbackMapper.selectByExample(feedbackExample);
         return feedbackList;

@@ -16,7 +16,7 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     LogMapper logMapper;
 
-    LogExample logExample = new LogExample();
+
     /**
      * 系统管理模块操作日志功能实现
      * @param page 分页的当前页数
@@ -28,6 +28,7 @@ public class AdminServiceImpl implements AdminService {
      */
     @Override
     public List<Log> loglist(int page, int limit, String name, String sort, String order) {
+        LogExample logExample = new LogExample();
         PageHelper.startPage(page,limit);
         String orderby = sort + " " + order;
         String s = "%" + name + "%";
