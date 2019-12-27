@@ -27,7 +27,7 @@ public class AdminController {
         baseRespVo.setErrno(0);
         Map<String,Object> map = new HashMap<>();
         map.put("name","admin123");
-        map.put("avatar","https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80");
+        map.put("avatar","https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
         ArrayList<String> permList = new ArrayList<>();
         permList.add("*");
         ArrayList<String> roleList = new ArrayList<>();
