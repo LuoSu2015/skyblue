@@ -1,15 +1,22 @@
+prop:
+  upload-folder: E:/test/
 server:
   port: 8081
-
 spring:
+  #图片上传
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/skyblue?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://localhost:3306/mall?useUnicode=true&characterEncoding=utf-8
     username: root
-    password: 521521
-  logging:
-    level:
-      com:
-        cskaoyan:
-          mapper: debug
-          controller: info
+    password: root
+logging:
+  level:
+    com:
+      cskaoyan:
+        mapper: debug
+pagehelper:
+  helper-dialect: mysql #不要用dialect
