@@ -1,13 +1,12 @@
 package com.cskaoyan.controller;
 
 import com.cskaoyan.bean.BaseRespVo;
+import com.cskaoyan.bean.Keyword;
 import com.cskaoyan.service.MarketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.cskaoyan.bean.Keyword;
-
 
 import java.util.Date;
 import java.util.HashMap;
@@ -43,23 +42,22 @@ public class MarketController {
      * 显示所有的keyword,并进行分页
      * @param page
      * @param limit
-     * @param add_time
-     * @param desc
      * @return
      */
     @RequestMapping("admin/keyword/list")
     public BaseRespVo showKeywords(int page, int limit, String sort, String order, String keyword, String url){
         //查询所有的keyword并分页
-        List<Keyword> keywords = marketService.queryKeyword(page, limit,keyword,url,sort,order);
-        int size = keywords.size();
+        Map map = marketService.queryKeyword(page, limit,keyword,url,sort,order);
+        List<Keyword> keywords = (List<Keyword>)map.get("keywords");
+        int total = (int)map.get("total");
         BaseRespVo baseRespVo = new BaseRespVo();
         baseRespVo.setErrmsg("成功");
         baseRespVo.setErrno(0);
         //设置data,用map接收
-        Map<String,Object> map = new HashMap<>();
-        map.put("total",size);
-        map.put("items",keywords);
-        baseRespVo.setData(map);
+        Map<String,Object> resultMap = new HashMap<>();
+        resultMap.put("total",total);
+        resultMap.put("items",keywords);
+        baseRespVo.setData(resultMap);
         return baseRespVo;
     }
 
@@ -90,7 +88,9 @@ public class MarketController {
     @RequestMapping("admin/keyword/update")
     public BaseRespVo updateKeyword(@RequestBody Keyword keyword){
         BaseRespVo baseRespVo = new BaseRespVo();
+        Keyword reslutKeyword = marketService.updateKeyword(keyword);
         baseRespVo.setErrno(0);
+        baseRespVo.setData(reslutKeyword);
         baseRespVo.setErrmsg("成功");
         return baseRespVo;
     }

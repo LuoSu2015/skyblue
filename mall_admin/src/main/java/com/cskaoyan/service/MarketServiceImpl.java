@@ -1,14 +1,18 @@
 package com.cskaoyan.service;
 
 import com.cskaoyan.bean.Brand;
-import com.cskaoyan.mapper.KeywordMapper;
-import com.github.pagehelper.PageHelper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.cskaoyan.bean.Keyword;
 import com.cskaoyan.bean.KeywordExample;
+import com.cskaoyan.mapper.KeywordMapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MarketServiceImpl implements MarketService {
@@ -22,7 +26,8 @@ public class MarketServiceImpl implements MarketService {
      * @return
      */
     @Override
-    public List<Keyword> queryKeyword(int page, int limit,String keyword,String url,String sort,String order) {
+    public Map queryKeyword(int page, int limit, String keyword, String url, String sort, String order) {
+        Map map = new HashMap();
         //模糊搜索的条件
         KeywordExample keywordExample = showKeyword(keyword,url);
         //排序
@@ -30,7 +35,12 @@ public class MarketServiceImpl implements MarketService {
         //分页
         PageHelper.startPage(page,limit);
         List<Keyword> keywords = keywordMapper.selectByExample(keywordExample);
-        return keywords;
+        //获取总条目数
+        PageInfo<Keyword> pageInfo = new PageInfo<>(keywords);
+        int total = (int)pageInfo.getTotal();
+        map.put("keywords",keywords);
+        map.put("total",total);
+        return map;
     }
 
     /**
@@ -58,6 +68,7 @@ public class MarketServiceImpl implements MarketService {
      * @return
      */
     @Override
+    @Transactional
     public Keyword insertKeyword(Keyword keyword) {
         keywordMapper.insert(keyword);
         return keyword;
@@ -68,8 +79,10 @@ public class MarketServiceImpl implements MarketService {
      * @param keyword
      */
     @Override
-    public void updateKeyword(Keyword keyword) {
-        keywordMapper.updateByPrimaryKey(keyword);
+    public Keyword updateKeyword(Keyword keyword) {
+        int id = keywordMapper.updateByPrimaryKey(keyword);
+        Keyword keyword1 = keywordMapper.selectByPrimaryKey(id);
+        return keyword1;
     }
 
     /**

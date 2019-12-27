@@ -1,14 +1,15 @@
 package com.cskaoyan.service;
 
-import com.cskaoyan.bean.Keyword;
-import com.cskaoyan.bean.KeywordExample;
+
 import com.cskaoyan.bean.Brand;
+import com.cskaoyan.bean.Keyword;
 
 import java.util.List;
+import java.util.Map;
 
 public interface MarketService {
 
-    List<Keyword> queryKeyword(int page, int limit, String keyword, String url, String sort, String order);
+    Map queryKeyword(int page, int limit, String keyword, String url, String sort, String order);
 
     Keyword insertKeyword(Keyword keyword);
 
@@ -16,6 +17,6 @@ public interface MarketService {
 
     List<Brand> queryBrand(Integer page, Integer limit, String sort, String order);
 
-    void updateKeyword(Keyword keyword);
+    Keyword updateKeyword(Keyword keyword);
 
 }
