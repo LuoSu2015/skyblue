@@ -13,3 +13,8 @@ spring:
         cskaoyan:
           mapper: debug
           controller: info
+
+pagehelper:
+  helper-dialect: mysql
+mybatis:
+  type-handlers-package: com.cskaoyan.typehandler
