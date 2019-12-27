@@ -44,6 +44,8 @@ public class GoodsController {
         BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
         Map<String,Object> data = new HashMap<>();
 
+        List<Object> categoryList
+
         baseRespVo.setData(data);
         baseRespVo.setErrno(0);
         baseRespVo.setErrmsg("成功");
