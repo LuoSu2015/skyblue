@@ -71,6 +71,13 @@ spring:
     url: jdbc:mysql://localhost:3306/mall?useUnicode=true&characterEncoding=utf-8
     username: root
     password: 199420
-
-
-
+logging:
+  level:
+    com:
+      cskaoyan:
+        mapper: debug
+        controller: info
+pagehelper:
+  helper-dialect: mysql
+mybatis:
+  type-handlers-package: com.cskaoyan.typehandler

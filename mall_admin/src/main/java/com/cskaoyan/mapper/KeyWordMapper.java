@@ -1,30 +1,31 @@
 package com.cskaoyan.mapper;
 
-import com.cskaoyan.bean.KeyWord;
-import com.cskaoyan.bean.KeyWordExample;
-import java.util.List;
+import com.cskaoyan.bean.Keyword;
+import com.cskaoyan.bean.KeywordExample;
 import org.apache.ibatis.annotations.Param;
 
-public interface KeyWordMapper {
-    long countByExample(KeyWordExample example);
+import java.util.List;
 
-    int deleteByExample(KeyWordExample example);
+public interface KeywordMapper {
+    long countByExample(KeywordExample example);
+
+    int deleteByExample(KeywordExample example);
 
     int deleteByPrimaryKey(Integer id);
 
-    int insert(KeyWord record);
+    int insert(Keyword record);
 
-    int insertSelective(KeyWord record);
+    int insertSelective(Keyword record);
 
-    List<KeyWord> selectByExample(KeyWordExample example);
+    List<Keyword> selectByExample(KeywordExample example);
 
-    KeyWord selectByPrimaryKey(Integer id);
+    Keyword selectByPrimaryKey(Integer id);
 
-    int updateByExampleSelective(@Param("record") KeyWord record, @Param("example") KeyWordExample example);
+    int updateByExampleSelective(@Param("record") Keyword record, @Param("example") KeywordExample example);
 
-    int updateByExample(@Param("record") KeyWord record, @Param("example") KeyWordExample example);
+    int updateByExample(@Param("record") Keyword record, @Param("example") KeywordExample example);
 
-    int updateByPrimaryKeySelective(KeyWord record);
+    int updateByPrimaryKeySelective(Keyword record);
 
-    int updateByPrimaryKey(KeyWord record);
+    int updateByPrimaryKey(Keyword record);
 }
