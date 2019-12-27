@@ -1,6 +1,11 @@
 server:
   port: 8081
 
+pagehelper:
+  helper-dialect: mysql
+mybatis:
+  type-handlers-package: com.cskaoyan.typehandler
+
 logging:
   level:
     com:
@@ -77,7 +82,5 @@ logging:
       cskaoyan:
         mapper: debug
         controller: info
-pagehelper:
-  helper-dialect: mysql
-mybatis:
-  type-handlers-package: com.cskaoyan.typehandler
+
+
