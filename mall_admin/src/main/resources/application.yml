@@ -9,7 +9,7 @@ logging:
         controller: info
 spring:
   profiles:
-    active: Yuan
+    active: Fang
 ---
 spring:
   profiles: Lai
