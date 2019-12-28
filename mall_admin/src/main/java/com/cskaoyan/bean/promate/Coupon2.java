@@ -1,4 +1,4 @@
-package com.cskaoyan.bean.propate;
+package com.cskaoyan.bean.promate;
 
 import lombok.Data;
 

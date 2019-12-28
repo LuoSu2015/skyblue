@@ -4,7 +4,7 @@ import com.cskaoyan.bean.Coupon;
 import com.cskaoyan.bean.CouponExample;
 import java.util.List;
 
-import com.cskaoyan.bean.propate.Coupon2;
+import com.cskaoyan.bean.promate.Coupon2;
 import org.apache.ibatis.annotations.Param;
 
 public interface CouponMapper {

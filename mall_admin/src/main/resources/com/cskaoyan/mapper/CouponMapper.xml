@@ -573,7 +573,7 @@
     </trim>
   </insert>
 
-  <update id="update2ByPrimaryKeySelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.cskaoyan.bean.propate.Coupon2">
+  <update id="update2ByPrimaryKeySelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.cskaoyan.bean.promate.Coupon2">
     update cskaoyan_mall_coupon
     <set>
       <if test="name != null">

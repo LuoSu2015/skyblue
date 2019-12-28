@@ -1,8 +1,7 @@
 package com.cskaoyan.util.promoteUtils;
 
-import com.cskaoyan.bean.Ad;
 import com.cskaoyan.bean.BaseRespVo;
-import com.cskaoyan.bean.propate.PageWrapper;
+import com.cskaoyan.bean.promate.PageWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 

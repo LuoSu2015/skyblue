@@ -1,13 +1,12 @@
 package com.cskaoyan.service.promote.Impl;
 
 import com.cskaoyan.bean.*;
-import com.cskaoyan.bean.propate.Coupon2;
+import com.cskaoyan.bean.promate.Coupon2;
 import com.cskaoyan.mapper.*;
 import com.cskaoyan.service.promote.PromoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

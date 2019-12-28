@@ -1,8 +1,8 @@
 package com.cskaoyan.controller.promote;
 
 import com.cskaoyan.bean.*;
-import com.cskaoyan.bean.propate.Coupon2;
-import com.cskaoyan.bean.propate.PageWrapper;
+import com.cskaoyan.bean.promate.Coupon2;
+import com.cskaoyan.bean.promate.PageWrapper;
 import com.cskaoyan.service.promote.PromoteService;
 import com.cskaoyan.util.promoteUtils.PromoteUtils;
 import com.cskaoyan.util.uploadPic.UploadPicUtils;
