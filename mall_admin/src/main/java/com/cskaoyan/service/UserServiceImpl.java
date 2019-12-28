@@ -35,11 +35,11 @@ public class UserServiceImpl implements UserService {
         PageHelper.orderBy(orderby);
         if (username != null) {
             if (mobile != null && !username.isEmpty()) {
-                userExample.createCriteria().andUsernameLike(s).andMobileEqualTo(mobile);
+                userExample.createCriteria().andUsernameLike(s).andMobileEqualTo(mobile).andDeletedEqualTo(false);
             } else if (!username.isEmpty()) {
-                userExample.createCriteria().andUsernameLike(s);
+                userExample.createCriteria().andUsernameLike(s).andDeletedEqualTo(false);
             } else if (mobile != null) {
-                userExample.createCriteria().andMobileEqualTo(mobile);
+                userExample.createCriteria().andMobileEqualTo(mobile).andDeletedEqualTo(false);
             }
         }
         List<User> userList = userMapper.selectByExample(userExample);
@@ -69,11 +69,11 @@ public class UserServiceImpl implements UserService {
         PageHelper.orderBy(orderby);
         if (name.isEmpty() != true) {
             if (userId != null && name != null) {
-                adressExample.createCriteria().andUserIdEqualTo(userId).andNameLike(s);
+                adressExample.createCriteria().andUserIdEqualTo(userId).andNameLike(s).andDeletedEqualTo(false);
             } else if (userId != null) {
-                adressExample.createCriteria().andUserIdEqualTo(userId);
+                adressExample.createCriteria().andUserIdEqualTo(userId).andDeletedEqualTo(false);
             } else if (name != null) {
-                adressExample.createCriteria().andNameLike(s);
+                adressExample.createCriteria().andNameLike(s).andDeletedEqualTo(false);
             }
         }
         List<Adress> adressList = adressMapper.selectByExample(adressExample);
@@ -103,11 +103,11 @@ public class UserServiceImpl implements UserService {
         String orderby = sort + " " + order;
         PageHelper.orderBy(orderby);
         if (userId != null && valueId != null){
-            collectExample.createCriteria().andUserIdEqualTo(userId).andValueIdEqualTo(valueId);
+            collectExample.createCriteria().andUserIdEqualTo(userId).andValueIdEqualTo(valueId).andDeletedEqualTo(false);
         }else if (userId != null){
-            collectExample.createCriteria().andUserIdEqualTo(userId);
+            collectExample.createCriteria().andUserIdEqualTo(userId).andDeletedEqualTo(false);
         }else if (valueId != null){
-            collectExample.createCriteria().andValueIdEqualTo(valueId);
+            collectExample.createCriteria().andValueIdEqualTo(valueId).andDeletedEqualTo(false);
         }
         List<Collect> collectList = collectMapper.selectByExample(collectExample);
         return collectList;
@@ -135,11 +135,11 @@ public class UserServiceImpl implements UserService {
         String orderby = sort + " " + order;
         PageHelper.orderBy(orderby);
         if (userId != null && goodsId != null){
-            footprintExample.createCriteria().andUserIdEqualTo(userId).andGoodsIdEqualTo(goodsId);
+            footprintExample.createCriteria().andUserIdEqualTo(userId).andGoodsIdEqualTo(goodsId).andDeletedEqualTo(false);
         }else if (userId != null){
-            footprintExample.createCriteria().andUserIdEqualTo(userId);
+            footprintExample.createCriteria().andUserIdEqualTo(userId).andDeletedEqualTo(false);
         }else if (goodsId != null){
-            footprintExample.createCriteria().andGoodsIdEqualTo(goodsId);
+            footprintExample.createCriteria().andGoodsIdEqualTo(goodsId).andDeletedEqualTo(false);
         }
         List<Footprint> footprintList = footprintMapper.selectByExample(footprintExample);
         return  footprintList;
@@ -167,11 +167,11 @@ public class UserServiceImpl implements UserService {
         PageHelper.orderBy(orderby);
         if (keyword.isEmpty() != true) {
             if (userId != null && keyword != null) {
-                searchHistoryExample.createCriteria().andUserIdEqualTo(userId).andKeywordLike(s);
+                searchHistoryExample.createCriteria().andUserIdEqualTo(userId).andKeywordLike(s).andDeletedEqualTo(false);
             } else if (userId != null) {
-                searchHistoryExample.createCriteria().andUserIdEqualTo(userId);
+                searchHistoryExample.createCriteria().andUserIdEqualTo(userId).andDeletedEqualTo(false);
             } else if (keyword != null) {
-                searchHistoryExample.createCriteria().andKeywordLike(s);
+                searchHistoryExample.createCriteria().andKeywordLike(s).andDeletedEqualTo(false);
             }
         }
         List<SearchHistory> searchHistoryList = searchHistoryMapper.selectByExample(searchHistoryExample);
@@ -200,11 +200,11 @@ public class UserServiceImpl implements UserService {
         PageHelper.orderBy(orderby);
         if (username.isEmpty() != true) {
             if (id != null && username != null) {
-                feedbackExample.createCriteria().andIdEqualTo(id).andUsernameLike(s);
+                feedbackExample.createCriteria().andIdEqualTo(id).andUsernameLike(s).andDeletedEqualTo(false);
             } else if (id != null) {
-                feedbackExample.createCriteria().andIdEqualTo(id);
+                feedbackExample.createCriteria().andIdEqualTo(id).andDeletedEqualTo(false);
             } else if (username != null) {
-                feedbackExample.createCriteria().andUsernameLike(s);
+                feedbackExample.createCriteria().andUsernameLike(s).andDeletedEqualTo(false);
             }
         }
         List<Feedback> feedbackList = feedbackMapper.selectByExample(feedbackExample);
