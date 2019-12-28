@@ -57,7 +57,7 @@ public class PromoteController {
 
     /*  更新广告*/
     @RequestMapping("admin/ad/update")
-    public BaseRespVo updateAd(Ad ad) {
+    public BaseRespVo updateAd(@RequestBody Ad ad) {
         ArrayList<Ad> adList = new ArrayList<>();
         promoteService.updateAdList(adList);
         BaseRespVo<Ad> adBaseRespVo = new BaseRespVo<>();
@@ -83,7 +83,6 @@ public class PromoteController {
     @RequestMapping("admin/coupon/list")
     public BaseRespVo queryCouponListByNameAndTypeAndStatus(PageWrapper pageWrapper) {
 
-//        PromoteUtils<Coupon> adPromoteUtils = new PromoteUtils<>();
         BaseRespVo baseRespVo = PromoteUtils.preSetBaseRespVo(pageWrapper);
         List couponList = promoteService.queryCouponListByNameAndTypeAndStatus(pageWrapper.getName(), pageWrapper.getType(), pageWrapper.getStatus());
         baseRespVo = PromoteUtils.postSetBaseRespVo(baseRespVo, couponList);
@@ -107,7 +106,6 @@ public class PromoteController {
     }
 
     /*  更新优惠券*/
-    //http://192.168.2.100:8081/Couponmin/Coupon/update
     @RequestMapping("admin/coupon/update")
     public BaseRespVo updateCoupon(@RequestBody Coupon coupon) {
         List<Coupon> couponList = new ArrayList<>();
