@@ -1,9 +1,11 @@
 package com.cskaoyan.mapper;
 
 import com.cskaoyan.bean.Category;
+import com.cskaoyan.bean.Category2;
 import com.cskaoyan.bean.CategoryExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface CategoryMapper {
     long countByExample(CategoryExample example);
@@ -27,4 +29,8 @@ public interface CategoryMapper {
     int updateByPrimaryKeySelective(Category record);
 
     int updateByPrimaryKey(Category record);
+
+    Category selectLastId(@Param("category") Category category);
+
+    List<Category2> selectCategory2();
 }

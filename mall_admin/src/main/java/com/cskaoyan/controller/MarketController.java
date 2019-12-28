@@ -1,17 +1,17 @@
 package com.cskaoyan.controller;
 
-import com.cskaoyan.bean.BaseRespVo;
-import com.cskaoyan.bean.Keyword;
+import com.cskaoyan.bean.*;
 import com.cskaoyan.service.MarketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.*;
 
 @RestController
 public class MarketController {
@@ -102,20 +102,285 @@ public class MarketController {
      */
     @RequestMapping("admin/keyword/delete")
     public BaseRespVo delectKeyword(@RequestBody Keyword keyword){
-        Integer id = keyword.getId();
-        marketService.deleteKeywordById(id);
+        marketService.deleteKeyword(keyword);
         BaseRespVo baseRespVo = new BaseRespVo();
         baseRespVo.setErrmsg("成功");
         baseRespVo.setErrno(0);
         return baseRespVo;
     }
 
-
-/*    @RequestMapping("admin/brand/list")
-    public BaseRespVo showBrand(Integer page,Integer limit,String sort,String order){
+    /**
+     * 显示所有商标,及查询
+     * @param page
+     * @param limit
+     * @param sort
+     * @param order
+     * @return
+     */
+    @RequestMapping("admin/brand/list")
+    public BaseRespVo showBrands(Integer page, Integer limit, String sort, String order, Integer id, String name){
         BaseRespVo baseRespVo = new BaseRespVo();
+        Map map = marketService.queryBrand(page, limit, sort, order,id,name);
+        List<Brand> brands = (List<Brand>) map.get("brands");
+        Integer total = (Integer) map.get("total");
+        baseRespVo.setErrno(0);
+        baseRespVo.setErrmsg("成功");
+        Map resultMap = new HashMap();
+        resultMap.put("total",total);
+        resultMap.put("items",brands);
+        baseRespVo.setData(resultMap);
+        return baseRespVo;
+    }
 
+    /**
+     * 上传品牌商图片
+     *
+     */
+/*    @RequestMapping("admin/storage/create")
+    public BaseRespVo fileUpload(MultipartFile file) throws IOException {
+        //文件上传,及命名
+        String uuid = UUID.randomUUID().toString();
+        String originalFilename = file.getOriginalFilename();
+        String contentType = file.getContentType();
+        long size = file.getSize();
+        int i = originalFilename.lastIndexOf(".");
+        String substring = originalFilename.substring(i);
+        uuid += substring;
+        String url = "E:\\Spring\\skyblue\\mall\\target\\classes\\static";
+        File file1 = new File(url,uuid);
+        file.transferTo(file1);
+        //将信息封装到javabean中
+        Storage storage = new Storage();
+        storage.setKey(uuid);
+        storage.setName(originalFilename);
+        storage.setSize((int)size);
+        storage.setUrl("http://localhost:8081/" + uuid);
+        storage.setType(contentType);
+        storage.setDeleted(false);
+        Date time = new Date();
+        storage.setAddTime(time);
+        storage.setUpdateTime(time);
+        //将数据保存到数据库
+        marketService.insertStorage(storage);
+        //返回结果
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrno(0);
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setData(storage);
+        return baseRespVo;
     }*/
 
+    /**
+     *新建商标
+     * @param brand
+     * @return
+     */
+    @RequestMapping("admin/brand/create")
+    public BaseRespVo createBrand(@RequestBody Brand brand){
+        Date nowTime = new Date();
+        brand.setAddTime(nowTime);
+        brand.setUpdateTime(nowTime);
+        brand.setDeleted(false);
+        //保存到数据库
+        Brand brand1 = marketService.insertBrand(brand);
+        //将数据返回
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setErrno(0);
+        baseRespVo.setData(brand1);
+        return baseRespVo;
+    }
 
+    /**
+     * 删除商标
+     * @param brand
+     * @return
+     */
+    @RequestMapping("admin/brand/delete")
+    public BaseRespVo delectBrand(@RequestBody Brand brand){
+        //在数据库中删除数据
+        marketService.deleteBrand(brand);
+        //将数据返回
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setErrno(0);
+       return baseRespVo;
+    }
+
+    /**
+     * 更新商标
+     * @param brand
+     * @return
+     */
+    @RequestMapping("admin/brand/update")
+    public BaseRespVo updateBrand(@RequestBody Brand brand){
+        BigDecimal floorPrice = brand.getFloorPrice();
+        //将判断数据,将数据返回
+        BaseRespVo baseRespVo = new BaseRespVo();
+        if(floorPrice instanceof BigDecimal){
+            baseRespVo.setErrno(402);
+            baseRespVo.setErrmsg("参数格式不正确");
+            return baseRespVo;
+        }
+        marketService.updateBreand(brand);
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setData(brand);
+        baseRespVo.setErrno(0);
+        return baseRespVo;
+    }
+
+    /**
+     * 问题的显示,分页,查询
+     * @param page
+     * @param limit
+     * @param sort
+     * @param order
+     * @param question
+     * @return
+     */
+    @RequestMapping("admin/issue/list")
+    public BaseRespVo showIssues(Integer page, Integer limit, String sort, String order, String question){
+        //显示问题
+        Map map = marketService.queryIssue(page, limit, sort, order, question);
+        //将数据返回
+        BaseRespVo baseRespVo = new BaseRespVo();
+        List<Issue> issues = (List<Issue>) map.get("issues");
+        Integer total = (Integer) map.get("total");
+        baseRespVo.setErrno(0);
+        baseRespVo.setErrmsg("成功");
+        Map resultMap = new HashMap();
+        resultMap.put("total",total);
+        resultMap.put("items",issues);
+        baseRespVo.setData(resultMap);
+        return baseRespVo;
+    }
+
+    /**
+     * 新加问题逻辑
+     * @param issue
+     * @return
+     */
+    @RequestMapping("admin/issue/create")
+    public BaseRespVo createIssue(@RequestBody Issue issue){
+        Date nowTime = new Date();
+        issue.setAddTime(nowTime);
+        issue.setUpdateTime(nowTime);
+        issue.setDeleted(false);
+        Issue issue1 = marketService.insertIssue(issue);
+        //将数据返回
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setData(issue1);
+        baseRespVo.setErrno(0);
+        return baseRespVo;
+    }
+
+    /**
+     * 更新问题
+     * @param issue
+     * @return
+     */
+    @RequestMapping("admin/issue/update")
+    public BaseRespVo updateIssue(@RequestBody Issue issue){
+        //更新问题
+        marketService.updateIssue(issue);
+        //将数据返回
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setData(issue);
+        baseRespVo.setErrno(0);
+        return baseRespVo;
+    }
+
+    @RequestMapping("admin/issue/delete")
+    public BaseRespVo delectIssue(@RequestBody Issue issue){
+        Integer id = issue.getId();
+        marketService.delectIssue(issue);
+        //返回数据
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setErrno(0);
+        return baseRespVo;
+    }
+
+    /**
+     * 显示所有商品类目
+     * @return
+     */
+    @RequestMapping("admin/category/list")
+    public BaseRespVo showCategory(){
+        List<Category2> category2s = marketService.queryCategory();
+        //返回数据
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setData(category2s);
+        baseRespVo.setErrno(0);
+        return baseRespVo;
+    }
+
+    /**
+     * 显示L1级别的类目
+     * @return
+     */
+    @RequestMapping("admin/category/l1")
+    public BaseRespVo showCategoryByL1(){
+        List<Map> maps = marketService.queryCategoryByL1();
+        //返回数据
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setData(maps);
+        baseRespVo.setErrno(0);
+        return baseRespVo;
+    }
+
+    /**
+     * 新加商品类目
+     * @param category
+     * @return
+     */
+    @RequestMapping("admin/category/create")
+    public BaseRespVo createCategory(@RequestBody Category category){
+        Date nowTime = new Date();
+        category.setAddTime(nowTime);
+        category.setUpdateTime(nowTime);
+        category.setDeleted(false);
+        Category category1 = marketService.insertCategory(category);
+        //返回数据
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setData(category1);
+        baseRespVo.setErrno(0);
+        return baseRespVo;
+    }
+
+    /**
+     * 更新商品类目
+     * @param category
+     * @return
+     */
+    @RequestMapping("admin/category/update")
+    public BaseRespVo updateCategory(@RequestBody Category category){
+        //更新逻辑
+        marketService.updateCategroy(category);
+        //返回数据
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setErrno(0);
+        return baseRespVo;
+    }
+
+    /**
+     * 删除商品类目
+     * @param category
+     * @return
+     */
+    @RequestMapping("admin/category/delete")
+    public BaseRespVo deleteCategory(@RequestBody Category category){
+        marketService.delectCategroy(category);
+        //返回数据
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setErrno(0);
+        return baseRespVo;
+    }
 }

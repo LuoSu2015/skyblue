@@ -272,4 +272,20 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <insert id="selectLastInsert" useGeneratedKeys="true" keyProperty="keyword.id">
+    INSERT INTO cskaoyan_mall_keyword VALUES (
+    null,
+    #{keyword.keyword},
+    #{keyword.url},
+    #{keyword.isHot},
+    #{keyword.isDefault},
+    #{keyword.sortOrder},
+    #{keyword.addTime} ,
+    #{keyword.updateTime},
+    #{keyword.deleted}
+    )
+    <selectKey order="AFTER" keyProperty="keyword.id" keyColumn="id" resultType="integer">
+        SELECT LAST_INSERT_ID() as id
+    </selectKey>
+  </insert>
 </mapper>

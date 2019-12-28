@@ -71,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, desc, pic_url, sort_order, floor_price, add_time, update_time, deleted
+    id, name, `desc`, pic_url, sort_order, floor_price, add_time, update_time, deleted
   </sql>
   <select id="selectByExample" parameterType="com.cskaoyan.bean.BrandExample" resultMap="BaseResultMap">
     select
@@ -104,7 +104,7 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.cskaoyan.bean.Brand">
-    insert into cskaoyan_mall_brand (id, name, desc, 
+    insert into cskaoyan_mall_brand (id, name, `desc`,
       pic_url, sort_order, floor_price, 
       add_time, update_time, deleted
       )
@@ -263,7 +263,7 @@
   <update id="updateByPrimaryKey" parameterType="com.cskaoyan.bean.Brand">
     update cskaoyan_mall_brand
     set name = #{name,jdbcType=VARCHAR},
-      desc = #{desc,jdbcType=VARCHAR},
+      `desc` = #{desc,jdbcType=VARCHAR},
       pic_url = #{picUrl,jdbcType=VARCHAR},
       sort_order = #{sortOrder,jdbcType=TINYINT},
       floor_price = #{floorPrice,jdbcType=DECIMAL},
@@ -272,4 +272,20 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <insert id="selectLastId" useGeneratedKeys="true" keyColumn="brand.id">
+      <selectKey order="AFTER" keyProperty="brand.id" keyColumn="id" resultType="integer">
+        SELECT LAST_INSERT_ID() as id
+      </selectKey>
+      INSERT INTO cskaoyan_mall_brand VALUES (
+      #{brand.id},
+      #{brand.name},
+      #{brand.desc},
+      #{brand.picUrl},
+      #{brand.sortOrder},
+      #{brand.floorPrice},
+      #{brand.addTime} ,
+      #{brand.updateTime},
+      #{brand.deleted}
+      )
+  </insert>
 </mapper>

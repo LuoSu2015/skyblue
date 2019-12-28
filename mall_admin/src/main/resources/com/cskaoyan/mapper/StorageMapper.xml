@@ -104,7 +104,7 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.cskaoyan.bean.Storage">
-    insert into cskaoyan_mall_storage (id, key, name, 
+    insert into cskaoyan_mall_storage (id, `key`, name,
       type, size, url, add_time, 
       update_time, deleted)
     values (#{id,jdbcType=INTEGER}, #{key,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
