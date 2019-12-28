@@ -105,7 +105,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.cskaoyan.bean.Groupon_rules">
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.cskaoyan.bean.Groupon_rules">
     insert into cskaoyan_mall_groupon_rules (id, goods_id, goods_name, 
       pic_url, discount, discount_member, 
       add_time, update_time, expire_time, 
@@ -242,7 +242,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.cskaoyan.bean.Groupon_rules">
+  <update id="updateByPrimaryKeySelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.cskaoyan.bean.Groupon_rules">
     update cskaoyan_mall_groupon_rules
     <set>
       <if test="goodsId != null">
