@@ -1,7 +1,10 @@
 package com.cskaoyan.bean;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Date;
 
+@Component
 public class Admin {
     private Integer id;
 
