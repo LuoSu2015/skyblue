@@ -6,6 +6,7 @@ import com.cskaoyan.bean.promate.PageWrapper;
 import com.cskaoyan.service.promote.PromoteService;
 import com.cskaoyan.util.promoteUtils.PromoteUtils;
 import com.cskaoyan.util.uploadPic.UploadPicUtils;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -92,13 +93,13 @@ public class PromoteController {
 
     /* 添加优惠券*/
     @RequestMapping("admin/coupon/create")
-    public BaseRespVo insertCouponList(@RequestBody Coupon2 coupon2) {
-        BaseRespVo<Coupon2> CouponBaseRespVo = new BaseRespVo<>();
-        List<Coupon2> coupon2list = new ArrayList<>();
-        coupon2list.add(coupon2);
+    public BaseRespVo insertCouponList(@RequestBody Coupon coupon) {
+        BaseRespVo<Coupon> CouponBaseRespVo = new BaseRespVo<>();
+        List<Coupon> couponlist = new ArrayList<>();
+        couponlist.add(coupon);
         /* 开启了usegenerateKey，他会自动返回当前对象的Id */
-        promoteService.insertCoupon2List(coupon2list);
-        CouponBaseRespVo.setData(coupon2);
+        promoteService.insertCouponList(couponlist);
+        CouponBaseRespVo.setData(coupon);
         CouponBaseRespVo.setErrno(0);
         CouponBaseRespVo.setErrmsg("成功");
 
@@ -130,6 +131,34 @@ public class PromoteController {
         baseRespVo.setErrmsg("成功");
         return baseRespVo;
     }
+
+    /*优惠券详情一*/
+    @RequestMapping("admin/coupon/read")
+    public BaseRespVo queryCouponReadlList(int id){
+        BaseRespVo baseRespVo = new BaseRespVo();
+        List<Integer> integers = new ArrayList<>();
+        integers.add(id);
+        List couponReadlList = promoteService.queryCouponReadlList(integers);
+        baseRespVo.setErrno(0);
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setData(couponReadlList);
+        return baseRespVo;
+    }
+
+    /*优惠券详情二，因为不知道业务逻辑，所以还没开始写*/
+    @RequestMapping("admin/coupon/listuser")
+    public BaseRespVo queryCouponListUser(PageWrapper pageWrapper){
+        BaseRespVo baseRespVo = PromoteUtils.preSetBaseRespVo(pageWrapper);
+//        List couponReadlList = promoteService.queryCouponListUser(pageWrapper.getCouponId(),pageWrapper.getUserId());
+
+        baseRespVo.setErrno(0);
+        baseRespVo.setErrmsg("成功");
+
+        ArrayList arrayList = new ArrayList();
+        baseRespVo.setData(arrayList);/*故意返回为空*/
+        return baseRespVo;
+    }
+
 
     /*  专题管理  */
     /*admin/topic/list title=sfdf&subtitle=dasd*/

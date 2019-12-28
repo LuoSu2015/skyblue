@@ -17,12 +17,17 @@ public interface PromoteService<T> {
 
     List<T> queryCouponListByNameAndTypeAndStatus(String name, Short type, Short status);
     int insertCouponList(List<T> objectList);
+    int updateCouponList(List<T> objectList);
+    int deleteCouponList(List<T> couponList);
+    List<T> queryCouponReadlList(List<Integer> integers);
+    List<T> queryCouponListUser(Integer couponId, Integer userId);
+
     int insertCoupon2List(List<T> objectList);
 
-    int updateCouponList(List<T> objectList);
+
+
     int updateCoupon2List(List<T> objectList);
 
-    int deleteCouponList(List<T> couponList);
 
     List<T> queryTopicListByTitleAndSubtitle(String title, String subtitle);
     int insertTopicList(List<T> objectList);
@@ -35,12 +40,6 @@ public interface PromoteService<T> {
     int deleteGrouponRuleList(List<T> objectList);
 
     List<T> queryGrouponListRecordByGoodsId(Integer goodsId);
-
-
-
-
-
-
 
 
 

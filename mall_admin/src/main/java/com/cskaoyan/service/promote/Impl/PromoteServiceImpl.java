@@ -175,6 +175,28 @@ public class PromoteServiceImpl<T> implements PromoteService<T> {
         return count_delete;
     }
 
+    @Override
+    public List<T> queryCouponReadlList(List<Integer> integers) {
+        CouponExample couponExample = new CouponExample();
+        CouponExample.Criteria criteria = couponExample.createCriteria();
+        for (Integer i : integers) {
+            if (integers != null) {
+                criteria.andIdEqualTo(i);
+            }
+            List<T> couponList = (List<T>) couponMapper.selectByExample(couponExample);
+            return couponList;
+        }
+        /*因为返回的是一个，我这里先暂时写Null，没有就不能返回*/
+        return null;
+
+    }
+
+    /*暂时还没有写业务，因为不知道要传什么内容，先搁浅*/
+    @Override
+    public List<T> queryCouponListUser(Integer couponId, Integer userId) {
+        return null;
+    }
+
     @Autowired
     TopicMapper topicMapper;
 

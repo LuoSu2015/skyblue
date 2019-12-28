@@ -15,4 +15,6 @@ public class PageWrapper {
     private String subtitle;
     private String title;
     private Integer goodsId;
+    private Integer couponId;
+    private Integer userId;
 }
