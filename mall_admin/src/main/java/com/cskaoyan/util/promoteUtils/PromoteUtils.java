@@ -27,10 +27,10 @@ public class PromoteUtils<T> {
     }
 
 
-    public  BaseRespVo postSetBaseRespVo(BaseRespVo baseRespVo,List<T> object) {
+    public  static BaseRespVo postSetBaseRespVo(BaseRespVo baseRespVo,List<Object> object) {
         Map<String, Object> hashMap = new HashMap<>();
         /* 这个和 object.size()不一样，object.size()是当前页的数据个数，pageinfo是总页数*/
-        PageInfo<T> tPageInfo = new PageInfo<>();
+        PageInfo tPageInfo = new PageInfo<>();
         hashMap.put("items", object);
         hashMap.put("total", tPageInfo.getSize());
         baseRespVo.setData(hashMap);
