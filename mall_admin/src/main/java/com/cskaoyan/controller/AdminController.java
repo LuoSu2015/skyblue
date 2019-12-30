@@ -69,38 +69,4 @@ public class AdminController {
         baseRespVo.setData(map);
         return baseRespVo;
     }
-
-
-
-   /* @Autowired
-    AdminServiceImpl adminService;
-    *//**
-     * 系统管理模块操作日志功能实现
-     *//*
-    @RequestMapping("admin/log/list")
-    public BaseRespVo loglist(int page,int limit,String name,String sort,String order){
-        List<Log> loglist = adminService.loglist(page, limit, name, sort, order);
-        PageInfo<Log> pageInfo = new PageInfo<>(loglist);
-        long total = pageInfo.getTotal();
-        Map map = new HashMap();
-        map.put("total",total);
-        map.put("items",loglist);
-        BaseRespVo baseRespVo = new BaseRespVo();
-        baseRespVo.setData(map);
-        baseRespVo.setErrno(0);
-        baseRespVo.setErrmsg("成功");
-        return baseRespVo;
-    }
-
-
-
-    *//*注销*//*
-    @RequestMapping("admin/auth/logout")
-    public String logout() {
-        Subject subject = SecurityUtils.getSubject();
-        subject.logout();
-        return "/admin/auth/login";
-    }
-
-*/
 }
