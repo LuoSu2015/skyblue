@@ -10,15 +10,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-@MappedTypes(String[].class)
-public class GalleryTypeHandler implements TypeHandler<String[]> {
-
+@MappedTypes(Integer[].class)
+public class IntArrayTypeHandler implements TypeHandler<Integer[]> {
     @Override
-    public void setParameter(PreparedStatement preparedStatement, int i, String[] strings, JdbcType jdbcType) throws SQLException {
+    public void setParameter(PreparedStatement preparedStatement, int i, Integer[] integers, JdbcType jdbcType) throws SQLException {
         ObjectMapper objectMapper = new ObjectMapper();
         String s = null;
         try{
-            s = objectMapper.writeValueAsString(strings);
+            s = objectMapper.writeValueAsString(integers);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -26,31 +25,31 @@ public class GalleryTypeHandler implements TypeHandler<String[]> {
     }
 
     @Override
-    public String[] getResult(ResultSet resultSet, String s) throws SQLException {
+    public Integer[] getResult(ResultSet resultSet, String s) throws SQLException {
         String result = resultSet.getString(s);
         return transfer(result);
     }
 
     @Override
-    public String[] getResult(ResultSet resultSet, int i) throws SQLException {
+    public Integer[] getResult(ResultSet resultSet, int i) throws SQLException {
         String result = resultSet.getString(i);
         return transfer(result);
     }
 
     @Override
-    public String[] getResult(CallableStatement callableStatement, int i) throws SQLException {
+    public Integer[] getResult(CallableStatement callableStatement, int i) throws SQLException {
         String result = callableStatement.getString(i);
         return transfer(result);
     }
 
-    private String[] transfer(String result){
+    private Integer[] transfer(String result){
         ObjectMapper objectMapper = new ObjectMapper();
-        String[] strings = new String[0];
+        Integer[] integers = new Integer[0];
         try{
-            strings = objectMapper.readValue(result,String[].class);
+            integers = objectMapper.readValue(result,Integer[].class);
         }catch (Exception e){
             e.printStackTrace();
         }
-        return strings;
+        return integers;
     }
 }

@@ -339,5 +339,6 @@
 
   <select id="selectCategory2" resultType="com.cskaoyan.bean.Category2">
     select id,name,keywords,`desc`,icon_url as iconUrl,pic_url as picUrl,level from cskaoyan_mall_category where level = 'L1'
+     and deleted = 0
   </select>
 </mapper>

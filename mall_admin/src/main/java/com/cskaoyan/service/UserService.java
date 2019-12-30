@@ -72,5 +72,5 @@ public interface UserService {
      * @param order 升序或者降序排列
      * @return 符合条件的全部User反馈信息
      */
-    List<Feedback> listfeedback(int page, int limit, Integer id, String username, String sort, String order);
+    List<Feetback> listfeedback(int page, int limit, Integer id, String username, String sort, String order);
 }

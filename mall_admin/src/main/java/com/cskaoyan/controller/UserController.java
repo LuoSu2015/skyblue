@@ -1,13 +1,10 @@
 package com.cskaoyan.controller;
 
 import com.cskaoyan.bean.*;
-import com.cskaoyan.mapper.UserMapper;
-import com.cskaoyan.service.UserService;
 import com.cskaoyan.service.UserServiceImpl;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -114,8 +111,8 @@ public class UserController {
      * 用户管理模块意见反馈功能首页显示及具体User反馈信息查询接口
      */
     public BaseRespVo listfeedback(int page,int limit,Integer id,String username,String sort,String order){
-        List<Feedback> listfeedback = userServiceimpl.listfeedback(page, limit, id, username, sort, order);
-        PageInfo<Feedback> pageInfo = new PageInfo<>(listfeedback);
+        List<Feetback> listfeedback = userServiceimpl.listfeedback(page, limit, id, username, sort, order);
+        PageInfo<Feetback> pageInfo = new PageInfo<>(listfeedback);
         long total = pageInfo.getTotal();
         Map map = new HashMap();
         map.put("total",total);
