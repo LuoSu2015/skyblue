@@ -133,11 +133,11 @@ public class MarketController {
         return baseRespVo;
     }
 
-    /**
+    /*
      * 上传品牌商图片
      * @return
      */
-    @RequestMapping("admin/storage/create")
+/*    @RequestMapping("admin/storage/create")
     public BaseRespVo fileUpload(MultipartFile file) throws IOException {
         //文件上传,及命名
         String uuid = UUID.randomUUID().toString();
@@ -169,7 +169,7 @@ public class MarketController {
         baseRespVo.setErrmsg("成功");
         baseRespVo.setData(storage);
         return baseRespVo;
-    }
+    }*/
 
     /**
      *新建商标
