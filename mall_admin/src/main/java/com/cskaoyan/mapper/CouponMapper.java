@@ -4,7 +4,7 @@ import com.cskaoyan.bean.Coupon;
 import com.cskaoyan.bean.CouponExample;
 import java.util.List;
 
-import com.cskaoyan.bean.promate.Coupon2;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface CouponMapper {
@@ -18,8 +18,6 @@ public interface CouponMapper {
 
     int insertSelective(Coupon record);
 
-    int insert2Selective(Coupon2 record);
-
     List<Coupon> selectByExample(CouponExample example);
 
     Coupon selectByPrimaryKey(Integer id);
@@ -29,8 +27,6 @@ public interface CouponMapper {
     int updateByExample(@Param("record") Coupon record, @Param("example") CouponExample example);
 
     int updateByPrimaryKeySelective(Coupon record);
-
-    int update2ByPrimaryKeySelective(Coupon2 record);
 
     int updateByPrimaryKey(Coupon record);
 }
