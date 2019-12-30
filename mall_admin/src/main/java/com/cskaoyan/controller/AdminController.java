@@ -1,49 +1,91 @@
 package com.cskaoyan.controller;
 
+import com.cskaoyan.bean.Admin;
 import com.cskaoyan.bean.BaseRespVo;
+<<<<<<< HEAD
 import com.cskaoyan.bean.Log;
 import com.cskaoyan.service.AdminService;
 import com.cskaoyan.service.AdminServiceImpl;
 import com.github.pagehelper.PageInfo;
+=======
+import com.cskaoyan.bean.RoleExample;
+import com.cskaoyan.bean.User;
+import com.cskaoyan.service.AuthenService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.subject.MutablePrincipalCollection;
+import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.Subject;
+>>>>>>> c003456ec164e03a06a9de991316cd066d63b3bc
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+=======
+import java.io.Serializable;
+import java.util.*;
+>>>>>>> c003456ec164e03a06a9de991316cd066d63b3bc
 
 @RestController
 public class AdminController {
+
+    @Autowired
+    AuthenService authenService;
+
+
     @RequestMapping("admin/auth/login")
-    public BaseRespVo login(@RequestBody Map map){
-        BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
-        baseRespVo.setErrno(0);
+    public BaseRespVo login(@RequestBody User user){
+        BaseRespVo baseRespVo = new BaseRespVo();
+        Subject subject = SecurityUtils.getSubject();
+        try {
+            UsernamePasswordToken authenticationToken = new UsernamePasswordToken(user.getUsername(), user.getPassword());
+            subject.login(authenticationToken);
+        } catch (AuthenticationException e) {
+            baseRespVo.setErrmsg("用户账号或密码不正确");
+            baseRespVo.setErrno(605);
+            return baseRespVo;
+        }
+        Serializable sessionId = subject.getSession().getId();
         baseRespVo.setErrmsg("成功");
-        baseRespVo.setData("abc");
+        baseRespVo.setErrno(0);
+        baseRespVo.setData(sessionId);
         return baseRespVo;
     }
 
+
     @RequestMapping("admin/auth/info")
-    public BaseRespVo info(){
+    public BaseRespVo info(String token){
+        Subject subject = SecurityUtils.getSubject();
+        Admin admin = (Admin) subject.getPrincipal();
+        String username = admin.getUsername();
+        String avatar = admin.getAvatar();
+        String[] roleIds = admin.getRoleIds();
+
+        List<String> roleNameList = authenService.queryRoleNameByRoleIds(roleIds);
+        List<String> permissionList = authenService.queryPermissionByRoleIds(roleIds);
         BaseRespVo baseRespVo = new BaseRespVo();
         baseRespVo.setErrmsg("成功");
         baseRespVo.setErrno(0);
+
         Map<String,Object> map = new HashMap<>();
-        map.put("name","admin123");
-        map.put("avatar","https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
-        ArrayList<String> permList = new ArrayList<>();
-        permList.add("*");
-        ArrayList<String> roleList = new ArrayList<>();
-        roleList.add("超级管理员");
-        map.put("perms",permList);
-        map.put("roles",roleList);
+        map.put("name",username);
+        map.put("avatar",avatar);
+        map.put("perms",permissionList);
+        map.put("roles",roleNameList);
         baseRespVo.setData(map);
         return baseRespVo;
     }
 
+<<<<<<< HEAD
 
     @Autowired
     AdminServiceImpl adminService;
@@ -66,4 +108,14 @@ public class AdminController {
     }
 
 
+=======
+    /*注销*/
+    @RequestMapping("admin/auth/logout")
+    public String logout() {
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        return "/admin/auth/login";
+    }
+
+>>>>>>> c003456ec164e03a06a9de991316cd066d63b3bc
 }

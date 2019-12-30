@@ -225,4 +225,17 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <insert id="selectLastId" useGeneratedKeys="true" keyColumn="issue.id">
+      <selectKey order="AFTER" keyProperty="issue.id" keyColumn="id" resultType="integer">
+        SELECT LAST_INSERT_ID() as id
+      </selectKey>
+      INSERT INTO cskaoyan_mall_issue VALUES (
+      #{issue.id},
+      #{issue.question} ,
+      #{issue.answer} ,
+      #{issue.addTime} ,
+      #{issue.updateTime},
+      #{issue.deleted}
+      )
+    </insert>
 </mapper>

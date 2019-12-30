@@ -97,7 +97,7 @@
     from cskaoyan_mall_ad
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey"  parameterType="java.lang.Integer">
     delete from cskaoyan_mall_ad
     where id = #{id,jdbcType=INTEGER}
   </delete>
@@ -107,7 +107,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.cskaoyan.bean.Ad">
+  <insert id="insert" parameterType="com.cskaoyan.bean.Ad" useGeneratedKeys="true" keyProperty="id">
     insert into cskaoyan_mall_ad (id, name, link, 
       url, position, content, 
       start_time, end_time, enabled, 
@@ -266,7 +266,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.cskaoyan.bean.Ad">
+  <update id="updateByPrimaryKeySelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.cskaoyan.bean.Ad">
     update cskaoyan_mall_ad
     <set>
       <if test="name != null">

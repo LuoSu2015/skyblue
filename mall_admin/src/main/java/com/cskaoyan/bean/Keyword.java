@@ -2,7 +2,7 @@ package com.cskaoyan.bean;
 
 import java.util.Date;
 
-public class KeyWord {
+public class Keyword {
     private Integer id;
 
     private String keyword;

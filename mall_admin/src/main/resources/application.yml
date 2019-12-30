@@ -1,45 +1,82 @@
 server:
   port: 8081
+pagehelper:
+  helper-dialect: mysql
+mybatis:
+  type-handlers-package: com.cskaoyan.typehandler
+
 logging:
+<<<<<<< HEAD
     level:
       com:
         cskaoyan:
           mapper: debug
           controller: info
+=======
+  level:
+    com:
+      cskaoyan:
+        mapper: debug
+        controller: info
+spring:
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+  resources:
+    static-locations: classpath:\META-INF\resources\,classpath:\resources\,classpath:\static\,classpath:\public\,file:D:\pic\
+
+>>>>>>> c003456ec164e03a06a9de991316cd066d63b3bc
 ---
 spring:
   profiles: Lai
+
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/skyblue?useUnicode=true&characterEncoding=utf-8
     username: root
     password: 521521
+logging:
+  level:
+    com:
+      cskaoyan:
+        mapper: debug
+pagehelper:
+  helper-dialect: mysql #不要用dialect
+
+
 ---
 spring:
-    profiles: Jiang
-    datasource:
-      driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/skyblue?useUnicode=true&characterEncoding=utf-8
-      username: root
-      password: root
+  profiles: Jiang
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/skyblue?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: root
 ---
 spring:
-    profiles: Yuan
-    datasource:
-      driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/mall?useUnicode=true&characterEncoding=utf-8
-      username: root
-      password: root
+  profiles: Yuan
+
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mall?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: root
+  #prop:
+#  upload-folder: D://pic//
+#  url: http://localhost:8081/
+
 ---
 spring:
-    profiles: Chen
-    datasource:
-      driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/skyblue?useUnicode=true&characterEncoding=utf-8
-      username: root
-      password: 123456
+  profiles: Chen
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/skyblue?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: 123456
 ---
 spring:
+<<<<<<< HEAD
     profiles: Wang
     datasource:
       driver-class-name: com.mysql.jdbc.Driver
@@ -50,14 +87,28 @@ spring:
       date-format: yyyy-MM-dd HH:mm:ss
 pagehelper:
   helper-dialect: mysql
+=======
+  profiles: Wang
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/skyblue?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: 1095920109
+>>>>>>> c003456ec164e03a06a9de991316cd066d63b3bc
 ---
 spring:
-    profiles: Fang
-    datasource:
-      driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/mall?useUnicode=true&characterEncoding=utf-8
-      username: root
-      password: 199420
+  profiles: Fang
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mall?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: 199420
+logging:
+  level:
+    com:
+      cskaoyan:
+        mapper: debug
+        controller: info
 
 
 
