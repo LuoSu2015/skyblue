@@ -6,18 +6,11 @@ mybatis:
   type-handlers-package: com.cskaoyan.typehandler
 
 logging:
-<<<<<<< HEAD
     level:
       com:
         cskaoyan:
           mapper: debug
           controller: info
-=======
-  level:
-    com:
-      cskaoyan:
-        mapper: debug
-        controller: info
 spring:
   servlet:
     multipart:
@@ -26,7 +19,6 @@ spring:
   resources:
     static-locations: classpath:\META-INF\resources\,classpath:\resources\,classpath:\static\,classpath:\public\,file:D:\pic\
 
->>>>>>> c003456ec164e03a06a9de991316cd066d63b3bc
 ---
 spring:
   profiles: Lai
@@ -76,7 +68,6 @@ spring:
     password: 123456
 ---
 spring:
-<<<<<<< HEAD
     profiles: Wang
     datasource:
       driver-class-name: com.mysql.jdbc.Driver
@@ -87,14 +78,6 @@ spring:
       date-format: yyyy-MM-dd HH:mm:ss
 pagehelper:
   helper-dialect: mysql
-=======
-  profiles: Wang
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/skyblue?useUnicode=true&characterEncoding=utf-8
-    username: root
-    password: 1095920109
->>>>>>> c003456ec164e03a06a9de991316cd066d63b3bc
 ---
 spring:
   profiles: Fang

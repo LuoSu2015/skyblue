@@ -17,4 +17,6 @@ public class PageWrapper {
     private Integer goodsId;
     private Integer couponId;
     private Integer userId;
+
+
 }

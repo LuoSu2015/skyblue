@@ -2,38 +2,25 @@ package com.cskaoyan.controller;
 
 import com.cskaoyan.bean.Admin;
 import com.cskaoyan.bean.BaseRespVo;
-<<<<<<< HEAD
+
 import com.cskaoyan.bean.Log;
-import com.cskaoyan.service.AdminService;
-import com.cskaoyan.service.AdminServiceImpl;
-import com.github.pagehelper.PageInfo;
-=======
-import com.cskaoyan.bean.RoleExample;
 import com.cskaoyan.bean.User;
+import com.cskaoyan.service.AdminServiceImpl;
 import com.cskaoyan.service.AuthenService;
+import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.authz.SimpleAuthorizationInfo;
-import org.apache.shiro.subject.MutablePrincipalCollection;
-import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
->>>>>>> c003456ec164e03a06a9de991316cd066d63b3bc
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-<<<<<<< HEAD
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-=======
-import java.io.Serializable;
-import java.util.*;
->>>>>>> c003456ec164e03a06a9de991316cd066d63b3bc
+
 
 @RestController
 public class AdminController {
@@ -85,7 +72,7 @@ public class AdminController {
         return baseRespVo;
     }
 
-<<<<<<< HEAD
+
 
     @Autowired
     AdminServiceImpl adminService;
@@ -108,7 +95,7 @@ public class AdminController {
     }
 
 
-=======
+
     /*注销*/
     @RequestMapping("admin/auth/logout")
     public String logout() {
@@ -117,5 +104,5 @@ public class AdminController {
         return "/admin/auth/login";
     }
 
->>>>>>> c003456ec164e03a06a9de991316cd066d63b3bc
+
 }
