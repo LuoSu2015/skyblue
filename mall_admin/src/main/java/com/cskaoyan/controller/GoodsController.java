@@ -92,36 +92,6 @@ public class GoodsController {
         return baseRespVo;
     }
 
-    @Value("${goods-img-path}")
-    String goods_img_path;
-    @Value("${domain}")
-    String domain;
-
-    @PostMapping(value = "admin/storage/create1")
-    public BaseRespVo uploadImg(@RequestParam(value = "file")MultipartFile multipartFile, HttpServletRequest request){
-        BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
-        Storage data = new Storage();
-
-        String originalFilename = multipartFile.getOriginalFilename();
-        String keyname = UUID.randomUUID().toString().replace("-","") + "." + originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
-        data.setName(originalFilename);
-        data.setSize((int) multipartFile.getSize());
-        data.setKey(keyname);
-        data.setType(multipartFile.getContentType());
-        data.setUrl(domain + "/" + goods_img_path + "/" + keyname);
-
-        //id,addtime,updatetime
-        //设置addtime,updatetime
-        //将data插入数据库，插入后获取id，然后data.setId()
-        //图片文件保存在服务器目录下
-        //返回data的json数据
-
-        baseRespVo.setData(data);
-        baseRespVo.setErrno(0);
-        baseRespVo.setErrmsg("成功");
-        return baseRespVo;
-    }
-
     @RequestMapping("admin/goods/create")
     public BaseRespVo addGoods(@RequestBody MyGoods goods){
         BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
