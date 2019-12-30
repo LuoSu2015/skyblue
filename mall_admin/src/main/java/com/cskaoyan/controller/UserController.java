@@ -43,8 +43,8 @@ public class UserController {
      */
     @RequestMapping("admin/address/list")
     public BaseRespVo listaddress(int page,int limit,Integer userId,String name,String sort,String order){
-        List<Adress> listaddress = userServiceimpl.listaddress(page, limit, userId, name,sort,order);
-        PageInfo<Adress> pageInfo = new PageInfo<>(listaddress);
+        List<Address> listaddress = userServiceimpl.listaddress(page, limit, userId, name,sort,order);
+        PageInfo<Address> pageInfo = new PageInfo<>(listaddress);
         long total = pageInfo.getTotal();
         Map map = new HashMap();
         map.put("total",total);

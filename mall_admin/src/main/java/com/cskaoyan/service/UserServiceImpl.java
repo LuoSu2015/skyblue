@@ -13,6 +13,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    AddressMapper addressMapper;
 
 
 
@@ -46,9 +48,6 @@ public class UserServiceImpl implements UserService {
         return userList;
     }
 
-    @Autowired
-    AdressMapper adressMapper;
-
 
     /**
      * 用户管理模块收货地址功能首页显示和查询具体User地址接口
@@ -61,8 +60,8 @@ public class UserServiceImpl implements UserService {
      * @return 符合条件的全部地址信息
      */
     @Override
-    public List<Adress> listaddress(int page, int limit, Integer userId, String name,String sort,String order) {
-        AdressExample adressExample = new AdressExample();
+    public List<Address> listaddress(int page, int limit, Integer userId, String name,String sort,String order) {
+        AddressExample adressExample = new AddressExample();
         PageHelper.startPage(page,limit);
         String orderby = sort + " " + order;
         String s = "%" + name + "%";
@@ -76,7 +75,7 @@ public class UserServiceImpl implements UserService {
                 adressExample.createCriteria().andNameLike(s).andDeletedEqualTo(false);
             }
         }
-        List<Adress> adressList = adressMapper.selectByExample(adressExample);
+        List<Address> adressList = addressMapper.selectByExample(adressExample);
         return adressList;
     }
 
@@ -179,7 +178,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Autowired
-    FeedbackMapper feedbackMapper;
+    FeetbackMapper feedbackMapper;
 
     /**
      * 用户管理模块意见反馈功能首页显示及具体User反馈信息查询接口
@@ -193,7 +192,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<Feetback> listfeedback(int page, int limit, Integer id, String username, String sort, String order) {
-        FeedbackExample feedbackExample = new FeedbackExample();
+        FeetbackExample feedbackExample = new FeetbackExample();
         PageHelper.startPage(page,limit);
         String orderby = sort + " " + order;
         String s = "%" + username + "%";
