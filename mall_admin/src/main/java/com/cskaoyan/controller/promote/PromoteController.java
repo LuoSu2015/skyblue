@@ -25,6 +25,9 @@ public class PromoteController {
     @RequestMapping("admin/storage/create")
     public BaseRespVo addPic(MultipartFile file) throws IOException {
         BaseRespVo<Storage> storageBaseRespVo = UploadPicUtils.fileUpload(file);
+        List arrayList = new ArrayList();
+        arrayList.add(storageBaseRespVo.getData());
+        int i = promoteService.insertStorageList(arrayList);
         return storageBaseRespVo;
     }
 

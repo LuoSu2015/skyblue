@@ -47,11 +47,4 @@ public class AuthController {
         return "permission";
     }*/
 
-   /* *//*注销*//*
-    @RequestMapping("admin/auth/logout")
-    public String logout() {
-        Subject subject = SecurityUtils.getSubject();
-        subject.logout();
-        return "/admin/auth/login";
-    }*/
 }

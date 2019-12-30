@@ -95,10 +95,13 @@ public class AdminController {
 
     /*注销*/
     @RequestMapping("admin/auth/logout")
-    public String logout() {
+    public BaseRespVo logout() {
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
-        return "/admin/auth/login";
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrno(0);
+        baseRespVo.setErrmsg("成功");
+        return baseRespVo;
     }
 
 

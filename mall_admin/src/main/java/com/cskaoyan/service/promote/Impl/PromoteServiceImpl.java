@@ -109,10 +109,10 @@ public class PromoteServiceImpl<T> implements PromoteService<T> {
 
     @Override
     public int insertCouponList(List<T> objectList) {
-        int count_insert=0;
-        for (T coupon :objectList) {
+        int count_insert = 0;
+        for (T coupon : objectList) {
             int i = couponMapper.insertSelective((Coupon) coupon);
-            if(i!=0){
+            if (i != 0) {
                 count_insert++;
             }
         }
@@ -282,6 +282,21 @@ public class PromoteServiceImpl<T> implements PromoteService<T> {
         }
         List<T> grouponList = (List<T>) grouponMapper.selectByExample(grouponExample);
         return grouponList;
+    }
+
+    @Autowired
+    StorageMapper storageMapper;
+
+    @Override
+    public int insertStorageList(List<T> storageList) {
+        int count_insert = 0;
+        for (T storage : storageList) {
+            int i = storageMapper.insertSelective((Storage) storage);
+            if (i != 0) {
+                count_insert++;
+            }
+        }
+        return count_insert;
     }
 
 

@@ -41,6 +41,6 @@ public interface PromoteService<T> {
 
     List<T> queryGrouponListRecordByGoodsId(Integer goodsId);
 
-
+    int insertStorageList(List<T> storageList);
 
 }
