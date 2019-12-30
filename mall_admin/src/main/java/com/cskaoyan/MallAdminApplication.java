@@ -7,7 +7,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
-@MapperScan("com.cskaoyan.mapper")
+@MapperScan(basePackages = "com.cskaoyan.mapper")
 @EnableTransactionManagement
 public class MallAdminApplication {
 
