@@ -121,7 +121,7 @@ public class PromoteServiceImpl<T> implements PromoteService<T> {
         return count_insert;
     }
 
-    @Override
+   /* @Override
     public int insertCoupon2List(List<T> objectList) {
         int count_insert=0;
         for (T coupon2 :objectList) {
@@ -132,7 +132,7 @@ public class PromoteServiceImpl<T> implements PromoteService<T> {
         }
 
         return count_insert;
-    }
+    }*/
 
     @Override
     public int updateCouponList(List<T> objectList) {
@@ -147,7 +147,7 @@ public class PromoteServiceImpl<T> implements PromoteService<T> {
         return count_update;
     }
 
-    @Override
+ /*   @Override
     public int updateCoupon2List(List<T> objectList) {
 
         int count_update = 0;
@@ -158,7 +158,7 @@ public class PromoteServiceImpl<T> implements PromoteService<T> {
             }
         }
         return count_update;
-    }
+    }*/
 
     @Override
     public int deleteCouponList(List<T> objectList) {

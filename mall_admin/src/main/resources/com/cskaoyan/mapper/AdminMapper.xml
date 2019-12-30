@@ -288,4 +288,12 @@
       role_ids = #{roleIds,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+   <!-- <select id="selectPermissionByUsername" resultType="java.lang.String">
+      select p.permission
+      from cskaoyan_mall_admin `admin`
+      <foreach collection=""
+      left join cskaoyan_mall_role `role` on `role`.id = `admin`.role_ids
+      left join cskaoyan_mall_permission p on p.role_id = `admin`.role_ids
+      where `admin`.username = #{username,jdbcType=VARCHAR}
+    </select>-->
 </mapper>

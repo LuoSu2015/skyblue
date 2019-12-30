@@ -22,11 +22,11 @@ public interface PromoteService<T> {
     List<T> queryCouponReadlList(List<Integer> integers);
     List<T> queryCouponListUser(Integer couponId, Integer userId);
 
-    int insertCoupon2List(List<T> objectList);
+//    int insertCoupon2List(List<T> objectList);
 
 
 
-    int updateCoupon2List(List<T> objectList);
+//    int updateCoupon2List(List<T> objectList);
 
 
     List<T> queryTopicListByTitleAndSubtitle(String title, String subtitle);
