@@ -133,44 +133,6 @@ public class MarketController {
         return baseRespVo;
     }
 
-    /*
-     * 上传品牌商图片
-     * @return
-     */
-/*    @RequestMapping("admin/storage/create")
-    public BaseRespVo fileUpload(MultipartFile file) throws IOException {
-        //文件上传,及命名
-        String uuid = UUID.randomUUID().toString();
-        String originalFilename = file.getOriginalFilename();
-        String contentType = file.getContentType();
-        long size = file.getSize();
-        int i = originalFilename.lastIndexOf(".");
-        String substring = originalFilename.substring(i);
-        uuid += substring;
-        String url = "E:\\Spring\\skyblue\\mall\\target\\classes\\static";
-        File file1 = new File(url,uuid);
-        file.transferTo(file1);
-        //将信息封装到javabean中
-        Storage storage = new Storage();
-        storage.setKey(uuid);
-        storage.setName(originalFilename);
-        storage.setSize((int)size);
-        storage.setUrl("http://localhost:8081/" + uuid);
-        storage.setType(contentType);
-        storage.setDeleted(false);
-        Date time = new Date();
-        storage.setAddTime(time);
-        storage.setUpdateTime(time);
-        //将数据保存到数据库
-        marketService.insertStorage(storage);
-        //返回结果
-        BaseRespVo baseRespVo = new BaseRespVo();
-        baseRespVo.setErrno(0);
-        baseRespVo.setErrmsg("成功");
-        baseRespVo.setData(storage);
-        return baseRespVo;
-    }*/
-
     /**
      *新建商标
      * @param brand
