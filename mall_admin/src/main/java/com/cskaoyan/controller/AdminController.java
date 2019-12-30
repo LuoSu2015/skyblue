@@ -28,8 +28,6 @@ public class AdminController {
 
     @Autowired
     AuthenService authenService;
-
-
     @RequestMapping("admin/auth/login")
     public BaseRespVo login(@RequestBody User user){
         BaseRespVo baseRespVo = new BaseRespVo();

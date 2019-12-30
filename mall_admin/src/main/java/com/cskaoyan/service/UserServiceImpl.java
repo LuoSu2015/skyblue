@@ -67,12 +67,12 @@ public class UserServiceImpl implements UserService {
         String orderby = sort + " " + order;
         String s = "%" + name + "%";
         PageHelper.orderBy(orderby);
-        if (name.isEmpty() != true) {
-            if (userId != null && name != null) {
+        if (name != null) {
+            if (userId != null && name.isEmpty() != true) {
                 adressExample.createCriteria().andUserIdEqualTo(userId).andNameLike(s).andDeletedEqualTo(false);
             } else if (userId != null) {
                 adressExample.createCriteria().andUserIdEqualTo(userId).andDeletedEqualTo(false);
-            } else if (name != null) {
+            } else if (name.isEmpty() != true) {
                 adressExample.createCriteria().andNameLike(s).andDeletedEqualTo(false);
             }
         }
@@ -165,12 +165,12 @@ public class UserServiceImpl implements UserService {
         String orderby = sort + " " + order;
         String s = "%" + keyword + "%";
         PageHelper.orderBy(orderby);
-        if (keyword.isEmpty() != true) {
-            if (userId != null && keyword != null) {
+        if (keyword != null) {
+            if (userId != null && keyword.isEmpty() != true) {
                 searchHistoryExample.createCriteria().andUserIdEqualTo(userId).andKeywordLike(s).andDeletedEqualTo(false);
             } else if (userId != null) {
                 searchHistoryExample.createCriteria().andUserIdEqualTo(userId).andDeletedEqualTo(false);
-            } else if (keyword != null) {
+            } else if (keyword.isEmpty() != true) {
                 searchHistoryExample.createCriteria().andKeywordLike(s).andDeletedEqualTo(false);
             }
         }
@@ -198,12 +198,12 @@ public class UserServiceImpl implements UserService {
         String orderby = sort + " " + order;
         String s = "%" + username + "%";
         PageHelper.orderBy(orderby);
-        if (username.isEmpty() != true) {
-            if (id != null && username != null) {
+        if (username != null) {
+            if (id != null && username.isEmpty() != true) {
                 feedbackExample.createCriteria().andIdEqualTo(id).andUsernameLike(s).andDeletedEqualTo(false);
             } else if (id != null) {
                 feedbackExample.createCriteria().andIdEqualTo(id).andDeletedEqualTo(false);
-            } else if (username != null) {
+            } else if (username.isEmpty() != true) {
                 feedbackExample.createCriteria().andUsernameLike(s).andDeletedEqualTo(false);
             }
         }
