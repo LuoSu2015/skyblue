@@ -33,4 +33,6 @@ public interface GoodsMapper {
     int updateByPrimaryKeyWithBLOBs(Goods record);
 
     int updateByPrimaryKey(Goods record);
+
+    List<Goods> selectAllGoods(@Param("sort") String sort,@Param("order") String order,@Param("goodsSn") Integer goodsSn,@Param("name") String name);
 }

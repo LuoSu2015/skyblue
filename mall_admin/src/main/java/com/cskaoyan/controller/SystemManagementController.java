@@ -75,9 +75,9 @@ public class SystemManagementController {
      * @param admin1
      * @return
      */
-    @RequestMapping("admin/admin/create")
+//    @RequestMapping("admin/admin/create")
     //map接收数据
-    public BaseRespVo createAdmin(@RequestBody Map admin1){
+   /* public BaseRespVo createAdmin(@RequestBody Map admin1){
         BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
         baseRespVo.setErrno(0);
         Date addTime = new Date();
@@ -99,7 +99,7 @@ public class SystemManagementController {
         baseRespVo.setData(admin2);
         baseRespVo.setErrmsg("成功");
         return baseRespVo;
-    }
+    }*/
 
     /**
      * 删除管理员
@@ -137,7 +137,7 @@ public class SystemManagementController {
         admin.setUsername(username);
         admin.setPassword(password);
         admin.setAvatar(avatar);
-        admin.setRoleIds(roleIds);
+//        admin.setRoleIds(roleIds);
         admin.setUpdateTime(updateTime);
         int i = adminService.updateAdmin(admin);
         baseRespVo.setData(admin);

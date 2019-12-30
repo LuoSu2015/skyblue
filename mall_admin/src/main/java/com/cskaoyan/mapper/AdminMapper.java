@@ -32,5 +32,5 @@ public interface AdminMapper {
 
     int updateByPrimaryKey(Admin record);
 
-
 }
+
