@@ -2,7 +2,9 @@ package com.cskaoyan.mapper;
 
 import com.cskaoyan.bean.Issue;
 import com.cskaoyan.bean.IssueExample;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface IssueMapper {
@@ -27,4 +29,6 @@ public interface IssueMapper {
     int updateByPrimaryKeySelective(Issue record);
 
     int updateByPrimaryKey(Issue record);
+
+    int selectLastId(@Param("issue") Issue issue);
 }

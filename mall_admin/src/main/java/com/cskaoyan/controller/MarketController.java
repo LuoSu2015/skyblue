@@ -1,17 +1,18 @@
 package com.cskaoyan.controller;
 
-import com.cskaoyan.bean.BaseRespVo;
-import com.cskaoyan.bean.Keyword;
+import com.cskaoyan.bean.*;
 import com.cskaoyan.service.MarketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @RestController
 public class MarketController {
@@ -45,7 +46,7 @@ public class MarketController {
      * @return
      */
     @RequestMapping("admin/keyword/list")
-    public BaseRespVo showKeywords(int page, int limit, String sort, String order, String keyword, String url){
+    public BaseRespVo showKeywords(int page,int limit,String sort,String order,String keyword,String url){
         //查询所有的keyword并分页
         Map map = marketService.queryKeyword(page, limit,keyword,url,sort,order);
         List<Keyword> keywords = (List<Keyword>)map.get("keywords");
@@ -102,20 +103,328 @@ public class MarketController {
      */
     @RequestMapping("admin/keyword/delete")
     public BaseRespVo delectKeyword(@RequestBody Keyword keyword){
-        Integer id = keyword.getId();
-        marketService.deleteKeywordById(id);
+        marketService.deleteKeyword(keyword);
         BaseRespVo baseRespVo = new BaseRespVo();
         baseRespVo.setErrmsg("成功");
         baseRespVo.setErrno(0);
         return baseRespVo;
     }
 
-
-/*    @RequestMapping("admin/brand/list")
-    public BaseRespVo showBrand(Integer page,Integer limit,String sort,String order){
+    /**
+     * 显示所有商标,及查询
+     * @param page
+     * @param limit
+     * @param sort
+     * @param order
+     * @return
+     */
+    @RequestMapping("admin/brand/list")
+    public BaseRespVo showBrands(Integer page,Integer limit,String sort,String order,Integer id,String name){
         BaseRespVo baseRespVo = new BaseRespVo();
+        Map map = marketService.queryBrand(page, limit, sort, order,id,name);
+        List<Brand> brands = (List<Brand>) map.get("brands");
+        Integer total = (Integer) map.get("total");
+        baseRespVo.setErrno(0);
+        baseRespVo.setErrmsg("成功");
+        Map resultMap = new HashMap();
+        resultMap.put("total",total);
+        resultMap.put("items",brands);
+        baseRespVo.setData(resultMap);
+        return baseRespVo;
+    }
 
-    }*/
+    /**
+     *新建商标
+     * @param brand
+     * @return
+     */
+    @RequestMapping("admin/brand/create")
+    public BaseRespVo createBrand(@RequestBody Brand1 brand1){
+        BaseRespVo baseRespVo = new BaseRespVo();
+        //没有url信息,返回错误结果
+        String floorPrice = brand1.getFloorPrice();
+        if(brand1.getPicUrl() == null || !isBigDecimal(floorPrice)){
+            baseRespVo.setErrmsg("参数值不正确");
+            baseRespVo.setErrno(402);
+            return baseRespVo;
+        }
 
+        //保存到数据库
+        Brand brand2 = marketService.insertBrand(brand1);
+        //将数据返回
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setErrno(0);
+        baseRespVo.setData(brand2);
+        return baseRespVo;
+    }
+
+    /**
+     * 删除商标
+     * @param brand
+     * @return
+     */
+    @RequestMapping("admin/brand/delete")
+    public BaseRespVo delectBrand(@RequestBody Brand brand){
+        //在数据库中删除数据
+        marketService.deleteBrand(brand);
+        //将数据返回
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setErrno(0);
+       return baseRespVo;
+    }
+
+    /**
+     * 更新商标
+     * @param
+     * @return
+     */
+    @RequestMapping("admin/brand/update")
+    public BaseRespVo updateBrand(@RequestBody Brand1 brand1){
+        BaseRespVo baseRespVo = new BaseRespVo();
+        //判断floorPrice是否为bigDecimal格式
+        String  floorPrice= brand1.getFloorPrice();
+        if(!isBigDecimal(floorPrice)){
+            baseRespVo.setErrno(402);
+            baseRespVo.setErrmsg("参数格式不正确");
+            return baseRespVo;
+        }
+        //将判断数据,将数据返回
+        Brand brand = new Brand();
+        BigDecimal floorPrice2 = new BigDecimal(floorPrice);
+        brand.setFloorPrice(floorPrice2);
+        marketService.updateBreand(brand);
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setData(brand);
+        baseRespVo.setErrno(0);
+        return baseRespVo;
+    }
+
+    /**
+     * 判断是否为BigDecimal类型
+     * @param str
+     * @return
+     */
+    public boolean isBigDecimal(String str){
+        if(str==null || str.trim().length() == 0){
+            return false;
+        }
+        char[] chars = str.toCharArray();
+        int sz = chars.length;
+        int i = (chars[0] == '-') ? 1 : 0;
+        if(i == sz) return false;
+
+        if(chars[i] == '.') return false;//除了负号，第一位不能为'小数点'
+
+        boolean radixPoint = false;
+        for(; i < sz; i++){
+            if(chars[i] == '.'){
+                if(radixPoint) return false;
+                radixPoint = true;
+            }else if(!(chars[i] >= '0' && chars[i] <= '9')){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 问题的显示,分页,查询
+     * @param page
+     * @param limit
+     * @param sort
+     * @param order
+     * @param question
+     * @return
+     */
+    @RequestMapping("admin/issue/list")
+    public BaseRespVo showIssues(Integer page,Integer limit,String sort,String order,String question){
+        //显示问题
+        Map map = marketService.queryIssue(page, limit, sort, order, question);
+        //将数据返回
+        BaseRespVo baseRespVo = new BaseRespVo();
+        List<Issue> issues = (List<Issue>) map.get("issues");
+        Integer total = (Integer) map.get("total");
+        baseRespVo.setErrno(0);
+        baseRespVo.setErrmsg("成功");
+        Map resultMap = new HashMap();
+        resultMap.put("total",total);
+        resultMap.put("items",issues);
+        baseRespVo.setData(resultMap);
+        return baseRespVo;
+    }
+
+    /**
+     * 新加问题逻辑
+     * @param issue
+     * @return
+     */
+    @RequestMapping("admin/issue/create")
+    public BaseRespVo createIssue(@RequestBody Issue issue){
+        Date nowTime = new Date();
+        issue.setAddTime(nowTime);
+        issue.setUpdateTime(nowTime);
+        issue.setDeleted(false);
+        Issue issue1 = marketService.insertIssue(issue);
+        //将数据返回
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setData(issue1);
+        baseRespVo.setErrno(0);
+        return baseRespVo;
+    }
+
+    /**
+     * 更新问题
+     * @param issue
+     * @return
+     */
+    @RequestMapping("admin/issue/update")
+    public BaseRespVo updateIssue(@RequestBody Issue issue){
+        //更新问题
+        marketService.updateIssue(issue);
+        //将数据返回
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setData(issue);
+        baseRespVo.setErrno(0);
+        return baseRespVo;
+    }
+
+    @RequestMapping("admin/issue/delete")
+    public BaseRespVo delectIssue(@RequestBody Issue issue){
+        Integer id = issue.getId();
+        marketService.delectIssue(issue);
+        //返回数据
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setErrno(0);
+        return baseRespVo;
+    }
+
+    /**
+     * 显示所有商品类目
+     * @return
+     */
+    @RequestMapping("admin/category/list")
+    public BaseRespVo showCategory(){
+        List<Category2> category2s = marketService.queryCategory();
+        //返回数据
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setData(category2s);
+        baseRespVo.setErrno(0);
+        return baseRespVo;
+    }
+
+    /**
+     * 显示L1级别的类目
+     * @return
+     */
+    @RequestMapping("admin/category/l1")
+    public BaseRespVo showCategoryByL1(){
+        List<Map> maps = marketService.queryCategoryByL1();
+        //返回数据
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setData(maps);
+        baseRespVo.setErrno(0);
+        return baseRespVo;
+    }
+
+    /**
+     * 新加商品类目
+     * @param category
+     * @return
+     */
+    @RequestMapping("admin/category/create")
+    public BaseRespVo createCategory(@RequestBody Category category){
+        Date nowTime = new Date();
+        category.setAddTime(nowTime);
+        category.setUpdateTime(nowTime);
+        category.setDeleted(false);
+        Category category1 = marketService.insertCategory(category);
+        //返回数据
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setData(category1);
+        baseRespVo.setErrno(0);
+        return baseRespVo;
+    }
+
+    /**
+     * 更新商品类目
+     * @param category
+     * @return
+     */
+    @RequestMapping("admin/category/update")
+    public BaseRespVo updateCategory(@RequestBody Category category){
+        //更新逻辑
+        marketService.updateCategroy(category);
+        //返回数据
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setErrno(0);
+        return baseRespVo;
+    }
+
+    /**
+     * 删除商品类目
+     * @param category
+     * @return
+     */
+    @RequestMapping("admin/category/delete")
+    public BaseRespVo deleteCategory(@RequestBody Category category){
+        marketService.delectCategroy(category);
+        //返回数据
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setErrno(0);
+        return baseRespVo;
+    }
+
+    /**
+     * 显示订单页面
+     * @param page
+     * @param limit
+     * @param sort
+     * @param order
+     * @param userId
+     * @param orderStatusArray
+     * @param orderSn
+     * @return
+     */
+    @RequestMapping("admin/order/list")
+    public BaseRespVo showOrders(Integer page,Integer limit,String sort,String order,Integer userId,Short[] orderStatusArray,String orderSn){
+        Map map = marketService.queryOrders(page, limit, sort, order, userId, orderStatusArray, orderSn);
+        //返回数据
+        Integer total = (Integer) map.get("total");
+        List<Order> orders = (List<Order>) map.get("orders");
+        Map reslutMap = new HashMap();
+        reslutMap.put("total",total);
+        reslutMap.put("items",orders);
+        //返回结果
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setData(reslutMap);
+        baseRespVo.setErrno(0);
+        return baseRespVo;
+    }
+
+    /**
+     * 显示详情信息
+     * @param id
+     * @return
+     */
+    @RequestMapping("admin/order/detail")
+    public BaseRespVo detailOrder(Integer id){
+        List<OrderGoods> orderGoods = marketService.queryGoods(id);
+        //返回结果
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setData(orderGoods);
+        baseRespVo.setErrno(0);
+        return baseRespVo;
+    }
 
 }

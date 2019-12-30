@@ -1,8 +1,11 @@
 package com.cskaoyan.mapper;
 
 import com.cskaoyan.bean.Category;
+import com.cskaoyan.bean.Category2;
 import com.cskaoyan.bean.CategoryExample;
+
 import java.util.List;
+
 
 import com.cskaoyan.bean.goods.MyCategory;
 import org.apache.ibatis.annotations.Param;
@@ -35,4 +38,7 @@ public interface CategoryMapper {
     List<Category> getCategoryList();
 
     List<Category> getSubCategoryByPid(@Param("parentId") Integer parentId);
+
+    List<Category2> selectCategory2();
 }
+

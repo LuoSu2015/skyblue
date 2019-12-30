@@ -1,33 +1,30 @@
 server:
   port: 8081
-
 pagehelper:
   helper-dialect: mysql
 mybatis:
   type-handlers-package: com.cskaoyan.typehandler
 
 logging:
-  level:
-    com:
-      cskaoyan:
-        mapper: debug
-        controller: info
+    level:
+      com:
+        cskaoyan:
+          mapper: debug
+          controller: info
+spring:
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+  resources:
+    static-locations: classpath:\META-INF\resources\,classpath:\resources\,classpath:\static\,classpath:\public\,file:D:\pic\
 ---
 spring:
-  profiles: Lai
-
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mall?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://localhost:3306/skyblue?useUnicode=true&characterEncoding=utf-8
     username: root
     password: 521521
-logging:
-  level:
-    com:
-      cskaoyan:
-        mapper: debug
-pagehelper:
-  helper-dialect: mysql #不要用dialect
 
 
 ---
@@ -41,17 +38,16 @@ spring:
 ---
 spring:
   profiles: Yuan
-  servlet:
-    multipart:
-      max-file-size: 50MB
-      max-request-size: 50MB
+
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/mall?useUnicode=true&characterEncoding=utf-8
     username: root
     password: root
-prop:
-  upload-folder: E:/test/
+  #prop:
+#  upload-folder: D://pic//
+#  url: http://localhost:8081/
+
 ---
 spring:
   profiles: Chen
@@ -62,12 +58,14 @@ spring:
     password: 123456
 ---
 spring:
-  profiles: Wang
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/skyblue?useUnicode=true&characterEncoding=utf-8
-    username: root
-    password: 1095920109
+    profiles: Wang
+    datasource:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/skyblue?useUnicode=true&characterEncoding=utf-8
+      username: root
+      password: 1095920109
+    jackson:
+      date-format: yyyy-MM-dd HH:mm:ss
 ---
 spring:
   profiles: Fang
@@ -86,5 +84,6 @@ logging:
       cskaoyan:
         mapper: debug
         controller: info
+
 
 

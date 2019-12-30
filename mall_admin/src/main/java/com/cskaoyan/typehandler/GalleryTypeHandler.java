@@ -1,8 +1,6 @@
 package com.cskaoyan.typehandler;
 
-import com.cskaoyan.mapper.OrderMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedTypes;
 import org.apache.ibatis.type.TypeHandler;

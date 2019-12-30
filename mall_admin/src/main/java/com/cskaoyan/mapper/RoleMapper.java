@@ -3,9 +3,14 @@ package com.cskaoyan.mapper;
 import com.cskaoyan.bean.Role;
 import com.cskaoyan.bean.RoleExample;
 import java.util.List;
+
+import com.cskaoyan.bean.systemManagement.Roles;
 import org.apache.ibatis.annotations.Param;
 
 public interface RoleMapper {
+
+    List<Roles> selectRoles();
+
     long countByExample(RoleExample example);
 
     int deleteByExample(RoleExample example);

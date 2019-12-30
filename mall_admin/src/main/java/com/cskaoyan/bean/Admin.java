@@ -1,7 +1,10 @@
 package com.cskaoyan.bean;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Date;
 
+@Component
 public class Admin {
     private Integer id;
 
@@ -21,7 +24,7 @@ public class Admin {
 
     private Boolean deleted;
 
-    private String roleIds;
+    private String[] roleIds;
 
     public Integer getId() {
         return id;
@@ -95,11 +98,11 @@ public class Admin {
         this.deleted = deleted;
     }
 
-    public String getRoleIds() {
+    public String[] getRoleIds() {
         return roleIds;
     }
 
-    public void setRoleIds(String roleIds) {
-        this.roleIds = roleIds == null ? null : roleIds.trim();
+    public void setRoleIds(String[] roleIds) {
+        this.roleIds = roleIds == null ? null : roleIds;
     }
 }
