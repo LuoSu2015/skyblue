@@ -3,6 +3,9 @@ package com.cskaoyan.mapper;
 import com.cskaoyan.bean.Category;
 import com.cskaoyan.bean.CategoryExample;
 import java.util.List;
+import java.util.Map;
+
+import com.cskaoyan.bean.goods.MyCategory;
 import org.apache.ibatis.annotations.Param;
 
 public interface CategoryMapper {
@@ -27,4 +30,6 @@ public interface CategoryMapper {
     int updateByPrimaryKeySelective(Category record);
 
     int updateByPrimaryKey(Category record);
+
+    List<MyCategory> selectAllCategory();
 }

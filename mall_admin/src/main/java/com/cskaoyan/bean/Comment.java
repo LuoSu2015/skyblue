@@ -15,7 +15,7 @@ public class Comment {
 
     private Boolean hasPicture;
 
-    private String picUrls;
+    private String[] picUrls;
 
     private Short star;
 
@@ -24,6 +24,10 @@ public class Comment {
     private Date updateTime;
 
     private Boolean deleted;
+
+    public void setPicUrls(String[] picUrls) {
+        this.picUrls = picUrls;
+    }
 
     public Integer getId() {
         return id;
@@ -73,12 +77,8 @@ public class Comment {
         this.hasPicture = hasPicture;
     }
 
-    public String getPicUrls() {
+    public String[] getPicUrls() {
         return picUrls;
-    }
-
-    public void setPicUrls(String picUrls) {
-        this.picUrls = picUrls == null ? null : picUrls.trim();
     }
 
     public Short getStar() {

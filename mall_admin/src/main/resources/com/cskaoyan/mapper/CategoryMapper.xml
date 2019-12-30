@@ -74,9 +74,25 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, keywords, desc, pid, icon_url, pic_url, level, sort_order, add_time, update_time, 
+    id, name, keywords, desc, pid, icon_url, pic_url, level, sort_order, add_time, update_time,
     deleted
   </sql>
+
+  <resultMap id="MyCategoryMap" type="com.cskaoyan.bean.goods.MyCategory">
+      <result column="id" property="value"/>
+      <result column="name" property="label"/>
+      <collection property="children" ofType="com.cskaoyan.bean.goods.CategoryChild" column="id" select="selectCategoryChildren" >
+        <result column="id" property="value"/>
+        <result column="name" property="label"/>
+      </collection>
+  </resultMap>
+  <select id="selectAllCategory" resultMap="MyCategoryMap">
+    select id,name from cskaoyan_mall_category where `level` = "L1"
+  </select>
+  <select id="selectCategoryChildren" resultType="com.cskaoyan.bean.goods.CategoryChild">
+    select id as `value`,name as `label` from cskaoyan_mall_category where pid = #{id} and `level` = "L2"
+  </select>
+
   <select id="selectByExample" parameterType="com.cskaoyan.bean.CategoryExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -92,7 +108,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from cskaoyan_mall_category
     where id = #{id,jdbcType=INTEGER}
@@ -108,14 +124,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.cskaoyan.bean.Category">
-    insert into cskaoyan_mall_category (id, name, keywords, 
-      desc, pid, icon_url, 
-      pic_url, level, sort_order, 
+    insert into cskaoyan_mall_category (id, name, keywords,
+      desc, pid, icon_url,
+      pic_url, level, sort_order,
       add_time, update_time, deleted
       )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR}, 
-      #{desc,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER}, #{iconUrl,jdbcType=VARCHAR}, 
-      #{picUrl,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR}, #{sortOrder,jdbcType=TINYINT}, 
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR},
+      #{desc,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER}, #{iconUrl,jdbcType=VARCHAR},
+      #{picUrl,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR}, #{sortOrder,jdbcType=TINYINT},
       #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}
       )
   </insert>

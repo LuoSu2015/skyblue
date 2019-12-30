@@ -87,8 +87,18 @@
   <sql id="Base_Column_List">
     id, goods_sn, name, category_id, brand_id, gallery, keywords, brief, is_on_sale,
     sort_order, pic_url, share_url, is_new, is_hot, unit, counter_price, retail_price,
-    add_time, update_time, deleted
+    add_time, update_time, detail,deleted
   </sql>
+
+  <insert id="addGoods" parameterType="com.cskaoyan.bean.goods.MyAddGoods">
+    insert into cskaoyan_mall_goods (<include refid="Base_Column_List" />)
+    value
+    (#{myAddGoods.id},#{myAddGoods.goodsSn},#{myAddGoods.name},#{myAddGoods.categoryId},#{myAddGoods.brandId},
+    #{myAddGoods.gallery},#{myAddGoods.keywords},#{myAddGoods.brief},#{myAddGoods.isOnSale},
+    (select IFNULL((select max(sort_order) from (select sort_order from cskaoyan_mall_goods) goods_t),0)+1),#{myAddGoods.picUrl},null,#{myAddGoods.isNew},#{myAddGoods.isHot},#{myAddGoods.unit},
+    #{myAddGoods.counterPrice},#{myAddGoods.retailPrice},#{myAddGoods.addtime},#{myAddGoods.updatetime},#{myAddGoods.detail},0)
+  </insert>
+
   <sql id="Blob_Column_List">
     detail
   </sql>
@@ -112,11 +122,9 @@
   <select id="selectAllGoods" resultMap="ResultMapWithBLOBs">
     select
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from cskaoyan_mall_goods
     <where>
-      1 = 1
+      1 = 1 and deleted = 0
       <if test="goodsSn != null">
         and goods_sn = #{goodsSn}
       </if>
@@ -550,5 +558,195 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
+
   </update>
+
+  <insert id="addGoodsSpecification">
+    insert into cskaoyan_mall_goods_specification
+    (id,goods_id,specification,value,pic_url,add_time,update_time,deleted)
+    values
+    <foreach collection="specList" item="spec" separator=",">
+      (null,#{goodsId},#{spec.specification},#{spec.value},#{spec.picUrl},CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,0)
+    </foreach>
+  </insert>
+
+  <insert id="addProducts">
+    insert into cskaoyan_mall_goods_product
+    (id,goods_id,specifications,price,number,url,add_time,update_time,deleted)
+    values
+    <foreach collection="products" item="product" separator=",">
+      (null,#{goodsId},#{product.specifications},#{product.price},#{product.number},#{product.url},CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,0)
+    </foreach>
+  </insert>
+
+  <insert id="addAttribute">
+    insert into cskaoyan_mall_goods_attribute
+    (id,goods_id,attribute,value,add_time,update_time,deleted)
+    values
+    <foreach collection="attributes" item="attribute" separator=",">
+      (null,#{goodsId},#{attribute.attribute},#{attribute.value},CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,0)
+    </foreach>
+  </insert>
+
+  <update id="deleteObjectOfGoods">
+    update cskaoyan_mall_goods
+    set deleted = 1
+    where id = #{goodId}
+  </update>
+  <update id="deleteSpecificationsOfGoods">
+    update cskaoyan_mall_goods_specification
+    set deleted = 1
+    where goods_id = #{goodId}
+  </update>
+  <update id="deleteProductsOfGoods">
+    update cskaoyan_mall_goods_product
+    set deleted = 1
+    where goods_id = #{goodId}
+  </update>
+  <update id="deleteAttributeOfGoods">
+    update cskaoyan_mall_goods_attribute
+    set deleted = 1
+    where goods_id = #{goodId}
+  </update>
+  <select id="getL2CategoryIdByGoodsId" resultType="java.lang.Integer">
+    select category_id from cskaoyan_mall_goods where id = #{id}
+  </select>
+  <select id="getL1CategoryIdByL2Id" resultType="java.lang.Integer">
+    select pid from cskaoyan_mall_category where id = #{l2_id}
+  </select>
+
+  <resultMap id="DetailResultGoods" type="com.cskaoyan.bean.goods.DetailGoods">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="goods_sn" jdbcType="VARCHAR" property="goodsSn" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="brand_id" jdbcType="INTEGER" property="brandId" />
+    <result column="gallery" property="gallery" />
+    <result column="keywords" jdbcType="VARCHAR" property="keywords" />
+    <result column="brief" jdbcType="VARCHAR" property="brief" />
+    <result column="is_on_sale" jdbcType="BIT" property="isOnSale" javaType="boolean"/>
+    <result column="sort_order" property="sortOrder" />
+    <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
+    <result column="share_url" jdbcType="VARCHAR" property="shareUrl" />
+    <result column="is_new" jdbcType="BIT" property="isNew" javaType="boolean"/>
+    <result column="is_hot" jdbcType="BIT" property="isHot" javaType="boolean"/>
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="counter_price" jdbcType="DECIMAL" property="counterPrice" />
+    <result column="retail_price" jdbcType="DECIMAL" property="retailPrice" />
+    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="deleted" jdbcType="BIT" property="deleted" javaType="boolean"/>
+    <result column="detail" jdbcType="LONGVARCHAR" property="detail" javaType="String"/>
+  </resultMap>
+  <select id="getDetailOfGoods" resultMap="DetailResultGoods">
+    select <include refid="Base_Column_List" /> from cskaoyan_mall_goods where id = #{id}
+  </select>
+
+  <resultMap id="DetailAttributes" type="com.cskaoyan.bean.goods.AttributeDetail">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="goods_id" property="goodsId" />
+    <result column="attribute" property="attribute" />
+    <result column="value" property="value" />
+    <result column="add_time" property="addTime" />
+    <result column="update_time" property="updateTime"/>
+    <result column="deleted" property="deleted"/>
+  </resultMap>
+  <select id="getDetailOfAttributes" resultMap="DetailAttributes">
+    select id,goods_id,attribute,value,add_time,update_time,deleted from cskaoyan_mall_goods_attribute
+    where goods_id = #{id} and deleted = 0
+  </select>
+
+  <select id="getDetailOfSpecifications" resultType="com.cskaoyan.bean.goods.SpecificationDetail">
+    select id,goods_id as goodsId,specification,value,pic_url as picUrl,add_time as addTime,update_time as updateTime,deleted
+    from cskaoyan_mall_goods_specification where goods_id = #{id} and deleted = 0
+  </select>
+
+  <select id="getDetailOfProducts" resultType="com.cskaoyan.bean.goods.ProductDetail">
+    select id,goods_id as goodsId,specifications,price,number,url,add_time as addTime,update_time as updateTime,deleted
+    from cskaoyan_mall_goods_product where goods_id = #{id} and deleted = 0
+  </select>
+
+  <update id="updateObjectOfGoods">
+    update cskaoyan_mall_goods
+    set
+    goods_sn = #{goods.goodsSn},name = #{goods.name},category_id = #{goods.categoryId},
+    brand_id = #{goods.brandId},gallery = #{goods.gallery},keywords = #{goods.keywords},
+    brief = #{goods.brief},is_on_sale = #{goods.isOnSale},sort_order = #{goods.sortOrder},
+    pic_url = #{goods.picUrl},share_url = #{goods.shareUrl},is_new = #{goods.isNew},
+    is_hot = #{goods.isHot},unit = #{goods.unit},counter_price = #{goods.counterPrice},
+    retail_price = #{goods.retailPrice},update_time = CURRENT_TIMESTAMP,deleted = #{goods.deleted},
+    detail = #{goods.detail}
+    where id = #{goods.id}
+  </update>
+  <update id="deleteGoodsSpecifications">
+    update cskaoyan_mall_goods_specification
+    set deleted = true,update_time = CURRENT_TIMESTAMP
+    where goods_id = #{goodsId} and id not in
+    <foreach collection="undeletedSpecsList" item="spec" open="(" close=")" separator=",">
+      <if test="spec.id != null">
+        #{spec.id}
+      </if>
+    </foreach>
+  </update>
+
+  <update id="deleteAttributes">
+    update cskaoyan_mall_goods_attribute
+    set deleted = true,update_time = CURRENT_TIMESTAMP
+    where goods_id = #{goodsId} and id not in
+    <foreach collection="undeletedAttributesList" item="attribute" separator="," open="(" close=")">
+      <if test="attribute.id != null">
+        #{attribute.id}
+      </if>
+    </foreach>
+  </update>
+  <update id="deleteProductsByGoodsId">
+    update cskaoyan_mall_goods_product
+    set deleted = true , update_time = CURRENT_TIMESTAMP
+    where goods_id = #{goodsId}
+  </update>
+  <insert id="addProductsByGoodsId">
+    insert into cskaoyan_mall_goods_product
+    (id,goods_id,specifications,price,number,url,add_time,update_time,deleted)
+    values
+    <foreach collection="products" item="product" separator=",">
+      (null,#{goodsId},#{product.specifications},#{product.price},#{product.number},#{product.url},CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,false)
+    </foreach>
+  </insert>
+
+  <select id="getCommentList" resultType="com.cskaoyan.bean.Comment">
+    select
+    id,value_id as valueId,type,content,user_id as userId,has_picture as hasPicture,
+    pic_urls as picUrls,star,add_time as addTime,update_time as updateTime,deleted
+    from
+    cskaoyan_mall_comment
+    <where>
+      1 = 1 and deleted = 0 and `type` = 0
+      <if test="userId != null">
+        and user_id = #{userId}
+      </if>
+      <if test="valueId != null">
+        and value_id = #{valueId}
+      </if>
+    </where>
+    order by #{sort} #{order}
+  </select>
+  <update id="deleteComment" parameterType="com.cskaoyan.bean.Comment">
+    update cskaoyan_mall_comment
+    set deleted = true , update_time = CURRENT_TIMESTAMP
+    where id = #{comment.id}
+  </update>
+  <insert id="addReply">
+    insert into cskaoyan_mall_Fang_reply
+    (id,comment_id,reply_content,add_time,type)
+    value
+    (null,#{goodsReply.commentId},#{goodsReply.content},CURRENT_TIMESTAMP,0)
+  </insert>
+  <select id="getCommentById" resultType="com.cskaoyan.bean.Comment">
+    select
+    id,value_id as valueId,type,content,user_id as userId,has_picture as hasPicture,
+    pic_urls as picUrls,star,add_time as addTime,update_time as updateTime,deleted
+    from cskaoyan_mall_comment
+    where id = #{commentId}
+  </select>
+
 </mapper>
