@@ -1,8 +1,7 @@
 package com.cskaoyan.mapper;
 
-import com.cskaoyan.bean.Comment;
-import com.cskaoyan.bean.Goods;
-import com.cskaoyan.bean.GoodsExample;
+import com.cskaoyan.bean.*;
+
 import java.util.List;
 
 import com.cskaoyan.bean.goods.*;
@@ -85,4 +84,17 @@ public interface GoodsMapper {
     void addReply(@Param("goodsReply") GoodsReply goodsReply);
 
     Comment getCommentById(@Param("commentId") Integer commentId);
+
+    List<Ad> getBannerList();
+
+    List<Coupon> getCouponList();
+
+    List<Category> getChannelList();
+
+    List<Brand> getBrandList();
+
+    List<Goods> getNewGoodsList();
+
+    List<Goods> getHotGoodsList();
+
 }

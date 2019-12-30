@@ -336,4 +336,16 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <select id="getCategoryList" resultType="com.cskaoyan.bean.Category">
+      select id,name,keywords,`desc`,pid,icon_url as iconUrl,pic_url as picUrl,`level`,sort_order as sortOrder,
+      add_time as addTime,update_time as updateTime,deleted
+      from cskaoyan_mall_category
+      where `level` = "L1" and deleted = 0
+    </select>
+  <select id="getSubCategoryByPid" resultType="com.cskaoyan.bean.Category">
+      select id,name,keywords,`desc`,pid,icon_url as iconUrl,pic_url as picUrl,`level`,sort_order as sortOrder,
+      add_time as addTime,update_time as updateTime,deleted
+      from cskaoyan_mall_category
+      where `level` = "L2" and deleted = 0 and pid = #{parentId}
+  </select>
 </mapper>
