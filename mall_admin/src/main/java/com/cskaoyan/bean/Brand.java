@@ -22,6 +22,21 @@ public class Brand {
 
     private Boolean deleted;
 
+    public Brand() {
+    }
+
+    public Brand(Integer id, String name, String desc, String picUrl, Byte sortOrder, BigDecimal floorPrice, Date addTime, Date updateTime, Boolean deleted) {
+        this.id = id;
+        this.name = name;
+        this.desc = desc;
+        this.picUrl = picUrl;
+        this.sortOrder = sortOrder;
+        this.floorPrice = floorPrice;
+        this.addTime = addTime;
+        this.updateTime = updateTime;
+        this.deleted = deleted;
+    }
+
     public Integer getId() {
         return id;
     }

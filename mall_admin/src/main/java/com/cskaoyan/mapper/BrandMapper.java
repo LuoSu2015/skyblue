@@ -2,9 +2,10 @@ package com.cskaoyan.mapper;
 
 import com.cskaoyan.bean.Brand;
 import com.cskaoyan.bean.BrandExample;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 
 public interface BrandMapper {
     long countByExample(BrandExample example);

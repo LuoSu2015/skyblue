@@ -2,9 +2,10 @@ package com.cskaoyan.mapper;
 
 import com.cskaoyan.bean.Storage;
 import com.cskaoyan.bean.StorageExample;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 
 public interface StorageMapper {
     long countByExample(StorageExample example);

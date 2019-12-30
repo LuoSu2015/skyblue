@@ -3,9 +3,10 @@ package com.cskaoyan.mapper;
 import com.cskaoyan.bean.Category;
 import com.cskaoyan.bean.Category2;
 import com.cskaoyan.bean.CategoryExample;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 
 public interface CategoryMapper {
     long countByExample(CategoryExample example);

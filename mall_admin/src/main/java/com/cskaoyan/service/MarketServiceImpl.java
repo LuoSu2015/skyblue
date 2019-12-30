@@ -8,10 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 @Service
-public class MarketServiceImpl implements MarketService {
+public class MarketServiceImpl implements MarketService{
     @Autowired
     KeywordMapper keywordMapper;
     @Autowired
@@ -22,6 +23,12 @@ public class MarketServiceImpl implements MarketService {
     IssueMapper issueMapper;
     @Autowired
     CategoryMapper categoryMapper;
+    @Autowired
+    OrderMapper orderMapper;
+    @Autowired
+    GoodsMapper goodsMapper;
+    @Autowired
+    OrderGoodsMapper orderGoodsMapper;
 
     /**
      * 查找关键字,并且分页
@@ -56,13 +63,13 @@ public class MarketServiceImpl implements MarketService {
     private KeywordExample showKeyword(String keyword, String url) {
         //判断keyword和url的搜索是否为空,拼接sql语句
         KeywordExample keywordExample = new KeywordExample();
-        keywordExample.createCriteria().andDeletedEqualTo(false);
-        if(keyword != null && url != null){
-            keywordExample.createCriteria().andKeywordLike("%" + keyword + "%").andUrlLike("%" + url + "%");
-        }else if(keyword != null && url == null){
-            keywordExample.createCriteria().andKeywordLike("%" + keyword + "%");
-        }else if(keyword == null && url != null){
-            keywordExample.createCriteria().andKeywordLike("%" + url + "%");
+        KeywordExample.Criteria criteria = keywordExample.createCriteria();
+        criteria.andDeletedEqualTo(false);
+        if(keyword != null){
+            criteria.andKeywordLike("%" + keyword + "%");
+        }
+        if(url != null){
+            criteria.andUrlLike("%" + url + "%");
         }
         return keywordExample;
     }
@@ -114,7 +121,7 @@ public class MarketServiceImpl implements MarketService {
     public Map queryBrand(Integer page, Integer limit, String sort, String order,Integer id,String name) {
         Map map = new HashMap();
         //模糊搜索的条件
-        BrandExample brandExample = showBrands(id,name);
+        BrandExample brandExample = showBrands(id, name);
         //排序
         brandExample.setOrderByClause(sort + " " + order);
         //分页
@@ -136,13 +143,13 @@ public class MarketServiceImpl implements MarketService {
      */
     private BrandExample showBrands(Integer id, String name) {
         BrandExample brandExample = new BrandExample();
-        brandExample.createCriteria().andDeletedEqualTo(false);
-        if(id != null && name != null){
-            brandExample.createCriteria().andIdEqualTo(id).andNameLike("%" + name + "%");
-        }else if(id == null && name != null){
-            brandExample.createCriteria().andNameLike("%" + name + "%");
-        }else if(id != null && name == null){
-            brandExample.createCriteria().andIdEqualTo(id);
+        BrandExample.Criteria criteria = brandExample.createCriteria();
+        criteria.andDeletedEqualTo(false);
+        if(id != null){
+            criteria.andIdEqualTo(id);
+        }
+        if(name != null){
+            criteria.andNameLike("%" + name + "%");
         }
         return brandExample;
     }
@@ -160,18 +167,24 @@ public class MarketServiceImpl implements MarketService {
 
     /**
      * 新建商标
-     * @param brand
+     * @param
      * @return
      */
     @Override
-    public Brand insertBrand(Brand brand) {
+    public Brand insertBrand(Brand1 brand1) {
+        //封装brand
+        String floorPrice = brand1.getFloorPrice();
+        BigDecimal bigDecimal = new BigDecimal(floorPrice);
+        Date nowTime = new Date();
+        Brand brand = new Brand(null,brand1.getName(),brand1.getDesc(),brand1.getPicUrl(),brand1.getSortOrder()
+        ,bigDecimal,nowTime,nowTime,false);
         brandMapper.selectLastId(brand);
         return brand;
     }
 
     /**
      * 删除商标
-     * @param id
+     * @param
      * @return
      */
     @Override
@@ -227,9 +240,10 @@ public class MarketServiceImpl implements MarketService {
      */
     private IssueExample showIssus(String question) {
         IssueExample issueExample = new IssueExample();
-        issueExample.createCriteria().andDeletedEqualTo(false);
+        IssueExample.Criteria criteria = issueExample.createCriteria();
+        criteria.andDeletedEqualTo(false);
         if(question != null){
-            issueExample.createCriteria().andQuestionLike("%" + question +"%");
+            criteria.andQuestionLike("%" + question +"%");
         }
         return issueExample;
     }
@@ -277,8 +291,10 @@ public class MarketServiceImpl implements MarketService {
     public List<Category2> queryCategory() {
         List<Category2> category2 = categoryMapper.selectCategory2();
         CategoryExample categoryExample = new CategoryExample();
+        CategoryExample.Criteria criteria = categoryExample.createCriteria();
+        criteria.andDeletedEqualTo(false);
         for (Category2 category21 : category2) {
-            categoryExample.createCriteria().andPidEqualTo(category21.getId());
+            criteria.andPidEqualTo(category21.getId());
             List<Category> categories = categoryMapper.selectByExample(categoryExample);
             category21.setChildren(categories);
         }
@@ -337,7 +353,66 @@ public class MarketServiceImpl implements MarketService {
     public Category delectCategroy(Category category) {
         category.setUpdateTime(new Date());
         category.setDeleted(true);
+        category.setPid(0);
         categoryMapper.updateByPrimaryKeySelective(category);
         return category;
+    }
+
+    /**
+     * 显示订单,及分页,模糊查询
+     * @param page
+     * @param limit
+     * @param sort
+     * @param order
+     * @param userId
+     * @param orderStatusArray
+     * @param orderSn
+     * @return
+     */
+    @Override
+    public Map queryOrders(Integer page,Integer limit,String sort,String order,Integer userId,Short[] orderStatusArray,String orderSn) {
+        OrderExample orderExample = showOrders(userId,orderSn,orderStatusArray);
+        Map map = new HashMap();
+        //排序
+        orderExample.setOrderByClause(sort + " " + order);
+        //分页
+        PageHelper.startPage(page,limit);
+        List<Order> orders = orderMapper.selectByExample(orderExample);
+        //获取总条目数
+        PageInfo<Order> pageInfo = new PageInfo<>(orders);
+        int total = (int)pageInfo.getTotal();
+        map.put("orders",orders);
+        map.put("total",total);
+        return map;
+    }
+
+    /**
+     * 查询的具体逻辑
+     * @param userId
+     * @param orderSn
+     * @param orderStatusArray
+     * @return
+     */
+    private OrderExample showOrders(Integer userId, String orderSn, Short[] orderStatusArray) {
+        OrderExample orderExample = new OrderExample();
+        if(userId != null){
+            orderExample.createCriteria().andUserIdEqualTo(userId);
+        }
+        if(orderSn != null){
+            orderExample.createCriteria().andOrderSnEqualTo(orderSn);
+        }
+        if(orderStatusArray != null){
+            List<Short> list = Arrays.asList(orderStatusArray);
+            orderExample.createCriteria().andOrderStatusIn(list);
+        }
+        return orderExample;
+    }
+
+    @Override
+    public List<OrderGoods> queryGoods(Integer id) {
+        OrderGoodsExample orderGoodsExample = new OrderGoodsExample();
+        orderGoodsExample.createCriteria().andOrderIdEqualTo(id);
+        List<OrderGoods> orderGoods = orderGoodsMapper.selectByExample(orderGoodsExample);
+        return orderGoods;
     }
 }
