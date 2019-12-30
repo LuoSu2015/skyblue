@@ -5,6 +5,7 @@ import com.cskaoyan.bean.Admin;
 import com.cskaoyan.bean.BaseRespVo;
 import com.cskaoyan.bean.Log;
 import com.cskaoyan.bean.User;
+
 import com.cskaoyan.service.AuthenService;
 import com.cskaoyan.service.systemManagement.AdminServiceImpl;
 import com.github.pagehelper.PageInfo;
@@ -16,11 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 @RestController
 public class AdminController {
@@ -72,9 +73,6 @@ public class AdminController {
         return baseRespVo;
     }
 
-
-
-
     @Autowired
     AdminServiceImpl adminService;
     /**
@@ -102,5 +100,6 @@ public class AdminController {
         subject.logout();
         return "/admin/auth/login";
     }
+
 
 }
