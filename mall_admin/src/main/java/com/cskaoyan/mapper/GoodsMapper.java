@@ -3,6 +3,8 @@ package com.cskaoyan.mapper;
 import com.cskaoyan.bean.Goods;
 import com.cskaoyan.bean.GoodsExample;
 import java.util.List;
+
+import com.cskaoyan.bean.WxGrouponList;
 import org.apache.ibatis.annotations.Param;
 
 public interface GoodsMapper {
@@ -35,4 +37,6 @@ public interface GoodsMapper {
     int updateByPrimaryKey(Goods record);
 
     List<Goods> selectAllGoods(@Param("sort") String sort,@Param("order") String order,@Param("goodsSn") Integer goodsSn,@Param("name") String name);
+
+    List<WxGrouponList> selectGoodsByGroupon();
 }

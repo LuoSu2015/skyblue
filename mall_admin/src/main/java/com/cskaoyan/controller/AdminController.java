@@ -5,6 +5,7 @@ import com.cskaoyan.bean.BaseRespVo;
 
 import com.cskaoyan.bean.Log;
 import com.cskaoyan.bean.User;
+import com.cskaoyan.service.AdminService;
 import com.cskaoyan.service.AdminServiceImpl;
 import com.cskaoyan.service.AuthenService;
 import com.github.pagehelper.PageInfo;
@@ -15,6 +16,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -67,6 +69,23 @@ public class AdminController {
         map.put("perms",permissionList);
         map.put("roles",roleNameList);
         baseRespVo.setData(map);
+        return baseRespVo;
+
+    }
+    @Autowired
+    AdminService adminService;
+
+    /**
+     * 首页显示功能
+     * @return 首页数据统计
+     */
+    @RequestMapping(value = "admin/dashboard" ,method = RequestMethod.GET)
+    public BaseRespVo dashboard(){
+        Map map = adminService.dashboard();
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrno(0);
+        baseRespVo.setData(map);
+        baseRespVo.setErrmsg("成功");
         return baseRespVo;
     }
 }

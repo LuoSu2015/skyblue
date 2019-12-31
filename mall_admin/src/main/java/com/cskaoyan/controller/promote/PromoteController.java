@@ -5,7 +5,6 @@ import com.cskaoyan.bean.promate.PageWrapper;
 import com.cskaoyan.service.promote.PromoteService;
 import com.cskaoyan.util.promoteUtils.PromoteUtils;
 import com.cskaoyan.util.uploadPic.UploadPicUtils;
-import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -215,7 +214,7 @@ public class PromoteController {
 //      admin/groupon/list?goodsId=
     @RequestMapping("admin/groupon/list")
     public BaseRespVo queryGrouponRulesListByGoodsId(PageWrapper pageWrapper) {
-//        PromoteUtils<Groupon_rules> adPromoteUtils = new PromoteUtils<>();
+//        PromoteUtils<GrouponRules> adPromoteUtils = new PromoteUtils<>();
         BaseRespVo baseRespVo = PromoteUtils.preSetBaseRespVo(pageWrapper);
         List groupon_rulesList = promoteService.queryGrouponRulesListByGoodsId(pageWrapper.getGoodsId());
         baseRespVo = PromoteUtils.postSetBaseRespVo(baseRespVo, groupon_rulesList);
@@ -242,11 +241,11 @@ public class PromoteController {
     /*  更新团购规则*/
     //http://192.168.2.100:8081/grouponmin/groupon/update
     @RequestMapping("admin/groupon/update")
-    public BaseRespVo updateGroupon(@RequestBody Groupon_rules groupon_rules) {
-        ArrayList<Groupon_rules> grouponList = new ArrayList<>();
+    public BaseRespVo updateGroupon(@RequestBody GrouponRules groupon_rules) {
+        ArrayList<GrouponRules> grouponList = new ArrayList<>();
         grouponList.add(groupon_rules);
         promoteService.updateGrouponRuleList(grouponList);
-        BaseRespVo<Groupon_rules> grouponBaseRespVo = new BaseRespVo<>();
+        BaseRespVo<GrouponRules> grouponBaseRespVo = new BaseRespVo<>();
         grouponBaseRespVo.setErrno(0);
         grouponBaseRespVo.setErrmsg("成功");
         grouponBaseRespVo.setData(groupon_rules);
