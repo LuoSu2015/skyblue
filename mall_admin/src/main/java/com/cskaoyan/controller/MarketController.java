@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -45,7 +46,7 @@ public class MarketController {
      * @return
      */
     @RequestMapping("admin/keyword/list")
-    public BaseRespVo showKeywords(int page, int limit, String sort, String order, String keyword, String url){
+    public BaseRespVo showKeywords(int page,int limit,String sort,String order,String keyword,String url){
         //查询所有的keyword并分页
         Map map = marketService.queryKeyword(page, limit,keyword,url,sort,order);
         List<Keyword> keywords = (List<Keyword>)map.get("keywords");
@@ -118,7 +119,7 @@ public class MarketController {
      * @return
      */
     @RequestMapping("admin/brand/list")
-    public BaseRespVo showBrands(Integer page, Integer limit, String sort, String order, Integer id, String name){
+    public BaseRespVo showBrands(Integer page,Integer limit,String sort,String order,Integer id,String name){
         BaseRespVo baseRespVo = new BaseRespVo();
         Map map = marketService.queryBrand(page, limit, sort, order,id,name);
         List<Brand> brands = (List<Brand>) map.get("brands");
@@ -133,61 +134,27 @@ public class MarketController {
     }
 
     /**
-     * 上传品牌商图片
-     *
-     */
-/*    @RequestMapping("admin/storage/create")
-    public BaseRespVo fileUpload(MultipartFile file) throws IOException {
-        //文件上传,及命名
-        String uuid = UUID.randomUUID().toString();
-        String originalFilename = file.getOriginalFilename();
-        String contentType = file.getContentType();
-        long size = file.getSize();
-        int i = originalFilename.lastIndexOf(".");
-        String substring = originalFilename.substring(i);
-        uuid += substring;
-        String url = "E:\\Spring\\skyblue\\mall\\target\\classes\\static";
-        File file1 = new File(url,uuid);
-        file.transferTo(file1);
-        //将信息封装到javabean中
-        Storage storage = new Storage();
-        storage.setKey(uuid);
-        storage.setName(originalFilename);
-        storage.setSize((int)size);
-        storage.setUrl("http://localhost:8081/" + uuid);
-        storage.setType(contentType);
-        storage.setDeleted(false);
-        Date time = new Date();
-        storage.setAddTime(time);
-        storage.setUpdateTime(time);
-        //将数据保存到数据库
-        marketService.insertStorage(storage);
-        //返回结果
-        BaseRespVo baseRespVo = new BaseRespVo();
-        baseRespVo.setErrno(0);
-        baseRespVo.setErrmsg("成功");
-        baseRespVo.setData(storage);
-        return baseRespVo;
-    }*/
-
-    /**
      *新建商标
      * @param brand
      * @return
      */
     @RequestMapping("admin/brand/create")
-    public BaseRespVo createBrand(@RequestBody Brand brand){
-        Date nowTime = new Date();
-        brand.setAddTime(nowTime);
-        brand.setUpdateTime(nowTime);
-        brand.setDeleted(false);
-        //保存到数据库
-        Brand brand1 = marketService.insertBrand(brand);
-        //将数据返回
+    public BaseRespVo createBrand(@RequestBody Brand1 brand1){
         BaseRespVo baseRespVo = new BaseRespVo();
+        //没有url信息,返回错误结果
+        String floorPrice = brand1.getFloorPrice();
+        if(brand1.getPicUrl() == null || !isBigDecimal(floorPrice)){
+            baseRespVo.setErrmsg("参数值不正确");
+            baseRespVo.setErrno(402);
+            return baseRespVo;
+        }
+
+        //保存到数据库
+        Brand brand2 = marketService.insertBrand(brand1);
+        //将数据返回
         baseRespVo.setErrmsg("成功");
         baseRespVo.setErrno(0);
-        baseRespVo.setData(brand1);
+        baseRespVo.setData(brand2);
         return baseRespVo;
     }
 
@@ -209,24 +176,56 @@ public class MarketController {
 
     /**
      * 更新商标
-     * @param brand
+     * @param
      * @return
      */
     @RequestMapping("admin/brand/update")
-    public BaseRespVo updateBrand(@RequestBody Brand brand){
-        BigDecimal floorPrice = brand.getFloorPrice();
-        //将判断数据,将数据返回
+    public BaseRespVo updateBrand(@RequestBody Brand1 brand1){
         BaseRespVo baseRespVo = new BaseRespVo();
-        if(floorPrice instanceof BigDecimal){
+        //判断floorPrice是否为bigDecimal格式
+        String  floorPrice= brand1.getFloorPrice();
+        if(!isBigDecimal(floorPrice)){
             baseRespVo.setErrno(402);
             baseRespVo.setErrmsg("参数格式不正确");
             return baseRespVo;
         }
+        //将判断数据,将数据返回
+        Brand brand = new Brand();
+        BigDecimal floorPrice2 = new BigDecimal(floorPrice);
+        brand.setFloorPrice(floorPrice2);
         marketService.updateBreand(brand);
         baseRespVo.setErrmsg("成功");
         baseRespVo.setData(brand);
         baseRespVo.setErrno(0);
         return baseRespVo;
+    }
+
+    /**
+     * 判断是否为BigDecimal类型
+     * @param str
+     * @return
+     */
+    public boolean isBigDecimal(String str){
+        if(str==null || str.trim().length() == 0){
+            return false;
+        }
+        char[] chars = str.toCharArray();
+        int sz = chars.length;
+        int i = (chars[0] == '-') ? 1 : 0;
+        if(i == sz) return false;
+
+        if(chars[i] == '.') return false;//除了负号，第一位不能为'小数点'
+
+        boolean radixPoint = false;
+        for(; i < sz; i++){
+            if(chars[i] == '.'){
+                if(radixPoint) return false;
+                radixPoint = true;
+            }else if(!(chars[i] >= '0' && chars[i] <= '9')){
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -239,7 +238,7 @@ public class MarketController {
      * @return
      */
     @RequestMapping("admin/issue/list")
-    public BaseRespVo showIssues(Integer page, Integer limit, String sort, String order, String question){
+    public BaseRespVo showIssues(Integer page,Integer limit,String sort,String order,String question){
         //显示问题
         Map map = marketService.queryIssue(page, limit, sort, order, question);
         //将数据返回
@@ -383,4 +382,49 @@ public class MarketController {
         baseRespVo.setErrno(0);
         return baseRespVo;
     }
+
+    /**
+     * 显示订单页面
+     * @param page
+     * @param limit
+     * @param sort
+     * @param order
+     * @param userId
+     * @param orderStatusArray
+     * @param orderSn
+     * @return
+     */
+    @RequestMapping("admin/order/list")
+    public BaseRespVo showOrders(Integer page,Integer limit,String sort,String order,Integer userId,Short[] orderStatusArray,String orderSn){
+        Map map = marketService.queryOrders(page, limit, sort, order, userId, orderStatusArray, orderSn);
+        //返回数据
+        Integer total = (Integer) map.get("total");
+        List<Order> orders = (List<Order>) map.get("orders");
+        Map reslutMap = new HashMap();
+        reslutMap.put("total",total);
+        reslutMap.put("items",orders);
+        //返回结果
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setData(reslutMap);
+        baseRespVo.setErrno(0);
+        return baseRespVo;
+    }
+
+    /**
+     * 显示详情信息
+     * @param id
+     * @return
+     */
+    @RequestMapping("admin/order/detail")
+    public BaseRespVo detailOrder(Integer id){
+        List<OrderGoods> orderGoods = marketService.queryGoods(id);
+        //返回结果
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setData(orderGoods);
+        baseRespVo.setErrno(0);
+        return baseRespVo;
+    }
+
 }

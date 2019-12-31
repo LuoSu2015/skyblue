@@ -77,6 +77,22 @@
     id, name, keywords, `desc`, pid, icon_url, pic_url, level, sort_order, add_time, update_time,
     deleted
   </sql>
+
+  <resultMap id="MyCategoryMap" type="com.cskaoyan.bean.goods.MyCategory">
+      <result column="id" property="value"/>
+      <result column="name" property="label"/>
+      <collection property="children" ofType="com.cskaoyan.bean.goods.CategoryChild" column="id" select="selectCategoryChildren" >
+        <result column="id" property="value"/>
+        <result column="name" property="label"/>
+      </collection>
+  </resultMap>
+  <select id="selectAllCategory" resultMap="MyCategoryMap">
+    select id,name from cskaoyan_mall_category where `level` = "L1"
+  </select>
+  <select id="selectCategoryChildren" resultType="com.cskaoyan.bean.goods.CategoryChild">
+    select id as `value`,name as `label` from cskaoyan_mall_category where pid = #{id} and `level` = "L2"
+  </select>
+
   <select id="selectByExample" parameterType="com.cskaoyan.bean.CategoryExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -92,7 +108,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from cskaoyan_mall_category
     where id = #{id,jdbcType=INTEGER}
@@ -110,12 +126,12 @@
   <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.cskaoyan.bean.Category">
     insert into cskaoyan_mall_category (id, name, keywords,
       `desc`, pid, icon_url,
-      pic_url, level, sort_order, 
+      pic_url, level, sort_order,
       add_time, update_time, deleted
       )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR}, 
-      #{desc,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER}, #{iconUrl,jdbcType=VARCHAR}, 
-      #{picUrl,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR}, #{sortOrder,jdbcType=TINYINT}, 
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR},
+      #{desc,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER}, #{iconUrl,jdbcType=VARCHAR},
+      #{picUrl,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR}, #{sortOrder,jdbcType=TINYINT},
       #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}
       )
   </insert>
@@ -320,24 +336,23 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <insert id="selectLastId">
-    <selectKey order="AFTER" keyProperty="category.id" keyColumn="id" resultType="integer">
-      SELECT LAST_INSERT_ID() as id
-    </selectKey>
-    INSERT INTO cskaoyan_mall_brand VALUES (
-    #{brand.id},
-    #{brand.name},
-    #{brand.desc},
-    #{brand.picUrl},
-    #{brand.sortOrder},
-    #{brand.floorPrice},
-    #{brand.addTime} ,
-    #{brand.updateTime},
-    #{brand.deleted}
-    )
-  </insert>
+    <select id="getCategoryList" resultType="com.cskaoyan.bean.Category">
+      select id,name,keywords,`desc`,pid,icon_url as iconUrl,pic_url as picUrl,`level`,sort_order as sortOrder,
+      add_time as addTime,update_time as updateTime,deleted
+      from cskaoyan_mall_category
+      where `level` = "L1" and deleted = 0
+    </select>
+  <select id="getSubCategoryByPid" resultType="com.cskaoyan.bean.Category">
+      select id,name,keywords,`desc`,pid,icon_url as iconUrl,pic_url as picUrl,`level`,sort_order as sortOrder,
+      add_time as addTime,update_time as updateTime,deleted
+      from cskaoyan_mall_category
+      where `level` = "L2" and deleted = 0 and pid = #{parentId}
+  </select>
+
+
 
   <select id="selectCategory2" resultType="com.cskaoyan.bean.Category2">
     select id,name,keywords,`desc`,icon_url as iconUrl,pic_url as picUrl,level from cskaoyan_mall_category where level = 'L1'
+     and deleted = 0
   </select>
 </mapper>

@@ -14,19 +14,19 @@ public interface MarketService {
 
     Keyword deleteKeyword(Keyword keyword);
 
-    Map queryBrand(Integer page, Integer limit, String sort, String order, Integer id, String name);
+    Map queryBrand(Integer page,Integer limit,String sort,String order,Integer id,String name);
 
     Keyword updateKeyword(Keyword keyword);
 
     int insertStorage(Storage storage);
 
-    Brand insertBrand(Brand brand);
+    Brand insertBrand(Brand1 brand1);
 
     Brand deleteBrand(Brand brand);
 
     int updateBreand(Brand brand);
 
-    Map queryIssue(Integer page, Integer limit, String sort, String order, String question);
+    Map queryIssue(Integer page,Integer limit,String sort,String order,String question);
 
     Issue insertIssue(Issue issue);
 
@@ -43,4 +43,8 @@ public interface MarketService {
     int updateCategroy(Category category);
 
     Category delectCategroy(Category category);
+
+    Map queryOrders(Integer page,Integer limit,String sort,String order,Integer userId,Short[] orderStatusArray,String orderSn);
+
+    List<OrderGoods> queryGoods(Integer id);
 }

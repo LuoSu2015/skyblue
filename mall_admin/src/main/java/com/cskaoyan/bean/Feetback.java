@@ -1,10 +1,11 @@
+
 package com.cskaoyan.bean;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
-public class Feedback {
+public class Feetback {
     private Integer id;
 
     private Integer userId;
@@ -126,4 +127,5 @@ public class Feedback {
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
     }
+
 }

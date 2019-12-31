@@ -2,13 +2,7 @@ package com.cskaoyan.util.uploadPic;
 
 import com.cskaoyan.bean.BaseRespVo;
 import com.cskaoyan.bean.Storage;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
@@ -16,7 +10,18 @@ import java.util.UUID;
 
 
 public class UploadPicUtils {
-    /* 图片存在本地，已废弃 */
+
+  /*  @Value("${prop.upload-folder}")
+    static String filePath;
+
+    @Value("${prop.url}")
+    static String pathUrl;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:SS", timezone = "GMT+8")
+    static Date date;*/
+
+    /*  图片上传 */
+//    @PostMapping("admin/storage/create")
     public static BaseRespVo<Storage> fileUpload(MultipartFile file) throws IOException {
 
         Storage storage = new Storage();

@@ -18,23 +18,14 @@ spring:
       max-request-size: 50MB
   resources:
     static-locations: classpath:\META-INF\resources\,classpath:\resources\,classpath:\static\,classpath:\public\,file:D:\pic\
-
 ---
 spring:
   profiles: Lai
-
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/skyblue?useUnicode=true&characterEncoding=utf-8
     username: root
     password: 521521
-logging:
-  level:
-    com:
-      cskaoyan:
-        mapper: debug
-pagehelper:
-  helper-dialect: mysql #不要用dialect
 
 
 ---
@@ -76,8 +67,6 @@ spring:
       password: 1095920109
     jackson:
       date-format: yyyy-MM-dd HH:mm:ss
-pagehelper:
-  helper-dialect: mysql
 ---
 spring:
   profiles: Fang
@@ -86,6 +75,10 @@ spring:
     url: jdbc:mysql://localhost:3306/mall?useUnicode=true&characterEncoding=utf-8
     username: root
     password: 199420
+
+domain:
+goods-img-path:
+
 logging:
   level:
     com:

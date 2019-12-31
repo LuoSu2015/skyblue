@@ -22,7 +22,7 @@ public class CustomSessionManager extends DefaultWebSessionManager {
             return sessionId;
         }
 
-        sessionId = servletRequest.getHeader("X-cskaoyan-mall-Wx-Token");
+        sessionId = servletRequest.getHeader("X-cskaoyanmall-Admin-Token");
         if (sessionId != null && !"".equals(sessionId)) {
             return sessionId;
         }
