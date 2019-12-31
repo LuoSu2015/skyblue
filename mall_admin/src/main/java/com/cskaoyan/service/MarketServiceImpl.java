@@ -171,7 +171,7 @@ public class MarketServiceImpl implements MarketService {
 
     /**
      * 删除商标
-     * @param id
+     * @param
      * @return
      */
     @Override

@@ -51,4 +51,6 @@ public class GoodsController {
         baseRespVo.setErrmsg("成功");
         return baseRespVo;
     }
+
+
 }
