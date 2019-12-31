@@ -26,7 +26,7 @@ public class CustomSessionManager extends DefaultWebSessionManager {
         }
         if(requestURI.toLowerCase().contains("wx")){
 //            String wxSessionId = servletRequest.getHeader("X-Litemall-Token");
-            String wxSessionId = servletRequest.getHeader("X-cskaoyan-mall-Admin-Token");
+            String wxSessionId = servletRequest.getHeader("X-cskaoyanmall-Admin-Token");
             if (wxSessionId != null && !"".equals(wxSessionId)) {
                 return wxSessionId;
             }
