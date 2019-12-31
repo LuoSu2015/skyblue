@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,14 +42,18 @@ public class WxUserController {
         Map map = new HashMap();
         try {
             subject.login(userToken);
+            Serializable sessionId = subject.getSession().getId();
             User user = authenService.queryUserByName(userToken.getUsername());
             wxWrapper.setNickName(user.getNickname());
             wxWrapper.setAvatarUrl(user.getAvatar());
 //            String sessionId = shiroConfig.webSessionManager().getSessionId();
+            Date date = new Date(new Date().getTime() + 60 * 60 * 24*10);
             map.put("userInfo", wxWrapper);
+            map.put("token",sessionId);
+            map.put("tokenExpire",date);
             baseRespVo.setErrmsg("成功");
             baseRespVo.setErrno(0);
-            baseRespVo.setData(wxWrapper);
+            baseRespVo.setData(map);
         } catch (AuthenticationException e) {
             baseRespVo.setErrno(402);
             baseRespVo.setErrmsg("参数不对");
