@@ -1,11 +1,9 @@
 package com.cskaoyan.service;
 
-import com.cskaoyan.bean.Permission;
-import com.cskaoyan.bean.PermissionExample;
-import com.cskaoyan.bean.Role;
-import com.cskaoyan.bean.RoleExample;
-import com.cskaoyan.mapper.PermissionMapper;
-import com.cskaoyan.mapper.RoleMapper;
+import com.cskaoyan.bean.*;
+import com.cskaoyan.mapper.*;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,5 +48,51 @@ public class AuthenServiceImpl implements AuthenService{
             }
         }
         return permissionList;
+    }
+
+    @Autowired
+    AdminMapper adminMapper;
+
+    @Override
+    public Boolean isCorrectPassword(String oldPassword) {
+        Subject subject = SecurityUtils.getSubject();
+        Admin admin = (Admin) subject.getPrincipal();
+        String password = admin.getPassword();
+        if(password.equals(oldPassword)){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean modifyPassword(String newPassword) {
+        Subject subject = SecurityUtils.getSubject();
+        Admin admin = (Admin) subject.getPrincipal();
+        admin.setPassword(newPassword);
+        int i = adminMapper.updateByPrimaryKeySelective(admin);
+        return true;
+    }
+
+    @Autowired
+    UserMapper userMapper;
+    @Override
+    public User queryUserByName(String username) {
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria = userExample.createCriteria();
+        criteria.andUsernameEqualTo(username);
+        User user = userMapper.selectByExample(userExample).get(0);
+        return user;
+    }
+
+    /*有问题还没有完成，因为这是联合查询*/
+    @Autowired
+    OrderMapper orderMapper;
+    @Override
+    public Order queryOrderByUserId(Integer userId) {
+        OrderExample orderExample = new OrderExample();
+        OrderExample.Criteria criteria = orderExample.createCriteria();
+        criteria.andUserIdEqualTo(userId);
+        Order order = orderMapper.selectByExample(orderExample).get(0);
+        return order;
     }
 }
