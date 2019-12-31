@@ -8,6 +8,8 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -123,6 +125,51 @@ public class WxGrouponServiceImpl implements WxGrouponService {
         map1.put("count",showTypeCount1);
         return map1;
     }
+
+    /**
+     *  微信小程序团购详情
+     * @param grouponId 团购ID
+     * @return user个人的团购信息
+     */
+    @Override
+    public Map<String, Object> wxGrouponDetail(Integer grouponId) {
+        Groupon groupon = grouponMapper.selectByPrimaryKey(grouponId);
+        GrouponExample grouponExample = new GrouponExample();
+        grouponExample.createCriteria().andGrouponIdEqualTo(groupon.getGrouponId());
+        //当前团购-多人
+        List<Groupon> groupons = grouponMapper.selectByExample(grouponExample);
+        List<User> users = new ArrayList<>();
+        for (Groupon groupon1 : groupons) {
+            UserExample userExample = new UserExample();
+            userExample.createCriteria().andIdEqualTo(groupon1.getUserId());
+            List<User> users1 = userMapper.selectByExample(userExample);
+            users.add(users1.get(0));
+        }
+        GrouponRules grouponRules = grouponRulesMapper.selectByPrimaryKey(groupon.getGrouponId());
+        Order order = orderMapper.selectByPrimaryKey(groupon.getOrderId());
+        OrderGoodsExample orderGoodsExample = new OrderGoodsExample();
+        orderGoodsExample.createCriteria().andOrderIdEqualTo(order.getId());
+        List<OrderGoods> orderGoods = orderGoodsMapper.selectByExample(orderGoodsExample);
+        List<Goods> goodsList = null;
+        for (OrderGoods orderGoods1 : orderGoods) {
+            GoodsExample goodsExample = new GoodsExample();
+            goodsExample.createCriteria().andIdEqualTo(orderGoods1.getGoodsId());
+            goodsList = goodsMapper.selectByExample(goodsExample);
+        }
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andIdEqualTo(groupon.getCreatorUserId());
+        List<User> createUsers = userMapper.selectByExample(userExample);
+        Map<String, Object> map = new HashMap<>();
+        map.put("creator", createUsers);
+        map.put("groupon", groupon);
+        map.put("joiners", users);
+        map.put("orderInfo", order);
+        map.put("orderGoods", goodsList);
+        map.put("rules", grouponRules);
+        map.put("linkGrouponId", groupon.getId());
+        return map;
+    }
+
     public static User user1(){
         //获取当前用户信息
         Subject subject = SecurityUtils.getSubject();
@@ -161,6 +208,8 @@ public class WxGrouponServiceImpl implements WxGrouponService {
                 break;
         }
     }
+
+
 
 }
 

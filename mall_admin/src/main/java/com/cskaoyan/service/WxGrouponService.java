@@ -18,4 +18,11 @@ public interface WxGrouponService {
      * @return user个人的团购信息
      */
     Map<String, Object> wxGrouponMy(Integer showType);
+
+    /**
+     * 微信小程序团购详情
+     * @param grouponId 团购ID
+     * @return user个人的团购信息
+     */
+    Map<String, Object> wxGrouponDetail(Integer grouponId);
 }

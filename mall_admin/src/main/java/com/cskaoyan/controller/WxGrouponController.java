@@ -53,4 +53,19 @@ public class WxGrouponController {
         return baseRespVo;
     }
 
+    /**
+     *  微信小程序团购详情
+     * @param grouponId 团购ID
+     * @return user个人的团购信息
+     */
+    @RequestMapping("groupon/detail")
+    public BaseRespVo grouponDetail(@RequestParam Integer grouponId) {
+        Map<String, Object> grouponDetail = wxGrouponService.wxGrouponDetail(grouponId);
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setErrno(0);
+        baseRespVo.setData(grouponDetail);
+        return baseRespVo;
+    }
+
 }
