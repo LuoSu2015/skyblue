@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class CustomRealm extends AuthorizingRealm {
+public class AdminRealm extends AuthorizingRealm {
 
 
     @Autowired

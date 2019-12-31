@@ -1,4 +1,4 @@
-package com.cskaoyan.shiro.exception;
+package com.cskaoyan.exception;
 
 import org.apache.shiro.authz.AuthorizationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
