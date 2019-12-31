@@ -29,7 +29,7 @@ public class ShiroConfig {
         filterMap.put("/need/perm","perms[perm1]");
         优选的方式是声明式
         filterMap.put("/auth/logout","logout");*/
-        linkedHashMap.put("/**", "authc");
+        linkedHashMap.put("/**", "anon");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(linkedHashMap);
         return shiroFilterFactoryBean;
     }

@@ -20,6 +20,7 @@ spring:
     static-locations: classpath:\META-INF\resources\,classpath:\resources\,classpath:\static\,classpath:\public\,file:D:\pic\
 ---
 spring:
+  profiles: Lai
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/skyblue?useUnicode=true&characterEncoding=utf-8
