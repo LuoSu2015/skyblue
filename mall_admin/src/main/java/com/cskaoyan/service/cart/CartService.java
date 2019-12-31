@@ -8,7 +8,9 @@ import java.util.List;
 
 public interface CartService<T> {
 
-    List<T> queryGoodsList();
+    List<T> queryGoodsList(Integer userId);
 
-    T queryCartStatus();
+    T queryCartStatus(Integer userId);
+
+    List<T> queryCartList(Integer userId);
 }
