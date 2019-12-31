@@ -16,18 +16,7 @@ import java.util.UUID;
 
 
 public class UploadPicUtils {
-
-  /*  @Value("${prop.upload-folder}")
-    static String filePath;
-
-    @Value("${prop.url}")
-    static String pathUrl;
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:SS", timezone = "GMT+8")
-    static Date date;*/
-
-    /*  图片上传 */
-//    @PostMapping("admin/storage/create")
+    /* 图片存在本地，已废弃 */
     public static BaseRespVo<Storage> fileUpload(MultipartFile file) throws IOException {
 
         Storage storage = new Storage();

@@ -4,6 +4,7 @@ import com.cskaoyan.bean.*;
 import com.cskaoyan.bean.promate.PageWrapper;
 import com.cskaoyan.service.promote.PromoteService;
 import com.cskaoyan.util.promoteUtils.PromoteUtils;
+import com.cskaoyan.util.uploadPic.AliyunOssUtils;
 import com.cskaoyan.util.uploadPic.UploadPicUtils;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,11 @@ public class PromoteController {
     /* 图片上传*/
     @RequestMapping("admin/storage/create")
     public BaseRespVo addPic(MultipartFile file) throws IOException {
-        BaseRespVo<Storage> storageBaseRespVo = UploadPicUtils.fileUpload(file);
+        BaseRespVo baseRespVo = AliyunOssUtils.uploadFile(file);
         List arrayList = new ArrayList();
-        arrayList.add(storageBaseRespVo.getData());
+        arrayList.add(baseRespVo.getData());
         int i = promoteService.insertStorageList(arrayList);
-        return storageBaseRespVo;
+        return baseRespVo;
     }
 
     /* 广告展示 */
