@@ -1,0 +1,3 @@
+1、你的shiroFilter 为何配置/**为anon
+name你后台的服务岂不是如果没有配置权限则是匿名访问的
+2、建议大家class命名时按照统一的规则，建议不要出现Brand、又搞一个Brand1，Category和Category1这样的命名情况
