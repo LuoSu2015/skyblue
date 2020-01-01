@@ -3,6 +3,9 @@ package com.cskaoyan.mapper;
 import com.cskaoyan.bean.Comment;
 import com.cskaoyan.bean.CommentExample;
 import java.util.List;
+
+import com.cskaoyan.bean.CommittedTopicComment;
+import com.cskaoyan.bean.TopicComment;
 import org.apache.ibatis.annotations.Param;
 
 public interface CommentMapper {
@@ -27,4 +30,10 @@ public interface CommentMapper {
     int updateByPrimaryKeySelective(Comment record);
 
     int updateByPrimaryKey(Comment record);
+
+    List<TopicComment> getCommentByIdAndType(@Param("valueId") int valueId, @Param("type") int type);
+
+    Integer addTopicComment(@Param("comment") CommittedTopicComment comment);
+
+    CommittedTopicComment selectCommentById(@Param("id") Integer id);
 }
