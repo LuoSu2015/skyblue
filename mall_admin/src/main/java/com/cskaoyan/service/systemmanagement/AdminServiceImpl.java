@@ -1,4 +1,4 @@
-package com.cskaoyan.service.systemManagement;
+package com.cskaoyan.service.systemmanagement;
 
 import com.cskaoyan.bean.Admin;
 import com.cskaoyan.bean.AdminExample;
@@ -7,11 +7,9 @@ import com.cskaoyan.bean.LogExample;
 import com.cskaoyan.mapper.AdminMapper;
 import com.cskaoyan.mapper.LogMapper;
 import com.github.pagehelper.PageHelper;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 @Service

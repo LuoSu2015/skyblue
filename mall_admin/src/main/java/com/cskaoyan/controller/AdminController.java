@@ -5,7 +5,7 @@ import com.cskaoyan.bean.Admin;
 import com.cskaoyan.bean.BaseRespVo;
 import com.cskaoyan.bean.Log;
 import com.cskaoyan.service.AuthenService;
-import com.cskaoyan.service.systemManagement.AdminServiceImpl;
+import com.cskaoyan.service.systemmanagement.AdminServiceImpl;
 import com.cskaoyan.shiro.token.UserToken;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
