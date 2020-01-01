@@ -8,5 +8,8 @@ public interface OrderService {
 
     Map queryOrderDetail(Integer orderId);
 
+
     boolean createOrder(Integer cartId, Integer addressId, Integer couponId, String message, Integer grouponRulesId, Integer grouponLinkId);
+
+    int deleteOrderById(Integer orderId);
 }

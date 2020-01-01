@@ -3,6 +3,8 @@ package com.cskaoyan.mapper;
 import com.cskaoyan.bean.Topic;
 import com.cskaoyan.bean.TopicExample;
 import java.util.List;
+
+import com.cskaoyan.bean.WxTopic;
 import org.apache.ibatis.annotations.Param;
 
 public interface TopicMapper {
@@ -33,4 +35,10 @@ public interface TopicMapper {
     int updateByPrimaryKeyWithBLOBs(Topic record);
 
     int updateByPrimaryKey(Topic record);
+
+    List<Topic> getTopicList();
+
+    WxTopic getTopicById(@Param("topicId") Integer topicId);
+
+    List<WxTopic> getRelatedTopic(@Param("topic") WxTopic topic);
 }

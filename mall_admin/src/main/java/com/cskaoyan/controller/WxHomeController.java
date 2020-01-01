@@ -1,7 +1,10 @@
 package com.cskaoyan.controller;
 
 import com.cskaoyan.bean.*;
+import com.cskaoyan.bean.wxgroupon.WxGroupon;
 import com.cskaoyan.service.WxGoodsService;
+import com.cskaoyan.service.WxGrouponService;
+import com.cskaoyan.service.WxTopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +17,10 @@ import java.util.Map;
 public class WxHomeController {
     @Autowired
     WxGoodsService wxGoodsService;
+    @Autowired
+    WxTopicService wxTopicService;
+    @Autowired
+    WxGrouponService wxGrouponService;
 
     @RequestMapping("wx/home/index")
     public BaseRespVo showHome(){
@@ -26,6 +33,8 @@ public class WxHomeController {
         List<Brand> brandList = wxGoodsService.getBrandList();
         List<Goods> newGoodsList = wxGoodsService.getNewGoodsList();
         List<Goods> hotGoodsList = wxGoodsService.getHotGoodsList();
+        List<Topic> topicList = wxTopicService.getTopicList();
+        List<WxGroupon> grouponList = wxGrouponService.getGrouponList();
 
         data.put("banner",banner);
         data.put("couponList",couponList);
@@ -33,6 +42,8 @@ public class WxHomeController {
         data.put("brandList",brandList);
         data.put("newGoodsList",newGoodsList);
         data.put("hotGoodsList",hotGoodsList);
+        data.put("topicList",topicList);
+        data.put("grouponList",grouponList);
 
         baseRespVo.setErrno(0);
         baseRespVo.setData(data);

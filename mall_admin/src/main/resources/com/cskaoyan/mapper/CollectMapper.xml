@@ -86,7 +86,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from cskaoyan_mall_collect
     where id = #{id,jdbcType=INTEGER}
@@ -102,11 +102,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.cskaoyan.bean.Collect">
-    insert into cskaoyan_mall_collect (id, user_id, value_id, 
-      type, add_time, update_time, 
+    insert into cskaoyan_mall_collect (id, user_id, value_id,
+      type, add_time, update_time,
       deleted)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{valueId,jdbcType=INTEGER}, 
-      #{type,jdbcType=TINYINT}, #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{valueId,jdbcType=INTEGER},
+      #{type,jdbcType=TINYINT}, #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
       #{deleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.cskaoyan.bean.Collect">
@@ -240,4 +240,33 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <select id="selectGoodsCollectByUserId" resultType="com.cskaoyan.bean.WxMyCollect">
+      select g.brief as brief,g.pic_url as picUrl,c.value_id as valueId,g.name as name,c.id as id,c.type as type,g.retail_price as retailPrice
+      from cskaoyan_mall_collect c left join cskaoyan_mall_goods g
+      on c.value_id = g.id where c.user_id = #{userId} and c.deleted = 0 and c.type = 0
+    </select>
+  <select id="getCollect" resultType="com.cskaoyan.bean.Collect">
+    select id,user_id as userId,value_id as valueId,`type`,deleted
+    from cskaoyan_mall_collect
+    where `type` = #{type} and value_id = #{valueId} and user_id = #{userId}
+  </select>
+  <update id="reverseDeleted">
+    update cskaoyan_mall_collect
+    <choose>
+      <when test="deleted == false">
+        set deleted = true
+      </when>
+      <otherwise>
+        set deleted = false
+      </otherwise>
+    </choose>
+    ,update_time = CURRENT_TIMESTAMP
+    where `type` = #{type} and value_id = #{valueId} and user_id = #{userId}
+  </update>
+  <insert id="insertCollect">
+    insert into cskaoyan_mall_collect
+    (id,user_id,value_id,value_id,`type`,add_time,update_time,deleted)
+    value
+    (null,#{userId},#{valueId},#{type},CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,false)
+  </insert>
 </mapper>
