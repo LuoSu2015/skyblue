@@ -27,8 +27,10 @@ public class ShiroConfig {
         LinkedHashMap<String, String> linkedHashMap = new LinkedHashMap<>();
         linkedHashMap.put("/wx/auth/login","anon");
         linkedHashMap.put("/admin/auth/login", "anon");
+
         linkedHashMap.put("/wx/**", "anon");
         linkedHashMap.put("/**", "authc");
+
         shiroFilterFactoryBean.setFilterChainDefinitionMap(linkedHashMap);
         return shiroFilterFactoryBean;
     }

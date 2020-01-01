@@ -73,7 +73,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, order_id, groupon_id, rules_id, user_id, creator_user_id, add_time, update_time, 
+    id, order_id, groupon_id, rules_id, user_id, creator_user_id, add_time, update_time,
     share_url, payed, deleted
   </sql>
   <select id="selectByExample" parameterType="com.cskaoyan.bean.GrouponExample" resultMap="BaseResultMap">
@@ -91,7 +91,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from cskaoyan_mall_groupon
     where id = #{id,jdbcType=INTEGER}
@@ -107,13 +107,13 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.cskaoyan.bean.Groupon">
-    insert into cskaoyan_mall_groupon (id, order_id, groupon_id, 
-      rules_id, user_id, creator_user_id, 
-      add_time, update_time, share_url, 
+    insert into cskaoyan_mall_groupon (id, order_id, groupon_id,
+      rules_id, user_id, creator_user_id,
+      add_time, update_time, share_url,
       payed, deleted)
-    values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{grouponId,jdbcType=INTEGER}, 
-      #{rulesId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{creatorUserId,jdbcType=INTEGER}, 
-      #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{shareUrl,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{grouponId,jdbcType=INTEGER},
+      #{rulesId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{creatorUserId,jdbcType=INTEGER},
+      #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{shareUrl,jdbcType=VARCHAR},
       #{payed,jdbcType=BIT}, #{deleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.cskaoyan.bean.Groupon">
@@ -303,4 +303,24 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <resultMap id="WxGroupon" type="com.cskaoyan.bean.wxgroupon.WxGroupon">
+    <result column="groupon_price" property="groupon_price"/>
+    <result column="groupon_member" property="groupon_member"/>
+    <association property="goods" javaType="com.cskaoyan.bean.wxgroupon.WxGrouponGoods" >
+      <id column="id" property="id"/>
+      <result column="name" property="name"/>
+      <result column="brief" property="brief"/>
+      <result column="picUrl" property="picUrl"/>
+      <result column="counterPrice" property="counterPrice"/>
+      <result column="retailPrice" property="retailPrice"/>
+    </association>
+  </resultMap>
+    <select id="getGrouponList" resultMap="WxGroupon">
+      select (m.retail_price - g.discount) as groupon_price,discount_member as groupon_member,
+      g.goods_id as id,g.goods_name as name,m.brief as brief,g.pic_url as picUrl,
+      m.counter_price as counterPrice,m.retail_price as retailPrice
+      from cskaoyan_mall_groupon_rules g left join cskaoyan_mall_goods m
+      on g.goods_id = m.id
+      where g.deleted = false and expire_time >= CURRENT_TIMESTAMP
+    </select>
 </mapper>

@@ -1,9 +1,13 @@
 package com.cskaoyan.service;
 
+
+import com.cskaoyan.bean.wxgroupon.WxGroupon;
 import java.util.List;
 import java.util.Map;
 
 public interface WxGrouponService {
+    List<WxGroupon> getGrouponList();
+
     /**
      * 微信小程序团购专区团购列表功能
      * @param page 当前页数
@@ -25,4 +29,5 @@ public interface WxGrouponService {
      * @return user个人的团购信息
      */
     Map<String, Object> wxGrouponDetail(Integer grouponId);
+
 }

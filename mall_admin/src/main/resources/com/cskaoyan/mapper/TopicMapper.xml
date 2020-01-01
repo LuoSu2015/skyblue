@@ -76,7 +76,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, title, subtitle, price, read_count, pic_url, sort_order, goods, add_time, update_time, 
+    id, title, subtitle, price, read_count, pic_url, sort_order, goods, add_time, update_time,
     deleted
   </sql>
   <sql id="Blob_Column_List">
@@ -113,7 +113,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
-    select 
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -131,14 +131,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.cskaoyan.bean.Topic">
-    insert into cskaoyan_mall_topic (id, title, subtitle, 
-      price, read_count, pic_url, 
-      sort_order, goods, add_time, 
+    insert into cskaoyan_mall_topic (id, title, subtitle,
+      price, read_count, pic_url,
+      sort_order, goods, add_time,
       update_time, deleted, content
       )
-    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{subtitle,jdbcType=VARCHAR}, 
-      #{price,jdbcType=DECIMAL}, #{readCount,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR}, 
-      #{sortOrder,jdbcType=INTEGER}, #{goods,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{subtitle,jdbcType=VARCHAR},
+      #{price,jdbcType=DECIMAL}, #{readCount,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR},
+      #{sortOrder,jdbcType=INTEGER}, #{goods,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP},
       #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}, #{content,jdbcType=LONGVARCHAR}
       )
   </insert>
@@ -374,4 +374,43 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <select id="getTopicList" resultType="com.cskaoyan.bean.Topic">
+      select id,title,subtitle,price,read_count as readCount,pic_url as picUrl,
+      sort_order as sortOrder,add_time as addTime,update_time as updateTime,
+      deleted,content
+      from cskaoyan_mall_topic
+      where deleted = 0
+    </select>
+  <resultMap id="WxTopicMap" type="com.cskaoyan.bean.WxTopic">
+    <id column="id" property="id"/>
+    <result column="deleted" property="deleted"/>
+    <result column="addTime" property="addTime"/>
+    <result column="content" property="content"/>
+    <result column="picUrl" property="picUrl"/>
+    <result column="price" property="price"/>
+    <result column="readCount" property="readCount"/>
+    <result column="sortOrder" property="sortOrder"/>
+    <result column="title" property="title"/>
+    <result column="updateTime" property="updateTime"/>
+    <result column="subtitle" property="subtitle"/>
+    <collection property="goods" ofType="com.cskaoyan.bean.Goods" column="id" select="selectTopicGoods"/>
+  </resultMap>
+  <select id="selectTopicGoods" resultType="com.cskaoyan.bean.Goods">
+    select id from cskaoyan_mall_goods where id = -1
+  </select>
+  <select id="getTopicById" resultMap="WxTopicMap">
+    select id,title,subtitle,price,read_count as readCount,pic_url as picUrl,sort_order as sortOrder,add_time as addTime,update_time as updateTime,deleted,content
+    from cskaoyan_mall_topic
+    where deleted = false and id = #{topicId}
+  </select>
+  <select id="getRelatedTopic" resultMap="WxTopicMap">
+    select id,title,subtitle,price,read_count as readCount,pic_url as picUrl,sort_order as sortOrder,add_time as addTime,update_time as updateTime,deleted,content
+    from cskaoyan_mall_topic
+    <where>
+      deleted = false
+      <if test="topic.sortOrder != null">
+        and sort_order = #{topic.sortOrder}
+      </if>
+    </where>
+  </select>
 </mapper>
