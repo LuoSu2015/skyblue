@@ -73,7 +73,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, value_id, type, content, user_id, has_picture, pic_urls, star, add_time, update_time, 
+    id, value_id, type, content, user_id, has_picture, pic_urls, star, add_time, update_time,
     deleted
   </sql>
   <select id="selectByExample" parameterType="com.cskaoyan.bean.CommentExample" resultMap="BaseResultMap">
@@ -91,7 +91,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from cskaoyan_mall_comment
     where id = #{id,jdbcType=INTEGER}
@@ -107,13 +107,13 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.cskaoyan.bean.Comment">
-    insert into cskaoyan_mall_comment (id, value_id, type, 
-      content, user_id, has_picture, 
-      pic_urls, star, add_time, 
+    insert into cskaoyan_mall_comment (id, value_id, type,
+      content, user_id, has_picture,
+      pic_urls, star, add_time,
       update_time, deleted)
-    values (#{id,jdbcType=INTEGER}, #{valueId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
-      #{content,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{hasPicture,jdbcType=BIT}, 
-      #{picUrls,jdbcType=VARCHAR}, #{star,jdbcType=SMALLINT}, #{addTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{valueId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT},
+      #{content,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{hasPicture,jdbcType=BIT},
+      #{picUrls,jdbcType=VARCHAR}, #{star,jdbcType=SMALLINT}, #{addTime,jdbcType=TIMESTAMP},
       #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.cskaoyan.bean.Comment">
@@ -303,4 +303,38 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <resultMap id="TopicCommentMap" type="com.cskaoyan.bean.TopicComment">
+    <result column="add_time" property="addTime"/>
+    <result column="content" property="content"/>
+    <result column="pic_urls" property="picList" typeHandler="com.cskaoyan.typehandler.GalleryTypeHandler"/>
+    <association property="userInfo" javaType="com.cskaoyan.bean.WxUserInfo" column="user_id" select="selectCommentUser">
+      <result column="nickname" property="nickName"/>
+      <result column="avatar" property="avatarUrl"/>
+    </association>
+  </resultMap>
+  <select id="selectCommentUser" resultType="com.cskaoyan.bean.WxUserInfo" >
+    select nickname as nickName,avatar as avatarUrl from cskaoyan_mall_user
+    where id = #{userId} and deleted = false
+  </select>
+    <select id="getCommentByIdAndType" resultMap="TopicCommentMap">
+      select add_time,content,pic_urls,user_id
+      from cskaoyan_mall_comment
+      where value_id = #{valueId} and `type` = #{type}  and deleted = false
+    </select>
+    <insert id="addTopicComment">
+      insert into cskaoyan_mall_comment
+      (id,value_id,`type`,content,user_id,has_picture,pic_urls,star,add_time,update_time,deleted)
+      value
+      (null,#{comment.valueId},#{comment.type},#{comment.content},#{comment.userId},
+      #{comment.hasPicture},#{comment.picUrls},#{comment.star},CURRENT_TIMESTAMP ,
+      CURRENT_TIMESTAMP,false)
+      <selectKey order="AFTER" resultType="Integer" keyProperty="id">
+        select Last_INSERT_ID() as id
+      </selectKey>
+    </insert>
+  <select id="selectCommentById" resultType="com.cskaoyan.bean.CommittedTopicComment">
+    select add_time as addTime,content,has_picture as hasPicture,id,pic_urls as picUrls,
+    star,`type`,update_time as updateTime,user_id as userId,value_id as valueId
+    from cskaoyan_mall_comment where id = #{id} and `type` = 1 and deleted = false
+  </select>
 </mapper>

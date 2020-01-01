@@ -191,8 +191,8 @@ public class UserServiceImpl implements UserService {
      * @return 符合条件的全部User反馈信息
      */
     @Override
-    public List<Feetback> listfeedback(int page, int limit, Integer id, String username, String sort, String order) {
-        FeetbackExample feedbackExample = new FeetbackExample();
+    public List<Feedback> listfeedback(int page, int limit, Integer id, String username, String sort, String order) {
+        FeedbackExample feedbackExample = new FeedbackExample();
         PageHelper.startPage(page,limit);
         String orderby = sort + " " + order;
         String s = "%" + username + "%";
@@ -206,7 +206,7 @@ public class UserServiceImpl implements UserService {
                 feedbackExample.createCriteria().andUsernameLike(s).andDeletedEqualTo(false);
             }
         }
-        List<Feetback> feedbackList = feedbackMapper.selectByExample(feedbackExample);
+        List<Feedback> feedbackList = feedbackMapper.selectByExample(feedbackExample);
         return feedbackList;
     }
 }

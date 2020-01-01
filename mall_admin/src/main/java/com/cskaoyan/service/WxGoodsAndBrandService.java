@@ -8,7 +8,7 @@ public interface WxGoodsAndBrandService {
 
     Brand slectBrandById(int id);
 
-    List<Goods> selectGoodsWithMulty(Integer brandId,Integer page,Integer size,String order,String sort,Boolean isHot,Integer categoryId,Boolean isNew);
+    List<Goods> selectGoodsWithMulty(Integer brandId,Integer page,Integer size,String order,String sort,Boolean isHot,Integer categoryId,Boolean isNew,String keyword);
 
     Long countGoods();
 
@@ -30,5 +30,14 @@ public interface WxGoodsAndBrandService {
 
     Goods selectGoodsByGoodsId(Integer goodsId);
 
+    Long countCollect(Integer goodsId);
+
+    Long countComment(Integer goodsId);
+
+    List<Comment> selectCommetByGoodsId(Integer goodsId);
+
+    List<GrouponRules> selectGroupOnByGoodsId(Integer goodsId);
+
+    List<Goods> selectGoodsByCategoryId(Integer categoryId);
 
 }

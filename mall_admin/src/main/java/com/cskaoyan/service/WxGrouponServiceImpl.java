@@ -1,5 +1,11 @@
 package com.cskaoyan.service;
 
+import com.cskaoyan.bean.Groupon;
+import com.cskaoyan.bean.wxgroupon.WxGroupon;
+import com.cskaoyan.mapper.GrouponMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
 import com.cskaoyan.bean.*;
 import com.cskaoyan.mapper.*;
 import com.cskaoyan.util.HandleOptionTool;
@@ -10,17 +16,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 @Service
 public class WxGrouponServiceImpl implements WxGrouponService {
     @Autowired
     GrouponMapper grouponMapper;
+
+    @Override
+    public List<WxGroupon> getGrouponList() {
+        List<WxGroupon> grouponList = grouponMapper.getGrouponList();
+        return grouponList;
+    }
+
     @Autowired
     GrouponRulesMapper grouponRulesMapper;
     @Autowired
@@ -212,4 +225,3 @@ public class WxGrouponServiceImpl implements WxGrouponService {
 
 
 }
-

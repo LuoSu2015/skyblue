@@ -27,6 +27,12 @@ public class WxGoodsAndBrandServiceImpl implements WxGoodsAndBrandService {
     GoodsProductMapper goodsProductMapper;
     @Autowired
     GoodsAttributeMapper goodsAttributeMapper;
+    @Autowired
+    CollectMapper collectMapper;
+    @Autowired
+    CommentMapper commentMapper;
+    @Autowired
+    GrouponRulesMapper grouponRulesMapper;
 
 
     @Override
@@ -36,13 +42,19 @@ public class WxGoodsAndBrandServiceImpl implements WxGoodsAndBrandService {
     }
 
     @Override
-    public List<Goods> selectGoodsWithMulty(Integer brandId,Integer page,Integer size,String order,String sort,Boolean isHot,Integer categoryId,Boolean isNew) {
+    public List<Goods> selectGoodsWithMulty(Integer brandId,Integer page,Integer size,String order,String sort,Boolean isHot,Integer categoryId,Boolean isNew,String keyword) {
         GoodsExample goodsExample = new GoodsExample();
+        if(keyword != null){
+
+        }
         //排序
         if(sort!=null && order!=null){
             goodsExample.setOrderByClause(sort + " " + order);
         }
         GoodsExample.Criteria criteria1 = goodsExample.createCriteria();
+        if(keyword != null){
+            criteria1.andKeywordsLike("%" + keyword + "%");
+        }
         if(brandId != null){
             criteria1.andBrandIdEqualTo(brandId);
         }
@@ -55,6 +67,7 @@ public class WxGoodsAndBrandServiceImpl implements WxGoodsAndBrandService {
         if(categoryId != null && categoryId != 0){
             criteria1.andCategoryIdEqualTo(categoryId);
         }
+        criteria1.andDeletedEqualTo(false);
 
         //分页
         PageHelper.startPage(page,size);
@@ -67,6 +80,7 @@ public class WxGoodsAndBrandServiceImpl implements WxGoodsAndBrandService {
     public Long countGoods() {
         GoodsExample goodsExample = new GoodsExample();
         GoodsExample.Criteria criteria = goodsExample.createCriteria();
+        criteria.andDeletedEqualTo(false);
         long goodsCount = goodsMapper.countByExample(goodsExample);
         return goodsCount;
     }
@@ -76,6 +90,7 @@ public class WxGoodsAndBrandServiceImpl implements WxGoodsAndBrandService {
         CategoryExample categoryExample = new CategoryExample();
         CategoryExample.Criteria criteria = categoryExample.createCriteria();
         criteria.andIdEqualTo(id);
+        criteria.andDeletedEqualTo(false);
         Category category = categoryMapper.selectByPrimaryKey(id);
         return category;
     }
@@ -114,6 +129,7 @@ public class WxGoodsAndBrandServiceImpl implements WxGoodsAndBrandService {
         GoodsSpecificationExample.Criteria criteria = goodsSpecificationExample.createCriteria();
         criteria.andSpecificationEqualTo(goodsSpecification);
         criteria.andGoodsIdEqualTo(goodsId);
+        criteria.andDeletedEqualTo(false);
         List<GoodsSpecification> goodsSpecifications = goodsSpecificationMapper.selectByExample(goodsSpecificationExample);
 
         return goodsSpecifications;
@@ -128,7 +144,7 @@ public class WxGoodsAndBrandServiceImpl implements WxGoodsAndBrandService {
     public List<Issue> selectIssue() {
         IssueExample issueExample = new IssueExample();
         IssueExample.Criteria criteria = issueExample.createCriteria();
-
+        criteria.andDeletedEqualTo(false);
         List<Issue> issues = issueMapper.selectByExample(issueExample);
         return issues;
     }
@@ -143,6 +159,7 @@ public class WxGoodsAndBrandServiceImpl implements WxGoodsAndBrandService {
         GoodsProductExample goodsProductExample = new GoodsProductExample();
         GoodsProductExample.Criteria criteria = goodsProductExample.createCriteria();
         criteria.andGoodsIdEqualTo(goodsId);
+        criteria.andDeletedEqualTo(false);
         List<GoodsProduct> goodsProducts = goodsProductMapper.selectByExample(goodsProductExample);
 
         return goodsProducts;
@@ -153,6 +170,7 @@ public class WxGoodsAndBrandServiceImpl implements WxGoodsAndBrandService {
         GoodsAttributeExample goodsAttributeExample = new GoodsAttributeExample();
         GoodsAttributeExample.Criteria criteria = goodsAttributeExample.createCriteria();
         criteria.andGoodsIdEqualTo(goodsId);
+        criteria.andDeletedEqualTo(false);
         List<GoodsAttribute> goodsAttributes = goodsAttributeMapper.selectByExample(goodsAttributeExample);
 
         return goodsAttributes;
@@ -173,6 +191,67 @@ public class WxGoodsAndBrandServiceImpl implements WxGoodsAndBrandService {
     public Goods selectGoodsByGoodsId(Integer goodsId) {
         Goods goods = goodsMapper.selectByPrimaryKey(goodsId);
         return goods;
+    }
+
+    /**
+     * 统计收藏商品的用户数量
+     * @param goodsId
+     * @return
+     */
+    @Override
+    public Long countCollect(Integer goodsId) {
+        CollectExample collectExample = new CollectExample();
+        CollectExample.Criteria criteria = collectExample.createCriteria();
+        criteria.andValueIdEqualTo(goodsId);
+        byte b = 0;
+        criteria.andTypeEqualTo(b);
+        criteria.andDeletedEqualTo(false);
+        long count = collectMapper.countByExample(collectExample);
+        return count;
+    }
+
+
+    @Override
+    public Long countComment(Integer goodsId) {
+        CommentExample commentExample = new CommentExample();
+        CommentExample.Criteria criteria = commentExample.createCriteria();
+        criteria.andValueIdEqualTo(goodsId);
+        byte b = 0;
+        criteria.andTypeEqualTo(b);
+        long count = commentMapper.countByExample(commentExample);
+        return count;
+    }
+
+    @Override
+    public List<Comment> selectCommetByGoodsId(Integer goodsId) {
+        CommentExample commentExample = new CommentExample();
+        CommentExample.Criteria criteria = commentExample.createCriteria();
+        criteria.andValueIdEqualTo(goodsId);
+        byte b = 0;
+        criteria.andTypeEqualTo(b);
+        criteria.andDeletedEqualTo(false);
+        List<Comment> comments = commentMapper.selectByExample(commentExample);
+        return comments ;
+    }
+
+    @Override
+    public List<GrouponRules> selectGroupOnByGoodsId(Integer goodsId) {
+        GrouponRulesExample grouponRulesExample = new GrouponRulesExample();
+        GrouponRulesExample.Criteria criteria = grouponRulesExample.createCriteria();
+        criteria.andGoodsIdEqualTo(goodsId);
+        criteria.andDeletedEqualTo(false);
+        List<GrouponRules> grouponRules = grouponRulesMapper.selectByExample(grouponRulesExample);
+        return grouponRules;
+    }
+
+    @Override
+    public List<Goods> selectGoodsByCategoryId(Integer categoryId) {
+        GoodsExample goodsExample = new GoodsExample();
+        GoodsExample.Criteria criteria = goodsExample.createCriteria();
+        criteria.andCategoryIdEqualTo(categoryId);
+        criteria.andDeletedEqualTo(false);
+        List<Goods> goodsList = goodsMapper.selectByExample(goodsExample);
+        return goodsList;
     }
 
 

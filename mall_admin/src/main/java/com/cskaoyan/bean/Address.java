@@ -1,7 +1,11 @@
 package com.cskaoyan.bean;
 
-import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
+import java.util.Date;
+@AllArgsConstructor
+@NoArgsConstructor
 public class Address {
     private Integer id;
 

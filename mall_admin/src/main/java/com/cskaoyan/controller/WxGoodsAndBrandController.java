@@ -74,9 +74,9 @@ public class WxGoodsAndBrandController {
      * @return
      */
     @RequestMapping("wx/goods/list")
-    public BaseRespVo showGoodsDetail(Integer brandId,Integer page,Integer size,String order,String sort,Boolean isHot,Integer categoryId,Boolean isNew){
+    public BaseRespVo showGoodsDetail(Integer brandId,Integer page,Integer size,String order,String sort,Boolean isHot,Integer categoryId,Boolean isNew,String keyword){
         BaseRespVo baseRespVo = new BaseRespVo();
-        List<Goods> goodsList = wxGoodsAndBrandService.selectGoodsWithMulty(brandId, page, size,order,sort,isHot,categoryId,isNew);
+        List<Goods> goodsList = wxGoodsAndBrandService.selectGoodsWithMulty(brandId, page, size,order,sort,isHot,categoryId,isNew,keyword);
         baseRespVo.setErrno(0);
         baseRespVo.setErrmsg("成功");
         HashMap<String, Object> map = new HashMap<>();
@@ -119,28 +119,67 @@ public class WxGoodsAndBrandController {
         return baseRespVo;
     }
 
-    /*@RequestMapping("wx/goods/detail")
-    public BaseRespVo getGoodsDetail(Integer goodsId){
+    /**
+     * 获得商品详情
+     * @param
+     * @return
+     */
+    @RequestMapping("wx/goods/detail")
+    public BaseRespVo getGoodsDetail(Integer id){
         BaseRespVo baseRespVo = new BaseRespVo();
-        List<GoodsSpecification> goodsSpecifications = wxGoodsAndBrandService.selectSpecificationByGoodsId(goodsId);
+        List<GoodsSpecification> goodsSpecifications = wxGoodsAndBrandService.selectSpecificationByGoodsId(id);
         ArrayList specificationList = new ArrayList();
-        HashMap<String,Object> specificationMap = new HashMap();
+        HashMap<String,Object> map = new HashMap();
         for (GoodsSpecification goodsSpecification : goodsSpecifications) {
             String specification = goodsSpecification.getSpecification();
-            List<GoodsSpecification> goodsSpecifications1 = wxGoodsAndBrandService.selectSpecificationByGoodsIsAndSpecification(goodsId, specification);
-            specificationMap.put(specification,goodsSpecifications1);
+            List<GoodsSpecification> goodsSpecifications1 = wxGoodsAndBrandService.selectSpecificationByGoodsIsAndSpecification(id, specification);
+            HashMap<String,Object> currentMap = new HashMap();
+            currentMap.put("valueList",goodsSpecifications1);
+            currentMap.put("name",specification);
+            specificationList.add(currentMap);
         }
-
         List<Issue> issue = wxGoodsAndBrandService.selectIssue();
-
-        List<GoodsProduct> goodsProducts = wxGoodsAndBrandService.selectGoodsProductByGoodsId(goodsId);
-
-        List<GoodsAttribute> goodsAttributes = wxGoodsAndBrandService.selectGoodsAttributeByGoodsId(goodsId);
-
-        Goods goods = wxGoodsAndBrandService.selectGoodsByGoodsId(goodsId);
-        Integer brandId = goods.getBrandId();
+        List<GoodsProduct> productList = wxGoodsAndBrandService.selectGoodsProductByGoodsId(id);
+        List<GoodsAttribute> attribute = wxGoodsAndBrandService.selectGoodsAttributeByGoodsId(id);
+        Goods info = wxGoodsAndBrandService.selectGoodsByGoodsId(id);
+        Integer brandId = info.getBrandId();
         Brand brand = wxGoodsAndBrandService.slectBrandById(brandId);
+        Long userHasCollect = wxGoodsAndBrandService.countCollect(id);
+        HashMap<String,Object> commentMap = new HashMap();
+        Long count = wxGoodsAndBrandService.countComment(id);
+        List<Comment> data = wxGoodsAndBrandService.selectCommetByGoodsId(id);
+        commentMap.put("data",data);
+        commentMap.put("count",count);
+        List<GrouponRules> groupon = wxGoodsAndBrandService.selectGroupOnByGoodsId(id);
+        map.put("specificationList",specificationList);
+        map.put("issue",issue);
+        map.put("userHasCollect",userHasCollect);
+        map.put("shareImage","");
+        map.put("comment",commentMap);
+        map.put("attribute",attribute);
+        map.put("brand",brand);
+        map.put("productList",productList);
+        map.put("info",info);
+        map.put("groupon",groupon);
+        baseRespVo.setErrno(0);
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setData(map);
+        return baseRespVo;
+    }
 
-    }*/
+
+    @RequestMapping("wx/goods/related")
+    public BaseRespVo getRelatedGoods(Integer id){
+        BaseRespVo baseRespVo = new BaseRespVo();
+        Goods goods = wxGoodsAndBrandService.selectGoodsByGoodsId(id);
+        Integer categoryId = goods.getCategoryId();
+        List<Goods> goodsList = wxGoodsAndBrandService.selectGoodsByCategoryId(categoryId);
+        HashMap<String,Object> map = new HashMap();
+        map.put("goodsList",goodsList);
+        baseRespVo.setErrno(0);
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setData(map);
+        return baseRespVo;
+    }
 
 }

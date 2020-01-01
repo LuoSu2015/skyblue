@@ -111,8 +111,8 @@ public class UserController {
      * 用户管理模块意见反馈功能首页显示及具体User反馈信息查询接口
      */
     public BaseRespVo listfeedback(int page,int limit,Integer id,String username,String sort,String order){
-        List<Feetback> listfeedback = userServiceimpl.listfeedback(page, limit, id, username, sort, order);
-        PageInfo<Feetback> pageInfo = new PageInfo<>(listfeedback);
+        List<Feedback> listfeedback = userServiceimpl.listfeedback(page, limit, id, username, sort, order);
+        PageInfo<Feedback> pageInfo = new PageInfo<>(listfeedback);
         long total = pageInfo.getTotal();
         Map map = new HashMap();
         map.put("total",total);
