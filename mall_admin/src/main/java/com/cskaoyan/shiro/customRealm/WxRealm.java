@@ -25,8 +25,6 @@ public class WxRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-
-
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) authenticationToken;
         String username = usernamePasswordToken.getUsername();
         /* 从数据库获得密码*/
@@ -35,7 +33,6 @@ public class WxRealm extends AuthorizingRealm {
         List<User> userList = userMapper.selectByExample(userExample);
         User user = userList.size() >= 1 ? userList.get(0) : null;
         String credential = user.getPassword();
-
         SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(user, credential, this.getName());
         return simpleAuthenticationInfo;
     }

@@ -6,12 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -139,18 +135,18 @@ public class MarketController {
      * @return
      */
     @RequestMapping("admin/brand/create")
-    public BaseRespVo createBrand(@RequestBody Brand1 brand1){
+    public BaseRespVo createBrand(@RequestBody BrandSpare brandSpare){
         BaseRespVo baseRespVo = new BaseRespVo();
         //没有url信息,返回错误结果
-        String floorPrice = brand1.getFloorPrice();
-        if(brand1.getPicUrl() == null || !isBigDecimal(floorPrice)){
+        String floorPrice = brandSpare.getFloorPrice();
+        if(brandSpare.getPicUrl() == null || !isBigDecimal(floorPrice)){
             baseRespVo.setErrmsg("参数值不正确");
             baseRespVo.setErrno(402);
             return baseRespVo;
         }
 
         //保存到数据库
-        Brand brand2 = marketService.insertBrand(brand1);
+        Brand brand2 = marketService.insertBrand(brandSpare);
         //将数据返回
         baseRespVo.setErrmsg("成功");
         baseRespVo.setErrno(0);
@@ -180,10 +176,10 @@ public class MarketController {
      * @return
      */
     @RequestMapping("admin/brand/update")
-    public BaseRespVo updateBrand(@RequestBody Brand1 brand1){
+    public BaseRespVo updateBrand(@RequestBody BrandSpare brandSpare){
         BaseRespVo baseRespVo = new BaseRespVo();
         //判断floorPrice是否为bigDecimal格式
-        String  floorPrice= brand1.getFloorPrice();
+        String  floorPrice= brandSpare.getFloorPrice();
         if(!isBigDecimal(floorPrice)){
             baseRespVo.setErrno(402);
             baseRespVo.setErrmsg("参数格式不正确");
@@ -308,11 +304,11 @@ public class MarketController {
      */
     @RequestMapping("admin/category/list")
     public BaseRespVo showCategory(){
-        List<Category2> category2s = marketService.queryCategory();
+        List<CategorySpare> categorySpares = marketService.queryCategory();
         //返回数据
         BaseRespVo baseRespVo = new BaseRespVo();
         baseRespVo.setErrmsg("成功");
-        baseRespVo.setData(category2s);
+        baseRespVo.setData(categorySpares);
         baseRespVo.setErrno(0);
         return baseRespVo;
     }

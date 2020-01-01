@@ -171,12 +171,12 @@ public class MarketServiceImpl implements MarketService{
      * @return
      */
     @Override
-    public Brand insertBrand(Brand1 brand1) {
+    public Brand insertBrand(BrandSpare brandSpare) {
         //封装brand
-        String floorPrice = brand1.getFloorPrice();
+        String floorPrice = brandSpare.getFloorPrice();
         BigDecimal bigDecimal = new BigDecimal(floorPrice);
         Date nowTime = new Date();
-        Brand brand = new Brand(null,brand1.getName(),brand1.getDesc(),brand1.getPicUrl(),brand1.getSortOrder()
+        Brand brand = new Brand(null, brandSpare.getName(), brandSpare.getDesc(), brandSpare.getPicUrl(), brandSpare.getSortOrder()
         ,bigDecimal,nowTime,nowTime,false);
         brandMapper.selectLastId(brand);
         return brand;
@@ -288,17 +288,17 @@ public class MarketServiceImpl implements MarketService{
      * @return
      */
     @Override
-    public List<Category2> queryCategory() {
-        List<Category2> category2 = categoryMapper.selectCategory2();
+    public List<CategorySpare> queryCategory() {
+        List<CategorySpare> categorySpare = categoryMapper.selectCategory2();
         CategoryExample categoryExample = new CategoryExample();
         CategoryExample.Criteria criteria = categoryExample.createCriteria();
         criteria.andDeletedEqualTo(false);
-        for (Category2 category21 : category2) {
+        for (CategorySpare category21 : categorySpare) {
             criteria.andPidEqualTo(category21.getId());
             List<Category> categories = categoryMapper.selectByExample(categoryExample);
             category21.setChildren(categories);
         }
-        return category2;
+        return categorySpare;
     }
 
     /**

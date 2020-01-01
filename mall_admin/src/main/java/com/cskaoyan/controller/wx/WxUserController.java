@@ -47,7 +47,7 @@ public class WxUserController {
             wxWrapper.setNickName(user.getNickname());
             wxWrapper.setAvatarUrl(user.getAvatar());
 //            String sessionId = shiroConfig.webSessionManager().getSessionId();
-            Date date = new Date(new Date().getTime() + 60 * 60 * 24*10);
+            Date date = new Date(new Date().getTime() + 60 * 60 * 24*10*1000);
             map.put("userInfo", wxWrapper);
             map.put("token",sessionId);
             map.put("tokenExpire",date);
