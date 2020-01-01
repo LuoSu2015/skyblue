@@ -22,7 +22,7 @@ public class Data {
     Double actualPrice;
 
     //商品list
-    List<Goods> goodsList;
+    List<GoodForOrderList> goodsList;
 
     //订单表
     Integer id;

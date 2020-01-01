@@ -2,7 +2,10 @@ package com.cskaoyan.service;
 
 import com.cskaoyan.bean.*;
 import com.cskaoyan.bean.wx.order.Data;
+import com.cskaoyan.bean.wx.order.GoodForOrderList;
 import com.cskaoyan.bean.wx.order.HandleOption;
+import com.cskaoyan.bean.wx.order.OrderInfo;
+import com.cskaoyan.mapper.AddressMapper;
 import com.cskaoyan.mapper.GoodsMapper;
 import com.cskaoyan.mapper.OrderGoodsMapper;
 import com.cskaoyan.mapper.OrderMapper;
@@ -25,6 +28,8 @@ public class OrderServiceImpl implements OrderService {
     OrderGoodsMapper orderGoodsMapper;
     @Autowired
     GoodsMapper goodsMapper;
+    @Autowired
+    AddressMapper addressMapper;
 
     @Override
     public Map queryOrder(Integer showType, Integer page, Integer size, Integer userId) {
@@ -54,6 +59,7 @@ public class OrderServiceImpl implements OrderService {
             }else if(showType == 4){
                 criteria.andOrderStatusEqualTo((short) 401);
             }
+            criteria.andDeletedEqualTo(false);
             criteria.andUserIdEqualTo(userId);
             List<Order> orders = orderMapper.selectByExample(example);
             List<Data> ordersForFront = new ArrayList<>();
@@ -65,12 +71,18 @@ public class OrderServiceImpl implements OrderService {
                 OrderGoodsExample orderGoodsExample = new OrderGoodsExample();
                 OrderGoodsExample.Criteria criteria1 = orderGoodsExample.createCriteria();
                 criteria1.andOrderIdEqualTo(id);
+                criteria1.andDeletedEqualTo(false);
                 List<OrderGoods> orderGoods = orderGoodsMapper.selectByExample(orderGoodsExample);
                 //根据 goodID 查询 good信息
-                List<Goods> goodsList = new ArrayList<>();
+                List<GoodForOrderList> goodsList = new ArrayList<>();
                 for (OrderGoods orderGood : orderGoods) {
                     Goods goods = goodsMapper.selectByPrimaryKey(orderGood.getGoodsId());
-                    goodsList.add(goods);
+                    GoodForOrderList goodForOrderList = new GoodForOrderList();
+                    goodForOrderList.setGoodsName(goods.getName());
+                    goodForOrderList.setId(goods.getId());
+                    goodForOrderList.setNumber(Integer.valueOf(orderGood.getNumber()));
+                    goodForOrderList.setPicUrl(goods.getPicUrl());
+                    goodsList.add(goodForOrderList);
                 }
                 orderForFront.setGoodsList(goodsList);
                 orderForFront.setActualPrice(order.getActualPrice().doubleValue());
@@ -106,4 +118,50 @@ public class OrderServiceImpl implements OrderService {
 
         return map;
     }
+
+    @Override
+    public Map queryOrderDetail(Integer orderId) {
+        Map map = new HashMap();
+        OrderInfo orderInfo = new OrderInfo();
+        Order order = orderMapper.selectByPrimaryKey(orderId);
+        AddressExample addressExample = new AddressExample();
+        AddressExample.Criteria criteria = addressExample.createCriteria();
+        criteria.andUserIdEqualTo(order.getUserId());
+        List<Address> addresses = addressMapper.selectByExample(addressExample);
+        Address address = addresses.size()>=1 ? addresses.get(0) : null;
+        if(address == null){
+            return new HashMap();
+        }
+        orderInfo.setConsignee(address.getName());
+        orderInfo.setAddress(address.getAddress());
+        orderInfo.setAddTime(order.getAddTime());
+        orderInfo.setOrderSn(order.getOrderSn());
+        orderInfo.setActualPrice(order.getActualPrice().doubleValue());
+        orderInfo.setMobile(address.getMobile());
+        if(order.getOrderStatus() == 101){
+            orderInfo.setOrderStatusText("未付款");
+        }else if(order.getOrderStatus() == 201){
+            orderInfo.setOrderStatusText("已付款");
+        }else if(order.getOrderStatus() == 301){
+            orderInfo.setOrderStatusText("已发货");
+        }else if(order.getOrderStatus() == 401){
+            orderInfo.setOrderStatusText("已收货");
+        }
+        orderInfo.setGoodsPrice(order.getGoodsPrice().doubleValue());
+        orderInfo.setCouponPrice(order.getCouponPrice().doubleValue());
+        orderInfo.setId(orderId);
+        orderInfo.setFreightPrice(order.getFreightPrice().doubleValue());
+        HandleOption handleOption = new HandleOption();
+        handleOption.setDelete(true);
+        orderInfo.setHandleOption(handleOption);
+        map.put("orderInfo",orderInfo);
+
+        OrderGoodsExample orderGoodsExample = new OrderGoodsExample();
+        OrderGoodsExample.Criteria criteria1 = orderGoodsExample.createCriteria();
+        criteria1.andOrderIdEqualTo(orderId);
+        List<OrderGoods> orderGoods = orderGoodsMapper.selectByExample(orderGoodsExample);
+        map.put("orderGoods",orderGoods);
+        return map;
+    }
+
 }

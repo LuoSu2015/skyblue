@@ -33,8 +33,52 @@ public class WxOrderController {
         return baseRespVo;
     }
     @RequestMapping("wx/order/detail")
-    public BaseRespVo getGoodDetail(){
-
-        return null;
+    public BaseRespVo getGoodDetail(Integer orderId){
+        Map map = orderService.queryOrderDetail(orderId);
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrno(0);
+        baseRespVo.setData(map);
+        baseRespVo.setErrmsg("成功");
+        return baseRespVo;
     }
+
+    /**
+     * 提交订单
+     * 操作:
+     *      订单表,
+     *      订单商品关系表
+     *      address表
+     */
+    @RequestMapping("wx/order/submit")
+    public BaseRespVo createOrder(Integer cartId, Integer addressId, Integer couponId, String message,Integer grouponRulesId, Integer grouponLinkId){
+
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrno(0);
+//        baseRespVo.setData(map);
+        baseRespVo.setErrmsg("成功");
+        return baseRespVo;
+    }
+
+
+    /**
+     * 删除订单
+     * ?: 用户取消订单 是否就是 用户 删除订单?
+     * 删除逻辑:
+     *  1.deleted 设为 1
+     *  2.只有未付款, 以及 用户收货 这两种订单状态 可以 删除订单
+     * @param orderId
+     * @return
+     */
+    @RequestMapping("wx/order/delete")
+    public BaseRespVo deleteOrder(Integer orderId){
+//        int i = orderService.deleteOrderById(orderId);
+
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrno(0);
+//        baseRespVo.setData(map);
+        baseRespVo.setErrmsg("成功");
+        return baseRespVo;
+    }
+
+
 }
