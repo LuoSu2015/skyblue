@@ -1,11 +1,14 @@
 package com.cskaoyan.bean.wx;
 
-import org.springframework.stereotype.Controller;
+import com.cskaoyan.bean.Cart;
+import lombok.Data;
 
-@Controller
+import java.util.List;
+
+
+@Data
 public class CartStatus {
-    private Integer checkedGoodsAmount;
-    private Integer checkedGoodsCount;
-    private Integer goodsAmount;
-    private Integer goodsCount;
+    private CartGoodsStatus cartGoodsStatus;
+    private List<Cart> checkedCartList;
+    private List<Cart> cartList;
 }
