@@ -5,10 +5,7 @@ import com.cskaoyan.bean.wx.order.Data;
 import com.cskaoyan.bean.wx.order.GoodForOrderList;
 import com.cskaoyan.bean.wx.order.HandleOption;
 import com.cskaoyan.bean.wx.order.OrderInfo;
-import com.cskaoyan.mapper.AddressMapper;
-import com.cskaoyan.mapper.GoodsMapper;
-import com.cskaoyan.mapper.OrderGoodsMapper;
-import com.cskaoyan.mapper.OrderMapper;
+import com.cskaoyan.mapper.*;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +27,12 @@ public class OrderServiceImpl implements OrderService {
     GoodsMapper goodsMapper;
     @Autowired
     AddressMapper addressMapper;
+    @Autowired
+    CartMapper cartMapper;
+    @Autowired
+    CouponMapper couponMapper;
+    @Autowired
+    GrouponRulesMapper grouponRulesMapper;
 
     @Override
     public Map queryOrder(Integer showType, Integer page, Integer size, Integer userId) {
@@ -162,6 +165,24 @@ public class OrderServiceImpl implements OrderService {
         List<OrderGoods> orderGoods = orderGoodsMapper.selectByExample(orderGoodsExample);
         map.put("orderGoods",orderGoods);
         return map;
+    }
+
+    @Override
+    public boolean createOrder(Integer cartId, Integer addressId, Integer couponId, String message, Integer grouponRulesId, Integer grouponLinkId) {
+        Cart cart = cartMapper.selectByPrimaryKey(cartId);
+        Address address = addressMapper.selectByPrimaryKey(addressId);
+        Coupon coupon = new Coupon();
+        GrouponRules grouponRules = new GrouponRules();
+        if(couponId != 0){
+             coupon = couponMapper.selectByPrimaryKey(couponId);
+        }
+        if(grouponRulesId != 0){
+            grouponRules = grouponRulesMapper.selectByPrimaryKey(grouponRulesId);
+        }
+        if(grouponLinkId != 0){
+
+        }
+        return false;
     }
 
 }
