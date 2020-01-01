@@ -168,6 +168,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
+    /**
+     *
+     * @param cartId
+     * @param addressId
+     * @param couponId
+     * @param message
+     * @param grouponRulesId
+     * @param grouponLinkId shareURL
+     * @return
+     */
     @Override
     public boolean createOrder(Integer cartId, Integer addressId, Integer couponId, String message, Integer grouponRulesId, Integer grouponLinkId) {
         Cart cart = cartMapper.selectByPrimaryKey(cartId);
