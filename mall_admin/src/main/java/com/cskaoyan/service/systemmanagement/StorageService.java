@@ -1,4 +1,4 @@
-package com.cskaoyan.service.systemManagement;
+package com.cskaoyan.service.systemmanagement;
 
 import com.cskaoyan.bean.Storage;
 
