@@ -109,10 +109,10 @@ public class PromoteServiceImpl<T> implements PromoteService<T> {
 
     @Override
     public int insertCouponList(List<T> objectList) {
-        int count_insert=0;
-        for (T coupon :objectList) {
+        int count_insert = 0;
+        for (T coupon : objectList) {
             int i = couponMapper.insertSelective((Coupon) coupon);
-            if(i!=0){
+            if (i != 0) {
                 count_insert++;
             }
         }
@@ -253,12 +253,12 @@ public class PromoteServiceImpl<T> implements PromoteService<T> {
     }
 
     @Autowired
-    Groupon_rulesMapper groupon_rulesMapper;
+    GrouponRulesMapper groupon_rulesMapper;
 
     @Override
     public List<T> queryGrouponRulesListByGoodsId(Integer goodsId) {
-        Groupon_rulesExample grouponRulesExample = new Groupon_rulesExample();
-        Groupon_rulesExample.Criteria criteria = grouponRulesExample.createCriteria();
+        GrouponRulesExample grouponRulesExample = new GrouponRulesExample();
+        GrouponRulesExample.Criteria criteria = grouponRulesExample.createCriteria();
         if (goodsId != null) {
             criteria.andGoodsIdEqualTo(goodsId);
             List<T> groupon_rulesList = (List<T>) groupon_rulesMapper.selectByExample(grouponRulesExample);
@@ -284,12 +284,27 @@ public class PromoteServiceImpl<T> implements PromoteService<T> {
         return grouponList;
     }
 
+    @Autowired
+    StorageMapper storageMapper;
+
+    @Override
+    public int insertStorageList(List<T> storageList) {
+        int count_insert = 0;
+        for (T storage : storageList) {
+            int i = storageMapper.insertSelective((Storage) storage);
+            if (i != 0) {
+                count_insert++;
+            }
+        }
+        return count_insert;
+    }
+
 
     @Override
     public int insertGrouponRuleList(List<T> objectList) {
         int count_insert = 0;
         for (T object : objectList) {
-            count_insert = groupon_rulesMapper.insert((Groupon_rules) object);
+            count_insert = groupon_rulesMapper.insert((GrouponRules) object);
             if (count_insert != 0) {
                 count_insert++;
             }
@@ -301,7 +316,7 @@ public class PromoteServiceImpl<T> implements PromoteService<T> {
     public int updateGrouponRuleList(List<T> objectList) {
         int count_update = 0;
         for (T object : objectList) {
-            int i = groupon_rulesMapper.updateByPrimaryKeySelective((Groupon_rules) object);
+            int i = groupon_rulesMapper.updateByPrimaryKeySelective((GrouponRules) object);
             if (i != 0) {
                 count_update++;
             }
@@ -313,7 +328,7 @@ public class PromoteServiceImpl<T> implements PromoteService<T> {
     public int deleteGrouponRuleList(List<T> objectList) {
         int count_delete = 0;
         for (T object : objectList) {
-            Integer id = ((Groupon_rules) object).getId();
+            Integer id = ((GrouponRules) object).getId();
             if (id != null) {
                 int i = groupon_rulesMapper.deleteByPrimaryKey(id);
                 if (i != 0) {

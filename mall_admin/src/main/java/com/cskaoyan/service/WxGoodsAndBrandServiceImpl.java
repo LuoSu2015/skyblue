@@ -52,7 +52,7 @@ public class WxGoodsAndBrandServiceImpl implements WxGoodsAndBrandService {
         if(isNew != null){
             criteria1.andIsNewEqualTo(isNew);
         }
-        if(categoryId != 0 && categoryId != null){
+        if(categoryId != null && categoryId != 0){
             criteria1.andCategoryIdEqualTo(categoryId);
         }
 

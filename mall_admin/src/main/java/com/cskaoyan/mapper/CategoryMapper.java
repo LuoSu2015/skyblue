@@ -3,9 +3,12 @@ package com.cskaoyan.mapper;
 import com.cskaoyan.bean.Category;
 import com.cskaoyan.bean.Category2;
 import com.cskaoyan.bean.CategoryExample;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+
+
+import com.cskaoyan.bean.goods.MyCategory;
+import org.apache.ibatis.annotations.Param;
 
 public interface CategoryMapper {
     long countByExample(CategoryExample example);
@@ -30,7 +33,12 @@ public interface CategoryMapper {
 
     int updateByPrimaryKey(Category record);
 
-    Category selectLastId(@Param("category") Category category);
+    List<MyCategory> selectAllCategory();
+
+    List<Category> getCategoryList();
+
+    List<Category> getSubCategoryByPid(@Param("parentId") Integer parentId);
 
     List<Category2> selectCategory2();
 }
+

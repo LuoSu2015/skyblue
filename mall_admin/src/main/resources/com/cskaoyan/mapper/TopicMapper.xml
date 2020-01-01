@@ -130,7 +130,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.cskaoyan.bean.Topic">
+  <insert id="insert" parameterType="com.cskaoyan.bean.Topic">
     insert into cskaoyan_mall_topic (id, title, subtitle, 
       price, read_count, pic_url, 
       sort_order, goods, add_time, 
@@ -306,7 +306,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.cskaoyan.bean.Topic">
+  <update id="updateByPrimaryKeySelective" parameterType="com.cskaoyan.bean.Topic">
     update cskaoyan_mall_topic
     <set>
       <if test="title != null">

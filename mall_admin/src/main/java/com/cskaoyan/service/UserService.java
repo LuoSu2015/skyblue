@@ -24,7 +24,7 @@ public interface UserService {
      * @param order 升序或者降序排列
      * @return 符合条件的全部地址信息
      */
-    List<Adress> listaddress(int page, int limit, Integer userId, String name,String sort,String order);
+    List<Address> listaddress(int page, int limit, Integer userId, String name,String sort,String order);
 
     /**
      * 用户管理模块会员收藏功能首页显示和查询具体User收藏商品接口
@@ -72,5 +72,5 @@ public interface UserService {
      * @param order 升序或者降序排列
      * @return 符合条件的全部User反馈信息
      */
-    List<Feedback> listfeedback(int page, int limit, Integer id, String username, String sort, String order);
+    List<Feetback> listfeedback(int page, int limit, Integer id, String username, String sort, String order);
 }

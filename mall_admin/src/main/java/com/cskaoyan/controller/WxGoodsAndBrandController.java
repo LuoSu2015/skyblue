@@ -88,7 +88,7 @@ public class WxGoodsAndBrandController {
     /**
      *统计商品总数
      */
-    @RequestMapping("wx/goods/count")
+   /* @RequestMapping("wx/goods/count")
     public BaseRespVo countGoods(){
         BaseRespVo baseRespVo = new BaseRespVo();
         Long goodsCount = wxGoodsAndBrandService.countGoods();
@@ -98,7 +98,7 @@ public class WxGoodsAndBrandController {
         baseRespVo.setErrmsg("成功");
         baseRespVo.setData(map);
         return baseRespVo;
-    }
+    }*/
 
     /**
      * 获得分类数据

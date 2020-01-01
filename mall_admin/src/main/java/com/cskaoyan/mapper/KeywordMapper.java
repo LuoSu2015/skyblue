@@ -2,9 +2,10 @@ package com.cskaoyan.mapper;
 
 import com.cskaoyan.bean.Keyword;
 import com.cskaoyan.bean.KeywordExample;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 
 public interface KeywordMapper {
     long countByExample(KeywordExample example);

@@ -13,6 +13,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    AddressMapper addressMapper;
 
 
 
@@ -46,9 +48,6 @@ public class UserServiceImpl implements UserService {
         return userList;
     }
 
-    @Autowired
-    AdressMapper adressMapper;
-
 
     /**
      * 用户管理模块收货地址功能首页显示和查询具体User地址接口
@@ -61,22 +60,22 @@ public class UserServiceImpl implements UserService {
      * @return 符合条件的全部地址信息
      */
     @Override
-    public List<Adress> listaddress(int page, int limit, Integer userId, String name,String sort,String order) {
-        AdressExample adressExample = new AdressExample();
+    public List<Address> listaddress(int page, int limit, Integer userId, String name,String sort,String order) {
+        AddressExample adressExample = new AddressExample();
         PageHelper.startPage(page,limit);
         String orderby = sort + " " + order;
         String s = "%" + name + "%";
         PageHelper.orderBy(orderby);
-        if (name.isEmpty() != true) {
-            if (userId != null && name != null) {
+        if (name != null) {
+            if (userId != null && name.isEmpty() != true) {
                 adressExample.createCriteria().andUserIdEqualTo(userId).andNameLike(s).andDeletedEqualTo(false);
             } else if (userId != null) {
                 adressExample.createCriteria().andUserIdEqualTo(userId).andDeletedEqualTo(false);
-            } else if (name != null) {
+            } else if (name.isEmpty() != true) {
                 adressExample.createCriteria().andNameLike(s).andDeletedEqualTo(false);
             }
         }
-        List<Adress> adressList = adressMapper.selectByExample(adressExample);
+        List<Address> adressList = addressMapper.selectByExample(adressExample);
         return adressList;
     }
 
@@ -165,12 +164,12 @@ public class UserServiceImpl implements UserService {
         String orderby = sort + " " + order;
         String s = "%" + keyword + "%";
         PageHelper.orderBy(orderby);
-        if (keyword.isEmpty() != true) {
-            if (userId != null && keyword != null) {
+        if (keyword != null) {
+            if (userId != null && keyword.isEmpty() != true) {
                 searchHistoryExample.createCriteria().andUserIdEqualTo(userId).andKeywordLike(s).andDeletedEqualTo(false);
             } else if (userId != null) {
                 searchHistoryExample.createCriteria().andUserIdEqualTo(userId).andDeletedEqualTo(false);
-            } else if (keyword != null) {
+            } else if (keyword.isEmpty() != true) {
                 searchHistoryExample.createCriteria().andKeywordLike(s).andDeletedEqualTo(false);
             }
         }
@@ -179,7 +178,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Autowired
-    FeedbackMapper feedbackMapper;
+    FeetbackMapper feedbackMapper;
 
     /**
      * 用户管理模块意见反馈功能首页显示及具体User反馈信息查询接口
@@ -192,22 +191,22 @@ public class UserServiceImpl implements UserService {
      * @return 符合条件的全部User反馈信息
      */
     @Override
-    public List<Feedback> listfeedback(int page, int limit, Integer id, String username, String sort, String order) {
-        FeedbackExample feedbackExample = new FeedbackExample();
+    public List<Feetback> listfeedback(int page, int limit, Integer id, String username, String sort, String order) {
+        FeetbackExample feedbackExample = new FeetbackExample();
         PageHelper.startPage(page,limit);
         String orderby = sort + " " + order;
         String s = "%" + username + "%";
         PageHelper.orderBy(orderby);
-        if (username.isEmpty() != true) {
-            if (id != null && username != null) {
+        if (username != null) {
+            if (id != null && username.isEmpty() != true) {
                 feedbackExample.createCriteria().andIdEqualTo(id).andUsernameLike(s).andDeletedEqualTo(false);
             } else if (id != null) {
                 feedbackExample.createCriteria().andIdEqualTo(id).andDeletedEqualTo(false);
-            } else if (username != null) {
+            } else if (username.isEmpty() != true) {
                 feedbackExample.createCriteria().andUsernameLike(s).andDeletedEqualTo(false);
             }
         }
-        List<Feedback> feedbackList = feedbackMapper.selectByExample(feedbackExample);
+        List<Feetback> feedbackList = feedbackMapper.selectByExample(feedbackExample);
         return feedbackList;
     }
 }

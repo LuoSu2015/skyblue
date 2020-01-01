@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface AdminService {
+
     List<Admin> queryAdmins(int page,int limit,String username,String sort,String order);
 
     int insertAdmin(Admin admin);
@@ -27,4 +28,5 @@ public interface AdminService {
      * @return 符合条件的全部管理员操作日志信息
      */
     List<Log> loglist(int page, int limit, String name, String sort, String order);
+
 }

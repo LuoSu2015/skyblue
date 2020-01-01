@@ -4,8 +4,8 @@ import com.cskaoyan.bean.*;
 import com.cskaoyan.bean.promate.PageWrapper;
 import com.cskaoyan.service.promote.PromoteService;
 import com.cskaoyan.util.promoteUtils.PromoteUtils;
+import com.cskaoyan.util.uploadPic.AliyunOssUtils;
 import com.cskaoyan.util.uploadPic.UploadPicUtils;
-import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,8 +24,11 @@ public class PromoteController {
     /* 图片上传*/
     @RequestMapping("admin/storage/create")
     public BaseRespVo addPic(MultipartFile file) throws IOException {
-        BaseRespVo<Storage> storageBaseRespVo = UploadPicUtils.fileUpload(file);
-        return storageBaseRespVo;
+        BaseRespVo baseRespVo = AliyunOssUtils.uploadFile(file);
+        List arrayList = new ArrayList();
+        arrayList.add(baseRespVo.getData());
+        int i = promoteService.insertStorageList(arrayList);
+        return baseRespVo;
     }
 
     /* 广告展示 */
@@ -242,11 +245,11 @@ public class PromoteController {
     /*  更新团购规则*/
     //http://192.168.2.100:8081/grouponmin/groupon/update
     @RequestMapping("admin/groupon/update")
-    public BaseRespVo updateGroupon(@RequestBody Groupon_rules groupon_rules) {
-        ArrayList<Groupon_rules> grouponList = new ArrayList<>();
+    public BaseRespVo updateGroupon(@RequestBody GrouponRules groupon_rules) {
+        ArrayList<GrouponRules> grouponList = new ArrayList<>();
         grouponList.add(groupon_rules);
         promoteService.updateGrouponRuleList(grouponList);
-        BaseRespVo<Groupon_rules> grouponBaseRespVo = new BaseRespVo<>();
+        BaseRespVo<GrouponRules> grouponBaseRespVo = new BaseRespVo<>();
         grouponBaseRespVo.setErrno(0);
         grouponBaseRespVo.setErrmsg("成功");
         grouponBaseRespVo.setData(groupon_rules);
