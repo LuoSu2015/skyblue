@@ -1,7 +1,7 @@
 package com.cskaoyan.mapper;
 
 import com.cskaoyan.bean.Category;
-import com.cskaoyan.bean.Category2;
+import com.cskaoyan.bean.CategorySpare;
 import com.cskaoyan.bean.CategoryExample;
 
 import java.util.List;
@@ -39,6 +39,6 @@ public interface CategoryMapper {
 
     List<Category> getSubCategoryByPid(@Param("parentId") Integer parentId);
 
-    List<Category2> selectCategory2();
+    List<CategorySpare> selectCategory2();
 }
 

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cskaoyan.mapper.SearchMapper">
+
+    <select id="getDefaultKeyword" resultType="com.cskaoyan.bean.Keyword">
+        select id,keyword,url,is_hot as isHot,is_default as isDefault,sort_order as sortOrder,add_time as addTime,update_time as updateTime,deleted
+        from cskaoyan_mall_keyword
+        where is_hot = true and is_default = true and deleted = false
+    </select>
+    <select id="getHotKeywordList" resultType="com.cskaoyan.bean.Keyword">
+        select id,keyword,url,is_hot as isHot,is_default as isDefault,sort_order as sortOrder,add_time as addTime,update_time as updateTime,deleted
+        from cskaoyan_mall_keyword
+        where is_hot = true and deleted = false
+    </select>
+    <select id="getHistoryKeywordList" resultType="com.cskaoyan.bean.Keyword">
+        select keyword
+        from cskaoyan_mall_search_history
+        where deleted = false and user_id = #{userId}
+    </select>
+    <select id="getHotKeywordContainKey" resultType="java.lang.String">
+        select keyword from cskaoyan_mall_keyword
+        where deleted = false and is_hot = true and keyword like CONCAT('%',#{keyword},'%')
+    </select>
+    <update id="deleteHistory">
+        update cskaoyan_mall_search_history
+        set deleted = true,update_time = CURRENT_TIMESTAMP
+        where deleted = false
+    </update>
+
+</mapper>

@@ -92,6 +92,8 @@ public class GoodsController {
         return baseRespVo;
     }
 
+
+
     @RequestMapping("admin/goods/create")
     public BaseRespVo addGoods(@RequestBody MyGoods goods){
         BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
@@ -161,5 +163,6 @@ public class GoodsController {
         baseRespVo.setErrmsg("成功");
         return baseRespVo;
     }
+
 
 }
