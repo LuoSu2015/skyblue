@@ -97,4 +97,6 @@ public interface GoodsMapper {
 
     List<Goods> getHotGoodsList();
 
+    List<WxGrouponList> selectGoodsByGroupon();
+
 }

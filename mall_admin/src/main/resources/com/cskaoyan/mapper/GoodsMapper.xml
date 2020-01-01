@@ -776,5 +776,10 @@
     from cskaoyan_mall_goods
     where is_hot = true and deleted = false
   </select>
-
+  <select id="selectGoodsByGroupon" resultType="com.cskaoyan.bean.WxGrouponList">
+    select s.id, s.goods_sn, name, category_id, brand_id, gallery, keywords, brief, is_on_sale,
+    sort_order, s.pic_url as picUrl, share_url, is_new, is_hot, unit, counter_price as counterPrice, retail_price as retailPrice,
+    s.add_time, s.update_time, s.deleted, rule.discount, rule.discount_member, rule.goods_name from cskaoyan_mall_goods s
+    inner join cskaoyan_mall_groupon_rules rule on s.id = rule.goods_id
+  </select>
 </mapper>

@@ -1,9 +1,8 @@
 package com.cskaoyan.bean;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
-public class Brand1 {
+public class BrandSpare {
     private Integer id;
 
     private String name;
