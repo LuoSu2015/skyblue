@@ -1,30 +1,30 @@
 package com.cskaoyan.mapper;
 
-import com.cskaoyan.bean.Feetback;
-import com.cskaoyan.bean.FeetbackExample;
+import com.cskaoyan.bean.Feedback;
+import com.cskaoyan.bean.FeedbackExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface FeetbackMapper {
-    long countByExample(FeetbackExample example);
+    long countByExample(FeedbackExample example);
 
-    int deleteByExample(FeetbackExample example);
+    int deleteByExample(FeedbackExample example);
 
     int deleteByPrimaryKey(Integer id);
 
-    int insert(Feetback record);
+    int insert(Feedback record);
 
-    int insertSelective(Feetback record);
+    int insertSelective(Feedback record);
 
-    List<Feetback> selectByExample(FeetbackExample example);
+    List<Feedback> selectByExample(FeedbackExample example);
 
-    Feetback selectByPrimaryKey(Integer id);
+    Feedback selectByPrimaryKey(Integer id);
 
-    int updateByExampleSelective(@Param("record") Feetback record, @Param("example") FeetbackExample example);
+    int updateByExampleSelective(@Param("record") Feedback record, @Param("example") FeedbackExample example);
 
-    int updateByExample(@Param("record") Feetback record, @Param("example") FeetbackExample example);
+    int updateByExample(@Param("record") Feedback record, @Param("example") FeedbackExample example);
 
-    int updateByPrimaryKeySelective(Feetback record);
+    int updateByPrimaryKeySelective(Feedback record);
 
-    int updateByPrimaryKey(Feetback record);
+    int updateByPrimaryKey(Feedback record);
 }

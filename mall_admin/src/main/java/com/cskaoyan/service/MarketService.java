@@ -20,7 +20,7 @@ public interface MarketService {
 
     int insertStorage(Storage storage);
 
-    Brand insertBrand(Brand1 brand1);
+    Brand insertBrand(BrandSpare brandSpare);
 
     Brand deleteBrand(Brand brand);
 
@@ -34,7 +34,7 @@ public interface MarketService {
 
     Issue delectIssue(Issue issue);
 
-    List<Category2> queryCategory();
+    List<CategorySpare> queryCategory();
 
     List<Map> queryCategoryByL1();
 
