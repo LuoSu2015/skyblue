@@ -6,6 +6,7 @@ import com.cskaoyan.service.OrderService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
@@ -64,18 +65,38 @@ public class WxOrderController {
      * 删除订单
      * ?: 用户取消订单 是否就是 用户 删除订单?
      * 删除逻辑:
-     *  1.deleted 设为 1
-     *  2.只有未付款, 以及 用户收货 这两种订单状态 可以 删除订单
-     * @param orderId
+     *  deleted 设为 1
+     * @param
      * @return
      */
     @RequestMapping("wx/order/delete")
-    public BaseRespVo deleteOrder(Integer orderId){
-//        int i = orderService.deleteOrderById(orderId);
-
+    public BaseRespVo deleteOrder(@RequestBody Map map){
+        //更新字段
+        Integer orderId = (Integer) map.get("orderId");
+        orderService.deleteOrderById(orderId);
+        //返回数据
         BaseRespVo baseRespVo = new BaseRespVo();
         baseRespVo.setErrno(0);
-//        baseRespVo.setData(map);
+        baseRespVo.setErrmsg("成功");
+        return baseRespVo;
+    }
+
+    /**
+     * 删除订单
+     * ?: 用户取消订单 是否就是 用户 删除订单?
+     * 取消逻辑:
+     *  deleted 设为 1
+     * @param
+     * @return
+     */
+    @RequestMapping("wx/order/cancel")
+    public BaseRespVo cancelOrder(@RequestBody Map map){
+        //更新字段
+        Integer orderId = (Integer) map.get("orderId");
+        orderService.deleteOrderById(orderId);
+        //返回数据
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrno(0);
         baseRespVo.setErrmsg("成功");
         return baseRespVo;
     }

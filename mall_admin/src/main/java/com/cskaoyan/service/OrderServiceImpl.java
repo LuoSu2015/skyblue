@@ -13,6 +13,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -115,7 +116,6 @@ public class OrderServiceImpl implements OrderService {
             map.put("data",ordersForFront);
             map.put("count",orders.size());
             map.put("totalPages",pages.getPages());
-
         return map;
     }
 
@@ -164,4 +164,28 @@ public class OrderServiceImpl implements OrderService {
         return map;
     }
 
+    /**
+     * 删除订单逻辑,将订单的字段deleted更新为true
+     * @param orderId
+     * @return
+     */
+    @Override
+    @Transactional
+    public int deleteOrderById(Integer orderId) {
+        //将订单id为orderId的订单删除
+        Order order = orderMapper.selectByPrimaryKey(orderId);
+        //更新订单表的deleted字段
+        order.setDeleted(true);
+        int i = orderMapper.updateByPrimaryKey(order);
+        //查询订单和goods关系表的id
+        OrderGoodsExample orderGoodsExample = new OrderGoodsExample();
+        orderGoodsExample.createCriteria().andOrderIdEqualTo(orderId);
+        List<OrderGoods> orderGoods = orderGoodsMapper.selectByExample(orderGoodsExample);
+        //更新订单和goods关系表的deleted字段
+        for (OrderGoods orderGood : orderGoods) {
+            orderGood.setDeleted(true);
+            orderGoodsMapper.updateByPrimaryKey(orderGood);
+        }
+        return i;
+    }
 }
