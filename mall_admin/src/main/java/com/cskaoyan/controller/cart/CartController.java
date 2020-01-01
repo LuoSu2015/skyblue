@@ -9,6 +9,7 @@ import com.cskaoyan.service.cart.CartService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,6 +39,11 @@ public class CartController {
         baseRespVo.setData(map);
         return baseRespVo;
     }
+
+  /*  @RequestMapping("wx/cart/update")
+    public BaseRespVo updateCart(@RequestBody ) {
+
+    }*/
 
 
 }
