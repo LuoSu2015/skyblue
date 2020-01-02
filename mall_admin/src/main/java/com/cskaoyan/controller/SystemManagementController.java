@@ -2,17 +2,18 @@ package com.cskaoyan.controller;
 
 import com.cskaoyan.bean.*;
 import com.cskaoyan.bean.systemManagement.Roles;
-import com.cskaoyan.service.systemmanagement.AdminService;
-
+import com.cskaoyan.bean.systemManagement.SystemPermissions;
 import com.cskaoyan.service.systemmanagement.RoleService;
-
 import com.cskaoyan.service.systemmanagement.StorageService;
+
+import com.cskaoyan.service.systemmanagement.AdminService;
 import com.cskaoyan.util.uploadPic.AliyunOssUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -152,6 +153,11 @@ public class SystemManagementController {
         return map;
     }
 
+    /**
+     * 创建角色
+     * @param role
+     * @return
+     */
     @RequestMapping("admin/role/create")
     public BaseRespVo createRole(@RequestBody Role role){
         Role role1 = roleService.createRole(role);
@@ -162,6 +168,11 @@ public class SystemManagementController {
         return baseRespVo;
     }
 
+    /**
+     * 修改角色
+     * @param role
+     * @return
+     */
     @RequestMapping("admin/role/update")
     public BaseRespVo updateRole(@RequestBody Role role){
         int i = roleService.updateRole(role);
@@ -175,6 +186,12 @@ public class SystemManagementController {
         }
         return baseRespVo;
     }
+
+    /**
+     * 删除角色
+     * @param role
+     * @return
+     */
     @RequestMapping("admin/role/delete")
     public BaseRespVo deleteRole(@RequestBody Role role){
         int i = roleService.deleteRole(role);
@@ -189,6 +206,45 @@ public class SystemManagementController {
         return baseRespVo;
     }
 
+    /**
+     * 授权页面
+     */
+    @RequestMapping(value = "admin/role/permissions", method = RequestMethod.GET)
+    public BaseRespVo getPermissions(Integer roleId){
+        Map map = roleService.getPermissions(roleId);
+        BaseRespVo baseRespVo = new BaseRespVo<>();
+        baseRespVo.setErrno(0);
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setData(map);
+        return baseRespVo;
+    }
+
+    /**
+     * 授权页面
+     */
+    @RequestMapping(value = "admin/role/permissions", method = RequestMethod.POST)
+    public BaseRespVo getPermissions(@RequestBody Map map){
+        Integer roleId = (Integer) map.get("roleId");
+        List<String> permissions = (List<String>) map.get("permissions");
+        roleService.setPermissions(roleId,permissions);
+        BaseRespVo baseRespVo = new BaseRespVo<>();
+
+        baseRespVo.setErrno(0);
+        baseRespVo.setErrmsg("成功");
+
+        return baseRespVo;
+    }
+
+    /**
+     * 对象存储
+     * @param page
+     * @param limit
+     * @param sort
+     * @param order
+     * @param key
+     * @param name
+     * @return
+     */
     @RequestMapping("admin/storage/list")
     public BaseRespVo getStorages(int page, int limit, String sort, String order,String key,String name){
 
@@ -206,6 +262,11 @@ public class SystemManagementController {
         return baseRespVo;
     }
 
+    /**
+     * 修改对象
+     * @param storage
+     * @return
+     */
     @RequestMapping("admin/storage/update")
     public BaseRespVo updateStorage(@RequestBody Storage storage){
         int i = storageService.changeStorageById(storage);
@@ -220,6 +281,11 @@ public class SystemManagementController {
         return baseRespVo;
     }
 
+    /**
+     * 删除对象
+     * @param storage
+     * @return
+     */
     @RequestMapping("admin/storage/delete")
     public BaseRespVo deleteStorage(@RequestBody Storage storage){
         int i = storageService.deleteStorage(storage);

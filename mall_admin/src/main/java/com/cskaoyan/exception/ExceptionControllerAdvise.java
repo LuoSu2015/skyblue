@@ -40,7 +40,11 @@ public class ExceptionControllerAdvise {
         return baseRespVo;
     }*/
     //数据库异常
+
    /* @ExceptionHandler({SQLException.class})
+=======
+    /*@ExceptionHandler({SQLException.class})
+>>>>>>> f41748a2ef8bfdd6bcee639a5504794d76f0cf5e
     @ResponseBody
     public BaseRespVo sqlException(Exception e){
         BaseRespVo baseRespVo = new BaseRespVo();
