@@ -2,9 +2,10 @@ package com.cskaoyan.service.systemmanagement;
 
 import com.cskaoyan.bean.Admin;
 import com.cskaoyan.bean.Log;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public interface AdminService {
 
     List<Admin> queryAdmins(int page,int limit,String username,String sort,String order);

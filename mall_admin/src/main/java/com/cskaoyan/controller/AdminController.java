@@ -127,5 +127,13 @@ public class AdminController {
         return baseRespVo;
     }
 
+    @RequestMapping("admin/unAuth")
+    public BaseRespVo unauth(){
+        BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
+        baseRespVo.setErrno(501);
+        baseRespVo.setErrmsg("未登录!");
+        return baseRespVo;
+    }
+
 
 }

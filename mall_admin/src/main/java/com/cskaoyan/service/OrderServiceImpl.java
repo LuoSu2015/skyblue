@@ -141,6 +141,7 @@ public class OrderServiceImpl implements OrderService {
         orderInfo.setOrderSn(order.getOrderSn());
         orderInfo.setActualPrice(order.getActualPrice().doubleValue());
         orderInfo.setMobile(address.getMobile());
+        HandleOption handleOption = new HandleOption();
         if(order.getOrderStatus() == 101){
             orderInfo.setOrderStatusText("未付款");
         }else if(order.getOrderStatus() == 201){
@@ -149,12 +150,13 @@ public class OrderServiceImpl implements OrderService {
             orderInfo.setOrderStatusText("已发货");
         }else if(order.getOrderStatus() == 401){
             orderInfo.setOrderStatusText("已收货");
+            handleOption.setComment(true);
         }
         orderInfo.setGoodsPrice(order.getGoodsPrice().doubleValue());
         orderInfo.setCouponPrice(order.getCouponPrice().doubleValue());
         orderInfo.setId(orderId);
         orderInfo.setFreightPrice(order.getFreightPrice().doubleValue());
-        HandleOption handleOption = new HandleOption();
+
         handleOption.setDelete(true);
         orderInfo.setHandleOption(handleOption);
         map.put("orderInfo",orderInfo);

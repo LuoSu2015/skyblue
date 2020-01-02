@@ -41,12 +41,12 @@ public class ExceptionControllerAdvise {
         return baseRespVo;
     }
     //数据库异常
-    @ExceptionHandler({SQLException.class})
+    /*@ExceptionHandler({SQLException.class})
     @ResponseBody
     public BaseRespVo sqlException(Exception e){
         BaseRespVo baseRespVo = new BaseRespVo();
         baseRespVo.setErrno(508);
         baseRespVo.setErrmsg("数据库繁忙,稍后再试");
         return baseRespVo;
-    }
+    }*/
 }

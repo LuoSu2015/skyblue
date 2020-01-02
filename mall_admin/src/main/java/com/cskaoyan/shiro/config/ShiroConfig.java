@@ -20,19 +20,19 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager webSecurityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         /*拦截器会把所有的页面请求拦截住，认证失败后的重定向Url*/
-        shiroFilterFactoryBean.setLoginUrl("/admin/auth/login");
+        shiroFilterFactoryBean.setLoginUrl("/admin/unAuth");
         shiroFilterFactoryBean.setSecurityManager(webSecurityManager);
         /*对请求的过滤*/
         /*一定要用Linked，因为它是有序的*/
         LinkedHashMap<String, String> linkedHashMap = new LinkedHashMap<>();
         linkedHashMap.put("/wx/auth/login","anon");
         linkedHashMap.put("/admin/auth/login", "anon");
-
+        linkedHashMap.put("/admin/auth/logout","logout");
 
         /* 当你分配了perm1的权限时才能访问need/perm这请求
         filterMap.put("/need/perm","perms[perm1]");
         优选的方式是声明式
-        filterMap.put("/auth/logout","logout");*/
+        */
 
 
         linkedHashMap.put("/wx/**", "anon");
