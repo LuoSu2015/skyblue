@@ -57,11 +57,16 @@ public class WxOrderController {
      *      address表
      */
     @RequestMapping("wx/order/submit")
-    public BaseRespVo createOrder(Integer cartId, Integer addressId, Integer couponId, String message,Integer grouponRulesId, Integer grouponLinkId){
-        boolean flag = orderService.createOrder(cartId, addressId, couponId, message, grouponRulesId,  grouponLinkId);
+    public BaseRespVo createOrder(){
+        Subject subject = SecurityUtils.getSubject();
+        User user = (User) subject.getPrincipal();
+        Integer order = orderService.createOrder(user);
         BaseRespVo baseRespVo = new BaseRespVo();
+        Map map = new HashMap();
+        map.put("orderId",order);
         baseRespVo.setErrno(0);
 //        baseRespVo.setData(map);
+        baseRespVo.setData(map);
         baseRespVo.setErrmsg("成功");
         return baseRespVo;
     }
@@ -74,9 +79,15 @@ public class WxOrderController {
      */
     @RequestMapping("wx/order/prepay")
     public BaseRespVo prePay(@RequestBody Map map){
-        String orderIdStr = (String ) map.get("orderId");
-        int orderId = Integer.parseInt(orderIdStr);
-        orderService.payOrders(orderId);
+        Object orderId1 = map.get("orderId");
+        if(orderId1 instanceof String){
+            int orderId = Integer.parseInt((String)orderId1);
+            orderService.payOrders(orderId);
+        }else {
+            Integer orderId = (Integer) map.get("orderId");
+            orderService.payOrders(orderId);
+        }
+
         BaseRespVo baseRespVo = new BaseRespVo();
         baseRespVo.setErrno(0);
         baseRespVo.setData(null);
@@ -159,6 +170,11 @@ public class WxOrderController {
         return baseRespVo;
     }
 
+    /**
+     * 提交评论
+     * @param comment
+     * @return
+     */
     @RequestMapping("wx/order/comment")
     public BaseRespVo createComment(@RequestBody Comment comment){
         Subject subject = SecurityUtils.getSubject();

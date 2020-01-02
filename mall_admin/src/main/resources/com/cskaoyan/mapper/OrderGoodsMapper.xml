@@ -110,7 +110,7 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.cskaoyan.bean.OrderGoods">
-    insert into cskaoyan_mall_order_goods (id, order_id, goods_id, 
+    insert into cskaoyan_mall_`order`_goods (id, `order`_id, goods_id,
       goods_name, goods_sn, product_id, 
       number, price, specifications, 
       pic_url, comment, add_time, 

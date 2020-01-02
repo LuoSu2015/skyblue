@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 @Service
@@ -31,6 +32,8 @@ public class OrderServiceImpl implements OrderService {
     GrouponRulesMapper grouponRulesMapper;
     @Autowired
     CommentMapper commentMapper;
+    @Autowired
+    UserMapper userMapper;
 
     @Override
     public Map queryOrder(Integer showType, Integer page, Integer size, Integer userId) {
@@ -171,31 +174,64 @@ public class OrderServiceImpl implements OrderService {
 
 
     /**
-     *
-     * @param cartId
-     * @param addressId
-     * @param couponId
-     * @param message
-     * @param grouponRulesId
-     * @param grouponLinkId shareURL
      * @return
      */
     @Override
-    public boolean createOrder(Integer cartId, Integer addressId, Integer couponId, String message, Integer grouponRulesId, Integer grouponLinkId) {
-        Cart cart = cartMapper.selectByPrimaryKey(cartId);
-        Address address = addressMapper.selectByPrimaryKey(addressId);
-        Coupon coupon = new Coupon();
-        GrouponRules grouponRules = new GrouponRules();
-        if(couponId != 0){
-             coupon = couponMapper.selectByPrimaryKey(couponId);
-        }
-        if(grouponRulesId != 0){
-            grouponRules = grouponRulesMapper.selectByPrimaryKey(grouponRulesId);
-        }
-        if(grouponLinkId != 0){
-
-        }
-        return false;
+    @Transactional
+    public Integer createOrder(User user) {
+        //根据addressId查找地址信息
+        Address address = addressMapper.selectByPrimaryKey(1);
+        //获取购物车信息
+        //Cart cart = cartMapper.selectByPrimaryKey(cartId);
+        //获取user信息
+       // Integer userId = cart.getUserId();
+        User user1 = userMapper.selectByPrimaryKey(user.getId());
+        //获取优惠券信息
+        //Coupon coupon = couponMapper.selectByPrimaryKey(couponId);
+        //获取商品信息
+       // Goods goods = goodsMapper.selectByPrimaryKey(cart.getGoodsId());
+        //订单状态
+        Short orderStatus = 201;
+        //当前时间
+        Date nowTime = new Date();
+        //数量
+        Short commit = 10;
+        //配送费用
+        BigDecimal max = new BigDecimal("88.00");
+        BigDecimal price = new BigDecimal(0);
+      /*  if(max.compareTo(cart.getPrice()) > 0){
+            price = price.add(new BigDecimal(8));
+        }*/
+        Order order = new Order();
+        order.setUserId(user.getId());
+        order.setOrderSn("10001");
+        order.setOrderStatus(orderStatus);
+        order.setConsignee(address.getName());
+        order.setMobile(user.getMobile());
+        order.setAddress(address.getAddress());
+        order.setMessage("ok");
+        order.setGoodsPrice(new BigDecimal(0));
+        order.setFreightPrice(price);
+        order.setCouponPrice(price);
+        order.setIntegralPrice(new BigDecimal(0));
+        order.setGrouponPrice(new BigDecimal(0));
+        order.setOrderPrice(new BigDecimal(0));
+        order.setActualPrice(new BigDecimal(0));
+        order.setPayId("1");
+        order.setPayTime(nowTime);
+        order.setShipSn("101");
+        order.setShipTime(nowTime);
+        order.setConfirmTime(nowTime);
+        order.setComments(commit);
+        order.setEndTime(nowTime);
+        order.setAddTime(nowTime);
+        order.setDeleted(false);
+      /*  OrderGoods orderGoods = new OrderGoods();
+        orderGoods.setOrderId(order.getId());
+        orderGoods.setComment(0);
+        orderGoodsMapper.insert(orderGoods);*/
+        int insert = orderMapper.insert(order);
+        return insert;
     }
 
 
