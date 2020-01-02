@@ -1,4 +1,5 @@
 package com.cskaoyan.service.cart;
+import java.util.Date;
 
 import com.cskaoyan.bean.*;
 import com.cskaoyan.bean.wx.CartGoodsStatus;
@@ -10,6 +11,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.System;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -46,9 +48,12 @@ public class CartServiceImpl implements CartService {
     public BaseRespVo updateCartSelective(Map map) {
         BaseRespVo baseRespVo = new BaseRespVo();
         Integer cartId = (Integer) map.get("id");
-        short number = (short) map.get("number");
+        int number = (Integer) map.get("number");
         Cart cart = cartMapper.selectByPrimaryKey(cartId);
-        cart.setNumber(number);
+        cart.setNumber((short) number);
+        if(number>0){
+            cart.setDeleted(false);
+        }
         cartMapper.updateByPrimaryKeySelective(cart);
         return baseRespVo;
     }
@@ -58,10 +63,13 @@ public class CartServiceImpl implements CartService {
     public void deleteCart(List<Integer> productIds) {
         CartExample cartExample = new CartExample();
         CartExample.Criteria criteria = cartExample.createCriteria();
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
         for (Integer productId : productIds) {
-            criteria.andProductIdEqualTo(productId);
+            criteria.andProductIdEqualTo(productId).andUserIdEqualTo(user.getId());
             Cart cart = cartMapper.selectByExample(cartExample).get(0);
+            cart.setNumber((short) 0);
             cart.setDeleted(true);
+            cartMapper.updateByPrimaryKeySelective(cart);
         }
     }
 
@@ -83,19 +91,19 @@ public class CartServiceImpl implements CartService {
     /*更新购物车选中和未选中的状态*/
     @Override
     public void updateCheckedCartStatus(Map map) {
-        CartExample cartExample = new CartExample();
-        CartExample.Criteria criteria = cartExample.createCriteria();
         Subject subject = SecurityUtils.getSubject();
         Integer userId = ((User) subject.getPrincipal()).getId();
         Integer isChecked = (Integer) map.get("isChecked");
         Boolean flag;
-        if (isChecked == 0) {
+        if (isChecked == 1) {
             flag = true;
         } else {
             flag = false;
         }
         List<Integer> productIds = (List<Integer>) map.get("productIds");
         for (Integer productId : productIds) {
+            CartExample cartExample = new CartExample();
+            CartExample.Criteria criteria = cartExample.createCriteria();
             criteria.andProductIdEqualTo(productId).andUserIdEqualTo(userId);
             Cart cart = cartMapper.selectByExample(cartExample).get(0);
             cart.setChecked(flag);
@@ -123,7 +131,9 @@ public class CartServiceImpl implements CartService {
             /*显示购物车当前商品的总个数number*/
             GoodsProduct goodsProduct = queryGoodsProductByProductId(productId);
             cart.setNumber(number);
-            cart.setDeleted(false);
+            if(number>0){
+                cart.setDeleted(false);
+            }
             cartMapper.updateByPrimaryKey(cart);
         } else {
             /*cart不存在的话，就需要重新创建一个cart*/
@@ -144,6 +154,7 @@ public class CartServiceImpl implements CartService {
                 double goodsProductPrice = goodsProduct.getPrice().doubleValue();
                 cart.setPrice(new BigDecimal(goodsProductPrice));
                 cart.setSpecifications(goodsProduct.getSpecifications());
+                cart.setProductId(productId);
             }
             cart.setNumber((short) addNumber);
             cart.setChecked(false);
@@ -219,6 +230,7 @@ public class CartServiceImpl implements CartService {
         Subject subject = SecurityUtils.getSubject();
         User user = (User) subject.getPrincipal();
 
+
         Integer cartId = checkoutWrapper.getCartId();
 
         /*AddressId  共用*/
@@ -251,11 +263,11 @@ public class CartServiceImpl implements CartService {
         /*goodsTotalPrice */
         Double goodsTotalPrice;
         /*grouponPrice*/
-        Double grouponPrice = 0.0;
+        Integer grouponPrice = 0;
         /*freightPrice */
         Double freightPrice;
         /*checkedGoodsList 不共用*/
-        List<Goods> checkedGoodsList;
+        List<Cart> checkedGoodsList;
         /*actualPrice*/
         Double actualPrice = 0.0;
 
@@ -263,15 +275,15 @@ public class CartServiceImpl implements CartService {
         if (cartId == 0) {
             CartStatus cartStatus = currentCartStatusByDefaultUser(); // 购物车状态
             actualPrice = cartStatus.getCartGoodsStatus().getCheckedGoodsAmount();
-            checkedGoodsList = cartStatus.getCheckedGoodsList();
+            checkedGoodsList =cartStatus.getCheckedCartList();
         } else {
             Cart cart = cartMapper.selectByPrimaryKey(cartId);
-            Integer goodsId = cart.getGoodsId();
-            Goods goods = goodsMapper.selectByPrimaryKey(goodsId);
-            ArrayList<Goods> list = new ArrayList<>();
-            list.add(goods);
+           /* Integer goodsId = cart.getGoodsId();
+            Goods goods = goodsMapper.selectByPrimaryKey();*/
+            ArrayList<Cart> list = new ArrayList<>();
+            list.add(cart);
             checkedGoodsList=list;
-            actualPrice = cart.getPrice().doubleValue();
+            actualPrice = cart.getPrice().doubleValue()*(cart.getNumber());
 
         }
 
@@ -286,7 +298,7 @@ public class CartServiceImpl implements CartService {
         /*AddressId */
         hashMap.put("addressId", addressId);
         /*groupRulesId*/
-        hashMap.put("groupRulesId", grouponRulesId);
+        hashMap.put("grouponRulesId", grouponRulesId);
         /*availableCouponLength*/
         hashMap.put("availableCouponLength", availableCouponLength);
         /*checkedAddress*/
@@ -352,17 +364,18 @@ public class CartServiceImpl implements CartService {
         int checkedGoodsCount = 0;
         int goodsCount = 0;
         List<Cart> cartList = queryCartList();
-        List<Goods> checkedGoodsList = null;
+        List<Goods> checkedGoodsList = new ArrayList<>();
 
         goodsCount = cartList.size();
         for (Cart cart : cartList) {
             /*转成Double类型*/
-            goodsAmount += cart.getPrice().doubleValue();
+            goodsAmount += cart.getPrice().doubleValue()*cart.getNumber();
             if (cart.getChecked()) {
-                checkedGoodsAmount += cart.getPrice().doubleValue();
+                checkedGoodsAmount += cart.getPrice().doubleValue()*(cart.getNumber());
                 checkedGoodsCount++;
                 checkedCartList.add(cart);
-                checkedGoodsList.add(goodsMapper.selectByPrimaryKey(cart.getGoodsId()));
+                Goods goods = goodsMapper.selectByPrimaryKey(cart.getGoodsId());
+                checkedGoodsList.add(goods);
             }
         }
         cartGoodsStatus.setGoodsCount(goodsCount);
