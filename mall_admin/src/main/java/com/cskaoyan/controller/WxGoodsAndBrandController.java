@@ -110,9 +110,11 @@ public class WxGoodsAndBrandController {
         Category currentCategory = wxGoodsAndBrandService.selectCategoryById(id);
         Integer categoryId = currentCategory.getPid();
         List<Category> brotherCategory = wxGoodsAndBrandService.selectCategoryByPid(categoryId);
+        Category parentCategory = wxGoodsAndBrandService.selectCategoryById(categoryId);
         HashMap<String, Object> map = new HashMap<>();
         map.put("currentCategory",currentCategory);
         map.put("brotherCategory",brotherCategory);
+        map.put("parentCategory",parentCategory);
         baseRespVo.setErrno(0);
         baseRespVo.setErrmsg("成功");
         baseRespVo.setData(map);
