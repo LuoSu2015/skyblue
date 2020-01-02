@@ -270,4 +270,17 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <insert id="addWxStorage" parameterType="com.cskaoyan.bean.Storage" keyProperty="storage.id" useGeneratedKeys="true">
+      insert into cskaoyan_mall_storage
+      (id,`key`,`name`,`type`,`size`,url,add_time,update_time,deleted)
+      value
+      (null,#{storage.key},#{storage.name},#{storage.type},#{storage.size},#{storage.url},CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,false)
+      <selectKey keyProperty="storage.id" order="AFTER" resultType="Integer" keyColumn="id">
+        select LAST_INSERT_ID() as id
+      </selectKey>
+    </insert>
+  <select id="getStorageById" resultType="com.cskaoyan.bean.Storage">
+    select id,`key`,`name`,`type`,`size`,url,add_time as addTime,update_time as updateTime,deleted
+    from cskaoyan_mall_storage where id = #{id}
+  </select>
 </mapper>

@@ -1,8 +1,8 @@
 package com.cskaoyan.service.systemmanagement;
 
-import com.cskaoyan.bean.Storage;
+        import com.cskaoyan.bean.Storage;
 
-import java.util.List;
+        import java.util.List;
 
 public interface StorageService {
 
@@ -11,4 +11,5 @@ public interface StorageService {
     int changeStorageById(Storage storage);
 
     int deleteStorage(Storage storage);
+
 }

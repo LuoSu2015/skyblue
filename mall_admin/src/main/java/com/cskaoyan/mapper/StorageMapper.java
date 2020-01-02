@@ -5,7 +5,10 @@ import com.cskaoyan.bean.StorageExample;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.mybatis.spring.annotation.MapperScan;
+
 
 public interface StorageMapper {
     long countByExample(StorageExample example);
@@ -29,4 +32,8 @@ public interface StorageMapper {
     int updateByPrimaryKeySelective(Storage record);
 
     int updateByPrimaryKey(Storage record);
+
+    Integer addWxStorage(@Param("storage") Storage storage);
+
+    Storage getStorageById(@Param("id") Integer id);
 }

@@ -1,14 +1,16 @@
 package com.cskaoyan.bean;
 
+import lombok.Data;
+
 import java.math.BigDecimal;
 import java.util.Date;
-
+@Data
 public class GoodsProduct {
     private Integer id;
 
     private Integer goodsId;
 
-    private String specifications;
+    private String[] specifications;
 
     private BigDecimal price;
 
@@ -21,6 +23,7 @@ public class GoodsProduct {
     private Date updateTime;
 
     private Boolean deleted;
+
 
     public Integer getId() {
         return id;
@@ -38,12 +41,12 @@ public class GoodsProduct {
         this.goodsId = goodsId;
     }
 
-    public String getSpecifications() {
+    public String[] getSpecifications() {
         return specifications;
     }
 
-    public void setSpecifications(String specifications) {
-        this.specifications = specifications == null ? null : specifications.trim();
+    public void setSpecifications(String[] specifications) {
+        this.specifications = specifications == null ? null : specifications;
     }
 
     public BigDecimal getPrice() {
@@ -90,7 +93,5 @@ public class GoodsProduct {
         return deleted;
     }
 
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
-    }
+
 }

@@ -2,7 +2,10 @@ package com.cskaoyan.controller;
 
 import com.cskaoyan.bean.BaseRespVo;
 import com.cskaoyan.bean.Keyword;
+import com.cskaoyan.bean.User;
 import com.cskaoyan.service.WxSearchService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,7 +23,9 @@ public class WxSearchController {
     @RequestMapping("wx/search/index")
     public BaseRespVo showSearch(){
         //获取shiro的userId
-        Integer userId = 1;
+        Subject subject = SecurityUtils.getSubject();
+        User user = (User) subject.getPrincipal();
+        Integer userId = user.getId();
 
         BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
         Map<String,Object> data = new HashMap<>();
