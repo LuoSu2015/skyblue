@@ -27,7 +27,7 @@ public class ShiroConfig {
         LinkedHashMap<String, String> linkedHashMap = new LinkedHashMap<>();
 //        linkedHashMap.put("/wx/auth/login","anon");
         linkedHashMap.put("/admin/auth/login", "anon");
-        linkedHashMap.put("/admin/auth/logout","logout");
+        linkedHashMap.put("/admin/auth/logout","anon");
 
         /* 当你分配了perm1的权限时才能访问need/perm这请求
         filterMap.put("/need/perm","perms[perm1]");
