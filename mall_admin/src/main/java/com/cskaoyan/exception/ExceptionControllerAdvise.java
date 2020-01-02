@@ -32,14 +32,14 @@ public class ExceptionControllerAdvise {
         return baseRespVo;
     }
     //空指针异常
-    @ExceptionHandler({NullPointerException.class})
+/*    @ExceptionHandler({NullPointerException.class})
     @ResponseBody
     public BaseRespVo nullPointException(Exception e){
         BaseRespVo baseRespVo = new BaseRespVo();
         baseRespVo.setErrno(507);
         baseRespVo.setErrmsg("您查询的内容为空");
         return baseRespVo;
-    }
+    }*/
     //数据库异常
     @ExceptionHandler({SQLException.class})
     @ResponseBody

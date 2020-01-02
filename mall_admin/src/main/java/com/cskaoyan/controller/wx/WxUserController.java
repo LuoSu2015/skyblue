@@ -6,7 +6,9 @@ import com.cskaoyan.bean.Order;
 import com.cskaoyan.bean.User;
 import com.cskaoyan.bean.wx.OrderStatus;
 import com.cskaoyan.bean.wx.WxWrapper;
+import com.cskaoyan.mapper.OrderMapper;
 import com.cskaoyan.service.AuthenService;
+import com.cskaoyan.service.OrderService;
 import com.cskaoyan.shiro.config.ShiroConfig;
 import com.cskaoyan.shiro.token.UserToken;
 import org.apache.shiro.SecurityUtils;
@@ -32,6 +34,8 @@ public class WxUserController {
 
     @Autowired
     AuthenService authenService;
+    @Autowired
+    OrderService orderService;
 
     @RequestMapping("wx/auth/login")
     public BaseRespVo userLogin(@RequestBody UserToken userToken) {
@@ -62,16 +66,15 @@ public class WxUserController {
     /*未完成，*/
     @RequestMapping("wx/user/index")
     public BaseRespVo userIndex(){
-        BaseRespVo baseRespVo = new BaseRespVo();
-       /* Subject subject = SecurityUtils.getSubject();
+        Subject subject = SecurityUtils.getSubject();
         User user = (User) subject.getPrincipal();
-        Order order=authenService.queryOrderByUserId(user.getId());*/
-        OrderStatus orderStatus = new OrderStatus();
-        orderStatus.setUncomment(0);
-        orderStatus.setUnpaid(0);
-        orderStatus.setUnrecv(0);
-        orderStatus.setUnship(0);
-        baseRespVo.setData(orderStatus);
+        BaseRespVo baseRespVo = new BaseRespVo();
+        OrderStatus orderStatus = orderService.selectOrderStatus(user);
+        Map map = new HashMap();
+        map.put("order",orderStatus);
+        baseRespVo.setErrno(0);
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setData(map);
         return baseRespVo;
     }
 

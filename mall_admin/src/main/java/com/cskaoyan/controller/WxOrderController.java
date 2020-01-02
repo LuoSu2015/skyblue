@@ -1,7 +1,10 @@
 package com.cskaoyan.controller;
 
 import com.cskaoyan.bean.BaseRespVo;
+import com.cskaoyan.bean.Comment;
+import com.cskaoyan.bean.Order;
 import com.cskaoyan.bean.User;
+import com.cskaoyan.bean.wx.order.OrderGoodsReturn;
 import com.cskaoyan.service.OrderService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -10,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -68,9 +73,15 @@ public class WxOrderController {
      * @return
      */
     @RequestMapping("wx/order/prepay")
-    public BaseRespVo prePay(@PathVariable Map map){
-        Integer orderId = (Integer) map.get("orderId");
-        return null;
+    public BaseRespVo prePay(@RequestBody Map map){
+        String orderIdStr = (String ) map.get("orderId");
+        int orderId = Integer.parseInt(orderIdStr);
+        orderService.payOrders(orderId);
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrno(0);
+        baseRespVo.setData(null);
+        baseRespVo.setErrmsg("成功");
+        return baseRespVo;
     }
 
 
@@ -80,8 +91,12 @@ public class WxOrderController {
      * @return
      */
     @RequestMapping("wx/order/confirm")
-    public BaseRespVo confirmOrder(@PathVariable Map map){
+    public BaseRespVo confirmOrder(@RequestBody Map map){
         Integer orderId = (Integer) map.get("orderId");
+        orderService.orderConfirm(orderId);
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrno(0);
+        baseRespVo.setErrmsg("成功");
         return null;
     }
 
@@ -128,5 +143,31 @@ public class WxOrderController {
         return baseRespVo;
     }
 
+    /**
+     * 显示提交信息页面的商品信息
+     * @param goodsId
+     * @param orderId
+     * @return
+     */
+    @RequestMapping("wx/order/goods")
+    public BaseRespVo goodsOrder(Integer goodsId,Integer orderId){
+        OrderGoodsReturn orderGoodsReturn = orderService.selectOrderGoodsReturn(goodsId, orderId);
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrno(0);
+        baseRespVo.setData(orderGoodsReturn);
+        baseRespVo.setErrmsg("成功");
+        return baseRespVo;
+    }
+
+    @RequestMapping("wx/order/comment")
+    public BaseRespVo createComment(@RequestBody Comment comment){
+        Subject subject = SecurityUtils.getSubject();
+        User user = (User) subject.getPrincipal();
+        orderService.insertComment(comment,user);
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrno(0);
+        baseRespVo.setErrmsg("成功");
+        return baseRespVo;
+    }
 
 }
