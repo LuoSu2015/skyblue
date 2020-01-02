@@ -1,5 +1,7 @@
 package com.cskaoyan.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -20,14 +22,16 @@ public class Cart {
 
     private Short number;
 
-    private String specifications;
+    private String[] specifications;
 
     private Boolean checked;
 
     private String picUrl;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date addTime;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date updateTime;
 
     private Boolean deleted;
@@ -96,12 +100,12 @@ public class Cart {
         this.number = number;
     }
 
-    public String getSpecifications() {
+    public String[] getSpecifications() {
         return specifications;
     }
 
-    public void setSpecifications(String specifications) {
-        this.specifications = specifications == null ? null : specifications.trim();
+    public void setSpecifications(String[] specifications) {
+        this.specifications = specifications == null ? null : specifications;
     }
 
     public Boolean getChecked() {

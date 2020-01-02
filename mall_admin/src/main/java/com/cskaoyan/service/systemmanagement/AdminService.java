@@ -3,8 +3,9 @@ package com.cskaoyan.service.systemmanagement;
 import com.cskaoyan.bean.Admin;
 import com.cskaoyan.bean.Log;
 import org.springframework.stereotype.Service;
-
+import java.util.Map;
 import java.util.List;
+
 @Service
 public interface AdminService {
 
@@ -29,4 +30,9 @@ public interface AdminService {
      */
     List<Log> loglist(int page, int limit, String name, String sort, String order);
 
+    /**
+     * 首页显示功能
+     * @return 首页数据统计
+     */
+    Map dashboard();
 }

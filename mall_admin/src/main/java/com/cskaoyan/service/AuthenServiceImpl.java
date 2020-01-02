@@ -16,13 +16,13 @@ public class AuthenServiceImpl implements AuthenService{
     @Autowired
     RoleMapper roleMapper;
     @Override
-    public List<String> queryRoleNameByRoleIds(String[] roleIds) {
+    public List<String> queryRoleNameByRoleIds(Integer[] roleIds) {
 
         RoleExample roleExample = new RoleExample();
         RoleExample.Criteria criteria = roleExample.createCriteria();
         List<String> roleNameList = new ArrayList<>();
-        for (String roleId : roleIds) {
-            int i = Integer.parseInt(roleId);
+        for (Integer roleId : roleIds) {
+            int i = roleId;
             criteria.andIdEqualTo(i);
             List<Role> roles = roleMapper.selectByExample(roleExample);
             for (Role r : roles) {
@@ -36,12 +36,12 @@ public class AuthenServiceImpl implements AuthenService{
     @Autowired
     PermissionMapper permissionMapper;
     @Override
-    public List<String> queryPermissionByRoleIds(String[] roleIds) {
+    public List<String> queryPermissionByRoleIds(Integer[] roleIds) {
         PermissionExample permissionExample = new PermissionExample();
         PermissionExample.Criteria criteria = permissionExample.createCriteria();
         List<String> permissionList = new ArrayList();
-        for (String roleId : roleIds) {
-            criteria.andRoleIdEqualTo(Integer.parseInt(roleId));
+        for (Integer roleId : roleIds) {
+            criteria.andRoleIdEqualTo(roleId);
             List<Permission> pemissions = permissionMapper.selectByExample(permissionExample);
             for (Permission p : pemissions) {
                 permissionList.add(p.getPermission());

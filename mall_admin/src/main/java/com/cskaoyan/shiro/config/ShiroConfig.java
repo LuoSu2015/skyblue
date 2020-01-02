@@ -25,7 +25,7 @@ public class ShiroConfig {
         /*对请求的过滤*/
         /*一定要用Linked，因为它是有序的*/
         LinkedHashMap<String, String> linkedHashMap = new LinkedHashMap<>();
-        linkedHashMap.put("/wx/auth/login","anon");
+//        linkedHashMap.put("/wx/auth/login","anon");
         linkedHashMap.put("/admin/auth/login", "anon");
         linkedHashMap.put("/admin/auth/logout","logout");
 

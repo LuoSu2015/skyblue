@@ -14,6 +14,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.Serializable;
@@ -55,7 +56,7 @@ public class AdminController {
         Admin admin = (Admin) subject.getPrincipal();
         String username = admin.getUsername();
         String avatar = admin.getAvatar();
-        String[] roleIds = admin.getRoleIds();
+        Integer[] roleIds = admin.getRoleIds();
 
         List<String> roleNameList = authenService.queryRoleNameByRoleIds(roleIds);
         List<String> permissionList = authenService.queryPermissionByRoleIds(roleIds);
@@ -99,23 +100,18 @@ public class AdminController {
     AdminServiceImpl adminService;
 
     /**
-     * 系统管理模块操作日志功能实现
+     * 首页显示功能
+     * @return 首页数据统计
      */
-    @RequestMapping("admin/log/list")
-    public BaseRespVo loglist(int page, int limit, String name, String sort, String order) {
-        List<Log> loglist = adminService.loglist(page, limit, name, sort, order);
-        PageInfo<Log> pageInfo = new PageInfo<>(loglist);
-        long total = pageInfo.getTotal();
-        Map map = new HashMap();
-        map.put("total", total);
-        map.put("items", loglist);
+    @RequestMapping(value = "admin/dashboard" ,method = RequestMethod.GET)
+    public BaseRespVo dashboard(){
+        Map map = adminService.dashboard();
         BaseRespVo baseRespVo = new BaseRespVo();
-        baseRespVo.setData(map);
         baseRespVo.setErrno(0);
+        baseRespVo.setData(map);
         baseRespVo.setErrmsg("成功");
         return baseRespVo;
     }
-
     /*注销*/
     @RequestMapping("admin/auth/logout")
     public BaseRespVo logout() {

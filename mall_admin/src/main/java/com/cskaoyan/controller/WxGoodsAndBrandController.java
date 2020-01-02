@@ -109,10 +109,21 @@ public class WxGoodsAndBrandController {
         BaseRespVo baseRespVo = new BaseRespVo();
         Category currentCategory = wxGoodsAndBrandService.selectCategoryById(id);
         Integer categoryId = currentCategory.getPid();
-        List<Category> brotherCategory = wxGoodsAndBrandService.selectCategoryByPid(categoryId);
+        List<Category> brotherCategory = new ArrayList<>();
+
+        Category parentCategory = new Category();
+        if(categoryId != 0){
+            brotherCategory = wxGoodsAndBrandService.selectCategoryByPid(categoryId);
+            parentCategory  = wxGoodsAndBrandService.selectCategoryById(categoryId);
+        }else {
+            brotherCategory = wxGoodsAndBrandService.selectCategoryByPid(id);
+            parentCategory = currentCategory;
+        }
+
         HashMap<String, Object> map = new HashMap<>();
         map.put("currentCategory",currentCategory);
         map.put("brotherCategory",brotherCategory);
+        map.put("parentCategory",parentCategory);
         baseRespVo.setErrno(0);
         baseRespVo.setErrmsg("成功");
         baseRespVo.setData(map);

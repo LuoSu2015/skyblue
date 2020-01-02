@@ -43,7 +43,7 @@ public class WxGrouponController {
      * @param showType 确认团购状态的状态码
      * @return user个人的团购信息
      */
-    @RequestMapping("groupon/my")
+    @RequestMapping("wx/groupon/my")
     public BaseRespVo grouponMy(@RequestParam Integer showType) {
         Map<String, Object> grouponMy = wxGrouponService.wxGrouponMy(showType);
         BaseRespVo baseRespVo = new BaseRespVo();
@@ -58,7 +58,7 @@ public class WxGrouponController {
      * @param grouponId 团购ID
      * @return user个人的团购信息
      */
-    @RequestMapping("groupon/detail")
+    @RequestMapping("wx/groupon/detail")
     public BaseRespVo grouponDetail(@RequestParam Integer grouponId) {
         Map<String, Object> grouponDetail = wxGrouponService.wxGrouponDetail(grouponId);
         BaseRespVo baseRespVo = new BaseRespVo();

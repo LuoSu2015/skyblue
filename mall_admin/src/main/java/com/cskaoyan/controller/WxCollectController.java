@@ -1,12 +1,15 @@
 package com.cskaoyan.controller;
 import com.cskaoyan.bean.BaseRespVo;
+import com.cskaoyan.bean.User;
 import com.cskaoyan.bean.WxMyCollect;
 import com.cskaoyan.service.WxCollectService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,10 +26,9 @@ public class WxCollectController {
     @RequestMapping("wx/collect/list")
     public BaseRespVo showCollect(Integer type,Integer page,Integer size){
         //获取shiro认证后的用户id（待修改）
-        Session session = SecurityUtils.getSubject().getSession();
-        System.out.println(session.getId());
-        Integer userId = 1;
-
+        Subject subject = SecurityUtils.getSubject();
+        User user = (User) subject.getPrincipal();
+        Integer userId = user.getId();
 
         BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
         Map<String,Object> data = new HashMap<>();
@@ -56,9 +58,13 @@ public class WxCollectController {
     }
 
     @RequestMapping("wx/collect/addordelete")
-    public BaseRespVo addOrDeleteCollect(@RequestParam Integer type,Integer valueId){
+    public BaseRespVo addOrDeleteCollect(@RequestBody Map<String,Integer> map){
+        Integer type = map.get("type");
+        Integer valueId = map.get("valueId");
         //获取shiro认证后的用户id（待修改）
-        Integer userId = 1;
+        Subject subject = SecurityUtils.getSubject();
+        User user = (User) subject.getPrincipal();
+        Integer userId = user.getId();
 
         BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
         Map<String,Object> data = new HashMap<>();
