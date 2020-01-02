@@ -90,9 +90,9 @@ public class CartServiceImpl implements CartService {
         Integer isChecked = (Integer) map.get("isChecked");
         Boolean flag;
         if (isChecked == 0) {
-            flag = false;
-        } else {
             flag = true;
+        } else {
+            flag = false;
         }
         List<Integer> productIds = (List<Integer>) map.get("productIds");
         for (Integer productId : productIds) {
@@ -115,7 +115,7 @@ public class CartServiceImpl implements CartService {
         CartExample.Criteria criteria = cartExample.createCriteria();
         criteria.andGoodsIdEqualTo(goodsId).andProductIdEqualTo(productId).andUserIdEqualTo(userId);
         List<Cart> cartList = cartMapper.selectByExample(cartExample);
-        if (cartList.size()>0) {
+        if (cartList.size() > 0) {
             /*cart存在的话，就只需要改当前的cart*/
             Cart cart = cartList.get(0);
             Short number = cart.getNumber();
@@ -178,25 +178,35 @@ public class CartServiceImpl implements CartService {
     @Override
     public Integer fastAdd(Map map) {
         Integer goodsId = (Integer) map.get("goodsId");
-        Integer number = (Integer) map.get("number");
+        Integer queryNumber = (Integer) map.get("number");
         Integer productId = (Integer) map.get("productId");
+        Subject subject = SecurityUtils.getSubject();
+        User user = (User) subject.getPrincipal();
 
-        GoodsProductExample goodsProductExample = new GoodsProductExample();
-        GoodsProductExample.Criteria criteria = goodsProductExample.createCriteria();
-        criteria.andGoodsIdEqualTo(goodsId).andIdEqualTo(productId);
-
-        List<GoodsProduct> goodsProductList = goodsProductMapper.selectByExample(goodsProductExample);
-
-        if (goodsProductList.size()>0) {
-            GoodsProduct goodsProduct = goodsProductList.get(0);
-            Integer productNumber = goodsProduct.getNumber();
-            if (productNumber >= number) {
-                return productNumber;
-            } else {
-                return -1;
-            }
+        Cart cart = new Cart();
+        Goods goods = goodsMapper.selectByPrimaryKey(goodsId);
+        GoodsProduct goodsProduct = goodsProductMapper.selectByPrimaryKey(productId);
+        cart.setUserId(user.getId());
+        cart.setGoodsId(goodsId);
+        cart.setGoodsSn(goods.getGoodsSn());
+        cart.setGoodsName(goods.getName());
+        cart.setProductId(productId);
+        cart.setPrice(goodsProduct.getPrice());
+        int actualNumber = goodsProduct.getNumber();
+        cart.setNumber((short) actualNumber);
+        cart.setSpecifications(goodsProduct.getSpecifications());
+        cart.setChecked(false);
+        cart.setPicUrl(goods.getPicUrl());
+        cart.setAddTime(new Date());
+        cart.setUpdateTime(new Date());
+        cart.setDeleted(false);
+        cartMapper.insertSelective(cart);
+        if (actualNumber >= queryNumber) {
+            return cart.getId();
+        } else {
+            return -1;
         }
-        return -1;
+
     }
 
     /*购物车下单前的确认*/
@@ -207,52 +217,94 @@ public class CartServiceImpl implements CartService {
     public BaseRespVo checketoutCart(CheckoutWrapper checkoutWrapper) {
         BaseRespVo baseRespVo = new BaseRespVo();
         Subject subject = SecurityUtils.getSubject();
-        updateDefaultAddressByQueryArgAddressId(checkoutWrapper.getAddressId());
         User user = (User) subject.getPrincipal();
-        GrouponRules grouponRules = grouponRulesMapper.selectByPrimaryKey(checkoutWrapper.getGrouponRulesId());
-        Address defaultAddress = null;
-        Double freightPrice;
-        CartStatus cartStatus = currentCartStatusByDefaultUser();
-        List<Cart> checkedCartList = cartStatus.getCheckedCartList();
+
+        Integer cartId = checkoutWrapper.getCartId();
+
+        /*AddressId  共用*/
+        Map hashMap = new HashMap();
         List<Address> addressList = queryAddressByDefaultUser();
-        Double checkedGoodsAmount = cartStatus.getCartGoodsStatus().getCheckedGoodsAmount();
-        if(addressList.size()==1){
-            addressList.get(0).setIsDefault(true);
-        }
-        for (Address address : addressList) {
-            if (address.getIsDefault()) {
-                defaultAddress = address;
-                break;
+        Integer addressId = checkoutWrapper.getAddressId();
+        /*checkedAddress 共用*/
+        Address checkedAddress = queryAddressByAddressId(addressId);
+        if (checkedAddress == null) {
+            for (Address address : addressList) {
+                if (address.getIsDefault()) {
+                    checkedAddress = address;
+                    break;
+                }
             }
         }
-        Map hashMap = new HashMap();
-        if (checkedGoodsAmount >= 88) {
+        /*groupRulesId 共用*/
+        Integer grouponRulesId = checkoutWrapper.getGrouponRulesId();
+        /*availableCouponLength 共用*/
+        List<Coupon> availableCoupon = queryCouponByDefaultUser();
+        Integer availableCouponLength = availableCoupon.size();
+        /*couponId 共用*/
+        Integer couponId = checkoutWrapper.getCouponId();
+        /*couponPrice 共用*/
+        Double couponPrice = 0.0;
+        Coupon coupon = queryCouponByCouponId(couponId);
+        if (coupon != null) {
+            couponPrice = coupon.getDiscount().doubleValue();
+        }
+        /*goodsTotalPrice */
+        Double goodsTotalPrice;
+        /*grouponPrice*/
+        Double grouponPrice = 0.0;
+        /*freightPrice */
+        Double freightPrice;
+        /*checkedGoodsList 不共用*/
+        List<Goods> checkedGoodsList;
+        /*actualPrice*/
+        Double actualPrice = 0.0;
+
+
+        if (cartId == 0) {
+            CartStatus cartStatus = currentCartStatusByDefaultUser(); // 购物车状态
+            actualPrice = cartStatus.getCartGoodsStatus().getCheckedGoodsAmount();
+            checkedGoodsList = cartStatus.getCheckedGoodsList();
+        } else {
+            Cart cart = cartMapper.selectByPrimaryKey(cartId);
+            Integer goodsId = cart.getGoodsId();
+            Goods goods = goodsMapper.selectByPrimaryKey(goodsId);
+            ArrayList<Goods> list = new ArrayList<>();
+            list.add(goods);
+            checkedGoodsList=list;
+            actualPrice = cart.getPrice().doubleValue();
+
+        }
+
+        if (actualPrice >= 88.0) {
             freightPrice = 0.0;
         } else {
             freightPrice = 10.0;
         }
-        hashMap.put("addressId", defaultAddress.getId());
-        /*可用优惠券和团购规则 */
-        List<Coupon> availableCouponLength = queryCouponByDefaultUser();
-        hashMap.put("availableCouponLength", availableCouponLength.size());
-        hashMap.put("checkedAddress", defaultAddress);
-        hashMap.put("checkedGoodsList", checkedCartList);
-        hashMap.put("couponId", checkoutWrapper.getCouponId());
-        hashMap.put("grouponRulesId", checkoutWrapper.getGrouponRulesId());
-        /*优惠券折扣*/
-        Coupon coupon = queryCouponByCouponId(checkoutWrapper.getCouponId());
-        Double discount = coupon.getDiscount().doubleValue();
-        double actualPrice = checkedGoodsAmount + freightPrice;
-        hashMap.put("couponPrice", 0);
-        /*运费*/
+        goodsTotalPrice=actualPrice;
+        actualPrice = actualPrice + freightPrice;
+
+        /*AddressId */
+        hashMap.put("addressId", addressId);
+        /*groupRulesId*/
+        hashMap.put("groupRulesId", grouponRulesId);
+        /*availableCouponLength*/
+        hashMap.put("availableCouponLength", availableCouponLength);
+        /*checkedAddress*/
+        hashMap.put("checkedAddress", checkedAddress);
+        /*checkedGoodsList*/
+        hashMap.put("checkedGoodsList", checkedGoodsList);
+        /*couponId*/
+        hashMap.put("couponId", couponId);
+        /*couponPrice*/
+        hashMap.put("couponPrice", couponPrice);
+        /*freightPrice*/
         hashMap.put("freightPrice", freightPrice);
-        /*商品总价格，没有用到优惠券和团购*/
-        hashMap.put("goodsTotalPrice", checkedGoodsAmount);
-        /*团购折扣*/
-        hashMap.put("grouponPrice", 0);
-        /*实际费用*/
+        /*goodsTotalPrice*/
+        hashMap.put("goodsTotalPrice", goodsTotalPrice);
+        /*grouponPrice*/
+        hashMap.put("grouponPrice", grouponPrice);
         hashMap.put("actualPrice", actualPrice);
-        hashMap.put("orderTotalPrice", actualPrice);
+        hashMap.put("orderTotalPrice", goodsTotalPrice);
         baseRespVo.setData(hashMap);
         return baseRespVo;
     }
@@ -288,14 +340,20 @@ public class CartServiceImpl implements CartService {
     public CartStatus currentCartStatusByDefaultUser() {
         Subject subject = SecurityUtils.getSubject();
         User user = (User) subject.getPrincipal();
+       /* GoodsExample goodsExample = new GoodsExample;
+        GoodsExample.Criteria criteria = goodsExample.createCriteria();*/
+
         CartStatus cartStatus = new CartStatus();
         List<Cart> checkedCartList = new LinkedList();
         CartGoodsStatus cartGoodsStatus = new CartGoodsStatus();
+
         Double goodsAmount = 0.0;
         Double checkedGoodsAmount = 0.0;
         int checkedGoodsCount = 0;
         int goodsCount = 0;
         List<Cart> cartList = queryCartList();
+        List<Goods> checkedGoodsList = null;
+
         goodsCount = cartList.size();
         for (Cart cart : cartList) {
             /*转成Double类型*/
@@ -304,6 +362,7 @@ public class CartServiceImpl implements CartService {
                 checkedGoodsAmount += cart.getPrice().doubleValue();
                 checkedGoodsCount++;
                 checkedCartList.add(cart);
+                checkedGoodsList.add(goodsMapper.selectByPrimaryKey(cart.getGoodsId()));
             }
         }
         cartGoodsStatus.setGoodsCount(goodsCount);
@@ -313,6 +372,7 @@ public class CartServiceImpl implements CartService {
         cartStatus.setCartGoodsStatus(cartGoodsStatus);
         cartStatus.setCartList(cartList);
         cartStatus.setCheckedCartList(checkedCartList);
+        cartStatus.setCheckedGoodsList(checkedGoodsList);
         return cartStatus;
     }
 
@@ -342,7 +402,7 @@ public class CartServiceImpl implements CartService {
         for (CouponUser couponUser : couponUserList) {
             criteria.andIdEqualTo(couponUser.getCouponId());
             List<Coupon> couponList = couponMapper.selectByExample(couponExample);
-            if (couponList.size()>0) {
+            if (couponList.size() > 0) {
                 Coupon coupon = couponList.get(0);
                 checkedCouponList.add(coupon);
             }
@@ -361,5 +421,10 @@ public class CartServiceImpl implements CartService {
     GrouponRules queryGrouponRulesByGrouponRulesId(Integer grouponRulesId) {
         GrouponRules grouponRules = grouponRulesMapper.selectByPrimaryKey(grouponRulesId);
         return grouponRules;
+    }
+
+    Address queryAddressByAddressId(Integer addressId) {
+        Address address = addressMapper.selectByPrimaryKey(addressId);
+        return address;
     }
 }

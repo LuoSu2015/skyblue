@@ -121,7 +121,7 @@
       #{checked,jdbcType=BIT}, #{picUrl,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT})
   </insert>
-  <insert id="insertSelective" parameterType="com.cskaoyan.bean.Cart">
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.cskaoyan.bean.Cart">
     insert into cskaoyan_mall_cart
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
