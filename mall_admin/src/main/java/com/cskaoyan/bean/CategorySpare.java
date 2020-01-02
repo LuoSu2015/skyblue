@@ -3,7 +3,7 @@ package com.cskaoyan.bean;
 import java.util.Date;
 import java.util.List;
 
-public class Category2 {
+public class CategorySpare {
     private Integer id;
 
     private String name;

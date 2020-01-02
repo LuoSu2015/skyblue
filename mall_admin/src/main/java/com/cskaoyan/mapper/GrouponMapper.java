@@ -3,6 +3,8 @@ package com.cskaoyan.mapper;
 import com.cskaoyan.bean.Groupon;
 import com.cskaoyan.bean.GrouponExample;
 import java.util.List;
+
+import com.cskaoyan.bean.wxgroupon.WxGroupon;
 import org.apache.ibatis.annotations.Param;
 
 public interface GrouponMapper {
@@ -27,4 +29,6 @@ public interface GrouponMapper {
     int updateByPrimaryKeySelective(Groupon record);
 
     int updateByPrimaryKey(Groupon record);
+
+    List<WxGroupon> getGrouponList();
 }

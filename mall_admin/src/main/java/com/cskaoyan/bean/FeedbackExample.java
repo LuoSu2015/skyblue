@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class FeetbackExample {
+public class FeedbackExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public FeetbackExample() {
+    public FeedbackExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 

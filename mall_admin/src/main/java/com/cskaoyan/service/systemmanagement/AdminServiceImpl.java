@@ -1,14 +1,16 @@
-package com.cskaoyan.service.systemManagement;
+package com.cskaoyan.service.systemmanagement;
 
 import com.cskaoyan.bean.*;
 import com.cskaoyan.mapper.*;
 import com.github.pagehelper.PageHelper;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+<<<<<<< HEAD:mall_admin/src/main/java/com/cskaoyan/service/systemManagement/AdminServiceImpl.java
 import java.util.Date;
 import java.util.HashMap;
+=======
+>>>>>>> 55197a86120fd05d5d27b533e8c37c958755c1ea:mall_admin/src/main/java/com/cskaoyan/service/systemmanagement/AdminServiceImpl.java
 import java.util.List;
 import java.util.Map;
 
