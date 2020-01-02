@@ -2,11 +2,11 @@ package com.cskaoyan.controller;
 
 import com.cskaoyan.bean.*;
 import com.cskaoyan.bean.systemManagement.Roles;
-import com.cskaoyan.service.systemmanagement.AdminService;
-
+import com.cskaoyan.bean.systemManagement.SystemPermissions;
 import com.cskaoyan.service.systemmanagement.RoleService;
-
 import com.cskaoyan.service.systemmanagement.StorageService;
+
+import com.cskaoyan.service.systemmanagement.AdminService;
 import com.cskaoyan.util.uploadPic.AliyunOssUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -15,6 +15,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -159,6 +160,12 @@ public class SystemManagementController {
         return map;
     }
 
+
+    /**
+     * 创建角色
+     * @param role
+     * @return
+     */
     @RequiresPermissions(value = {"admin:role:create"},logical = Logical.OR)
     @RequestMapping("admin/role/create")
     public BaseRespVo createRole(@RequestBody Role role){
@@ -169,7 +176,16 @@ public class SystemManagementController {
         baseRespVo.setErrmsg("成功");
         return baseRespVo;
     }
-    @RequiresPermissions(value = {"admin:role:update"},logical = Logical.OR)
+
+
+
+
+    /**
+     * 修改角色
+     * @param role
+     * @return
+     */
+    @RequiresPermissions(value = {"admin:role:update"})
     @RequestMapping("admin/role/update")
     public BaseRespVo updateRole(@RequestBody Role role){
         int i = roleService.updateRole(role);
@@ -184,6 +200,14 @@ public class SystemManagementController {
         return baseRespVo;
     }
 
+
+
+
+    /**
+     * 删除角色
+     * @param role
+     * @return
+     */
     @RequiresPermissions(value = {"admin:role:delete"},logical = Logical.OR)
     @RequestMapping("admin/role/delete")
     public BaseRespVo deleteRole(@RequestBody Role role){
@@ -199,7 +223,50 @@ public class SystemManagementController {
         return baseRespVo;
     }
 
-    @RequiresPermissions(value = {"admin:storage:list"},logical = Logical.OR)
+
+
+
+    /**
+     * 授权页面
+     */
+    @RequiresPermissions(value = {"admin:storage:list"})
+    @RequestMapping(value = "admin/role/permissions", method = RequestMethod.GET)
+    public BaseRespVo getPermissions(Integer roleId){
+        Map map = roleService.getPermissions(roleId);
+        BaseRespVo baseRespVo = new BaseRespVo<>();
+        baseRespVo.setErrno(0);
+        baseRespVo.setErrmsg("成功");
+        baseRespVo.setData(map);
+        return baseRespVo;
+    }
+
+    /**
+     * 授权页面
+     */
+    @RequestMapping(value = "admin/role/permissions", method = RequestMethod.POST)
+    public BaseRespVo getPermissions(@RequestBody Map map){
+        Integer roleId = (Integer) map.get("roleId");
+        List<String> permissions = (List<String>) map.get("permissions");
+        roleService.setPermissions(roleId,permissions);
+        BaseRespVo baseRespVo = new BaseRespVo<>();
+
+        baseRespVo.setErrno(0);
+        baseRespVo.setErrmsg("成功");
+
+        return baseRespVo;
+    }
+
+    /**
+     * 对象存储
+     * @param page
+     * @param limit
+     * @param sort
+     * @param order
+     * @param key
+     * @param name
+     * @return
+     */
+
     @RequestMapping("admin/storage/list")
     public BaseRespVo getStorages(int page, int limit, String sort, String order,String key,String name){
 
@@ -217,6 +284,15 @@ public class SystemManagementController {
         return baseRespVo;
     }
 
+
+
+
+    /**
+     * 修改对象
+     * @param storage
+     * @return
+     */
+
     @RequiresPermissions(value = {"admin:storage:update"},logical = Logical.OR)
     @RequestMapping("admin/storage/update")
     public BaseRespVo updateStorage(@RequestBody Storage storage){
@@ -231,6 +307,16 @@ public class SystemManagementController {
         }
         return baseRespVo;
     }
+
+
+
+
+    /**
+     * 删除对象
+     * @param storage
+     * @return
+     */
+
     @RequiresPermissions(value = {"admin:storage:delete"},logical = Logical.OR)
     @RequestMapping("admin/storage/delete")
     public BaseRespVo deleteStorage(@RequestBody Storage storage){

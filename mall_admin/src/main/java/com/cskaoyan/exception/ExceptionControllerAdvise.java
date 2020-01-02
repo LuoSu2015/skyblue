@@ -12,7 +12,7 @@ import java.sql.SQLException;
 @ControllerAdvice
 public class ExceptionControllerAdvise {
 
-/*//     授权异常
+//     授权异常
     @ExceptionHandler({AuthorizationException.class})
     @ResponseBody
     public BaseRespVo handlerAuthorException(Exception e){
@@ -30,8 +30,9 @@ public class ExceptionControllerAdvise {
         baseRespVo.setErrmsg("未登录或登录失败");
         return baseRespVo;
     }
+
     //空指针异常
-    @ExceptionHandler({NullPointerException.class})
+   @ExceptionHandler({NullPointerException.class})
     @ResponseBody
     public BaseRespVo nullPointException(Exception e){
         BaseRespVo baseRespVo = new BaseRespVo();
@@ -40,6 +41,7 @@ public class ExceptionControllerAdvise {
         return baseRespVo;
     }
     //数据库异常
+
     @ExceptionHandler({SQLException.class})
     @ResponseBody
     public BaseRespVo sqlException(Exception e){
@@ -47,5 +49,5 @@ public class ExceptionControllerAdvise {
         baseRespVo.setErrno(508);
         baseRespVo.setErrmsg("数据库繁忙,稍后再试");
         return baseRespVo;
-    }*/
+    }
 }

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 public class HandleOption {
     @Value("false")
     boolean cancel;
-    @Value("true")
+    @Value("false")
     boolean delete;
     @Value("false")
     boolean pay;
