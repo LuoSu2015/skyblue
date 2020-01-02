@@ -5,8 +5,8 @@ import lombok.Data;
 @Data
 public class BaseRespVo<T> {
      T data;
-     int errno;
-     String errmsg;
+     int errno = 0;
+     String errmsg ="成功";
 
      public T getData() {
           return data;
