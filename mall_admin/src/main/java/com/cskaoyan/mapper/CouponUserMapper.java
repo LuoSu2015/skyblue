@@ -27,4 +27,6 @@ public interface CouponUserMapper {
     int updateByPrimaryKeySelective(CouponUser record);
 
     int updateByPrimaryKey(CouponUser record);
+
+    int selectLastInsertId();
 }

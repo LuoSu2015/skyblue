@@ -5,6 +5,7 @@ import com.cskaoyan.bean.Log;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface AdminService {
 
@@ -29,4 +30,9 @@ public interface AdminService {
      */
     List<Log> loglist(int page, int limit, String name, String sort, String order);
 
+    /**
+     * 首页显示功能
+     * @return 首页数据统计
+     */
+    Map dashboard();
 }
