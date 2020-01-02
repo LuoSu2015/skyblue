@@ -109,13 +109,13 @@ public class CartServiceImpl implements CartService {
         Integer goodsId = (Integer) map.get("goodsId");
         int addNumber = (Integer) map.get("number");
         Integer productId = (Integer) map.get("productId");
-        User user = (User) SecurityUtils.getSubject();
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
         Integer userId = user.getId();
         CartExample cartExample = new CartExample();
         CartExample.Criteria criteria = cartExample.createCriteria();
         criteria.andGoodsIdEqualTo(goodsId).andProductIdEqualTo(productId).andUserIdEqualTo(userId);
         List<Cart> cartList = cartMapper.selectByExample(cartExample);
-        if (cartList != null) {
+        if (cartList.size()>0) {
             /*cart存在的话，就只需要改当前的cart*/
             Cart cart = cartList.get(0);
             Short number = cart.getNumber();
@@ -187,7 +187,7 @@ public class CartServiceImpl implements CartService {
 
         List<GoodsProduct> goodsProductList = goodsProductMapper.selectByExample(goodsProductExample);
 
-        if (goodsProductList != null) {
+        if (goodsProductList.size()>0) {
             GoodsProduct goodsProduct = goodsProductList.get(0);
             Integer productNumber = goodsProduct.getNumber();
             if (productNumber >= number) {
@@ -341,7 +341,7 @@ public class CartServiceImpl implements CartService {
         for (CouponUser couponUser : couponUserList) {
             criteria.andIdEqualTo(couponUser.getCouponId());
             List<Coupon> couponList = couponMapper.selectByExample(couponExample);
-            if (couponList != null) {
+            if (couponList.size()>0) {
                 Coupon coupon = couponList.get(0);
                 checkedCouponList.add(coupon);
             }
