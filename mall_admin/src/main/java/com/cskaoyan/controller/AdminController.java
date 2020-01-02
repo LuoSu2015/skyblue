@@ -55,7 +55,7 @@ public class AdminController {
         Admin admin = (Admin) subject.getPrincipal();
         String username = admin.getUsername();
         String avatar = admin.getAvatar();
-        String[] roleIds = admin.getRoleIds();
+        Integer[] roleIds = admin.getRoleIds();
 
         List<String> roleNameList = authenService.queryRoleNameByRoleIds(roleIds);
         List<String> permissionList = authenService.queryPermissionByRoleIds(roleIds);

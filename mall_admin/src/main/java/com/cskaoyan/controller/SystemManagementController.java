@@ -7,11 +7,16 @@ import com.cskaoyan.service.systemmanagement.AdminService;
 import com.cskaoyan.service.systemmanagement.RoleService;
 
 import com.cskaoyan.service.systemmanagement.StorageService;
+import com.cskaoyan.util.uploadPic.AliyunOssUtils;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 
 @RestController
@@ -66,24 +71,16 @@ public class SystemManagementController {
 
     /**
      * 添加管理员
-     * @param admin1
+     * @param
      * @return
      */
-//    @RequestMapping("admin/admin/create")
+    @RequestMapping("admin/admin/create")
     //map接收数据
-   /* public BaseRespVo createAdmin(@RequestBody Map admin1){
+    public BaseRespVo createAdmin(@RequestBody Admin admin){
         BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
         baseRespVo.setErrno(0);
         Date addTime = new Date();
         Date updateTime = addTime;
-        String username = (String) admin1.get("username");
-        String password = (String) admin1.get("password");
-        List roleIds = (List) admin1.get("roleIds");
-        String string = roleIds.toString();
-        Admin admin = new Admin();
-        admin.setUsername(username);
-        admin.setPassword(password);
-        admin.setRoleIds(string);
         admin.setAddTime(addTime);
         admin.setUpdateTime(updateTime);
         admin.setDeleted(false);
@@ -93,7 +90,7 @@ public class SystemManagementController {
         baseRespVo.setData(admin2);
         baseRespVo.setErrmsg("成功");
         return baseRespVo;
-    }*/
+    }
 
     /**
      * 删除管理员
@@ -112,27 +109,28 @@ public class SystemManagementController {
 
     /**
      * 修改管理员
-     * @param map
+     * @param
      * @return
      */
     @RequestMapping("admin/admin/update")
-    public BaseRespVo updateAdmin(@RequestBody Map map){
+    public BaseRespVo updateAdmin(@RequestBody Admin admin){
         BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
         baseRespVo.setErrno(0);
-        Admin admin = new Admin();
+        /*Admin admin = new Admin();
         int id = (int) map.get("id");
         String username = (String) map.get("username");
         String password = (String) map.get("password");
         String avatar = (String) map.get("avatar");
         String roleId = (String) map.get("roleIds");
         String roleIds = roleId.toString();
+
         Date updateTime = new Date();
         admin.setId(id);
         admin.setUsername(username);
         admin.setPassword(password);
         admin.setAvatar(avatar);
-//        admin.setRoleIds(roleIds);
-        admin.setUpdateTime(updateTime);
+        admin.setRoleIds(roleIds);
+        admin.setUpdateTime(updateTime);*/
         int i = adminService.updateAdmin(admin);
         baseRespVo.setData(admin);
         baseRespVo.setErrmsg("成功");
@@ -193,8 +191,18 @@ public class SystemManagementController {
 
     @RequestMapping("admin/storage/list")
     public BaseRespVo getStorages(int page, int limit, String sort, String order,String key,String name){
-        List<Storage> storageList = storageService.queryStorages(page,limit,sort,order,key,name);
+
         BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
+        HashMap<String,Object> map = new HashMap();
+        PageHelper.startPage(page,limit);
+        List<Storage> items = storageService.queryStorages(page,limit,sort,order,key,name);
+        PageInfo pageInfo = new PageInfo(items);
+        long total = pageInfo.getTotal();
+        map.put("total",total);
+        map.put("items",items);
+        baseRespVo.setData(map);
+        baseRespVo.setErrno(0);
+        baseRespVo.setErrmsg("成功");
         return baseRespVo;
     }
 
@@ -225,5 +233,6 @@ public class SystemManagementController {
         }
         return baseRespVo;
     }
+
 
 }
