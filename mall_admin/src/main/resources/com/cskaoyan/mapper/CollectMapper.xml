@@ -265,7 +265,7 @@
   </update>
   <insert id="insertCollect">
     insert into cskaoyan_mall_collect
-    (id,user_id,value_id,value_id,`type`,add_time,update_time,deleted)
+    (id,user_id,value_id,`type`,add_time,update_time,deleted)
     value
     (null,#{userId},#{valueId},#{type},CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,false)
   </insert>

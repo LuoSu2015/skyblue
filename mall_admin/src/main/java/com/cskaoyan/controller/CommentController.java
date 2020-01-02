@@ -1,12 +1,11 @@
 package com.cskaoyan.controller;
 
-import com.cskaoyan.bean.BaseRespVo;
-import com.cskaoyan.bean.CommittedTopicComment;
-import com.cskaoyan.bean.Goods;
-import com.cskaoyan.bean.TopicComment;
+import com.cskaoyan.bean.*;
 import com.cskaoyan.service.CommentService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,7 +67,9 @@ public class CommentController {
     @RequestMapping("wx/comment/post")
     public BaseRespVo postComment(@RequestBody CommittedTopicComment comment){
         //先提交用户身份的id认证，再提交
-        Integer userId = 1;
+        Subject subject = SecurityUtils.getSubject();
+        User user = (User) subject.getPrincipal();
+        Integer userId = user.getId();
         comment.setUserId(userId);
 
         BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
