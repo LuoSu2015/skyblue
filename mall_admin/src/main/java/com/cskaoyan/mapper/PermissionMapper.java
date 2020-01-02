@@ -3,7 +3,10 @@ package com.cskaoyan.mapper;
 import com.cskaoyan.bean.Permission;
 import com.cskaoyan.bean.PermissionExample;
 import java.util.List;
+
+import com.cskaoyan.bean.systemManagement.SystemPermissions;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 public interface PermissionMapper {
     long countByExample(PermissionExample example);
@@ -27,4 +30,7 @@ public interface PermissionMapper {
     int updateByPrimaryKeySelective(Permission record);
 
     int updateByPrimaryKey(Permission record);
+
+
+    List<SystemPermissions> selectAll();
 }

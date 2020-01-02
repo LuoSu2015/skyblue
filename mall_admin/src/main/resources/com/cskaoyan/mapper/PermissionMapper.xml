@@ -85,7 +85,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from cskaoyan_mall_permission
     where id = #{id,jdbcType=INTEGER}
@@ -101,10 +101,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.cskaoyan.bean.Permission">
-    insert into cskaoyan_mall_permission (id, role_id, permission, 
+    insert into cskaoyan_mall_permission (id, role_id, permission,
       add_time, update_time, deleted
       )
-    values (#{id,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{permission,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{permission,jdbcType=VARCHAR},
       #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}
       )
   </insert>
@@ -225,4 +225,38 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <resultMap id="PermissionResultMap" type="com.cskaoyan.bean.systemManagement.SystemPermissions">
+      <id column="primary_id" property="primaryId"/>
+      <result column="id" property="id"/>
+      <result column="label" property="label"/>
+    <result column="api" property="api"/>
+    <result column="pid" property="pid"/>
+    <collection property="children" ofType="com.cskaoyan.bean.systemManagement.SystemPermissions" column="primary_id" select="permission">
+      <result column="primary_id" property="primaryId"/>
+      <result column="id" property="id"/>
+      <result column="label" property="label"/>
+      <result column="api" property="api"/>
+      <result column="pid" property="pid"/>
+      <collection property="children" ofType="com.cskaoyan.bean.systemManagement.SystemPermissions" column="primary_id" select="permission" />
+
+    </collection>
+  </resultMap>
+  <resultMap id="PermissionResultMap1" type="com.cskaoyan.bean.systemManagement.SystemPermissions">
+    <id column="primary_id" property="primaryId"/>
+    <result column="id" property="id"/>
+    <result column="label" property="label"/>
+    <result column="api" property="api"/>
+    <result column="pid" property="pid"/>
+    <collection property="children" ofType="com.cskaoyan.bean.systemManagement.SystemPermissions" column="primary_id" select="permission2"/>
+  </resultMap>
+    <select id="selectAll" resultMap="PermissionResultMap">
+      select primary_id,id,label,pid,api from cskaoyan_mall_systempermission
+      where pid = 0
+    </select>
+  <select id="permission" resultMap="PermissionResultMap1">
+    select primary_id,id,label,pid,api from cskaoyan_mall_systempermission where pid = #{primary_id}
+  </select>
+  <select id="permission2" resultType="com.cskaoyan.bean.systemManagement.SystemPermissions">
+    select primary_id,id,label,pid,api from cskaoyan_mall_systempermission where pid = #{primary_id}
+  </select>
 </mapper>

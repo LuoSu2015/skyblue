@@ -1,10 +1,8 @@
 package com.cskaoyan.service;
 
 import com.cskaoyan.bean.*;
-import com.cskaoyan.bean.wx.order.Data;
-import com.cskaoyan.bean.wx.order.GoodForOrderList;
-import com.cskaoyan.bean.wx.order.HandleOption;
-import com.cskaoyan.bean.wx.order.OrderInfo;
+import com.cskaoyan.bean.wx.OrderStatus;
+import com.cskaoyan.bean.wx.order.*;
 import com.cskaoyan.mapper.*;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -12,10 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.util.*;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -34,11 +30,14 @@ public class OrderServiceImpl implements OrderService {
     CouponMapper couponMapper;
     @Autowired
     GrouponRulesMapper grouponRulesMapper;
+    @Autowired
+    CommentMapper commentMapper;
+    @Autowired
+    UserMapper userMapper;
 
     @Override
     public Map queryOrder(Integer showType, Integer page, Integer size, Integer userId) {
         Page<Object> pages = PageHelper.startPage(page, size);
-
         //showType为0, 查询所有 状态的订单
 //        if(showType == 0){
             OrderExample example = new OrderExample();
@@ -94,24 +93,27 @@ public class OrderServiceImpl implements OrderService {
                 orderForFront.setGroupin(false);
                 orderForFront.setId(order.getId());
                 orderForFront.setOrderSn(order.getOrderSn());
+                HandleOption handleOption = new HandleOption();
                 if(order.getOrderStatus() == 101){
                     orderForFront.setOrderStatusText("未付款");
                 }else if(order.getOrderStatus() == 201){
                     orderForFront.setOrderStatusText("已付款");
+                    handleOption.setPay(false);
                 }else if(order.getOrderStatus() == 102){
                     orderForFront.setOrderStatusText("用户取消");
                 }else if(order.getOrderStatus() == 103){
                     orderForFront.setOrderStatusText("系统取消");
                 }else if(order.getOrderStatus() == 202){
                     orderForFront.setOrderStatusText("申请退款");
+                    handleOption.setRefund(true);
                 }else if(order.getOrderStatus() == 203){
                     orderForFront.setOrderStatusText("已退款");
                 }else if(order.getOrderStatus() == 301){
                     orderForFront.setOrderStatusText("已发货");
                 }else if(order.getOrderStatus() == 401){
                     orderForFront.setOrderStatusText("已收货");
+                    handleOption.setComment(true);
                 }
-                HandleOption handleOption = new HandleOption();
                 orderForFront.setHandleOption(handleOption);
                 ordersForFront.add(orderForFront);
             }
@@ -141,20 +143,23 @@ public class OrderServiceImpl implements OrderService {
         orderInfo.setOrderSn(order.getOrderSn());
         orderInfo.setActualPrice(order.getActualPrice().doubleValue());
         orderInfo.setMobile(address.getMobile());
+        HandleOption handleOption = new HandleOption();
         if(order.getOrderStatus() == 101){
             orderInfo.setOrderStatusText("未付款");
+            handleOption.setPay(true);
         }else if(order.getOrderStatus() == 201){
             orderInfo.setOrderStatusText("已付款");
         }else if(order.getOrderStatus() == 301){
             orderInfo.setOrderStatusText("已发货");
+            handleOption.setConfirm(true);
         }else if(order.getOrderStatus() == 401){
             orderInfo.setOrderStatusText("已收货");
+            handleOption.setComment(true);
         }
         orderInfo.setGoodsPrice(order.getGoodsPrice().doubleValue());
         orderInfo.setCouponPrice(order.getCouponPrice().doubleValue());
         orderInfo.setId(orderId);
         orderInfo.setFreightPrice(order.getFreightPrice().doubleValue());
-        HandleOption handleOption = new HandleOption();
         handleOption.setDelete(true);
         orderInfo.setHandleOption(handleOption);
         map.put("orderInfo",orderInfo);
@@ -169,31 +174,64 @@ public class OrderServiceImpl implements OrderService {
 
 
     /**
-     *
-     * @param cartId
-     * @param addressId
-     * @param couponId
-     * @param message
-     * @param grouponRulesId
-     * @param grouponLinkId shareURL
      * @return
      */
     @Override
-    public boolean createOrder(Integer cartId, Integer addressId, Integer couponId, String message, Integer grouponRulesId, Integer grouponLinkId) {
-        Cart cart = cartMapper.selectByPrimaryKey(cartId);
-        Address address = addressMapper.selectByPrimaryKey(addressId);
-        Coupon coupon = new Coupon();
-        GrouponRules grouponRules = new GrouponRules();
-        if(couponId != 0){
-             coupon = couponMapper.selectByPrimaryKey(couponId);
-        }
-        if(grouponRulesId != 0){
-            grouponRules = grouponRulesMapper.selectByPrimaryKey(grouponRulesId);
-        }
-        if(grouponLinkId != 0){
-
-        }
-        return false;
+    @Transactional
+    public Integer createOrder(User user) {
+        //根据addressId查找地址信息
+        Address address = addressMapper.selectByPrimaryKey(1);
+        //获取购物车信息
+        //Cart cart = cartMapper.selectByPrimaryKey(cartId);
+        //获取user信息
+       // Integer userId = cart.getUserId();
+        User user1 = userMapper.selectByPrimaryKey(user.getId());
+        //获取优惠券信息
+        //Coupon coupon = couponMapper.selectByPrimaryKey(couponId);
+        //获取商品信息
+       // Goods goods = goodsMapper.selectByPrimaryKey(cart.getGoodsId());
+        //订单状态
+        Short orderStatus = 201;
+        //当前时间
+        Date nowTime = new Date();
+        //数量
+        Short commit = 10;
+        //配送费用
+        BigDecimal max = new BigDecimal("88.00");
+        BigDecimal price = new BigDecimal(0);
+      /*  if(max.compareTo(cart.getPrice()) > 0){
+            price = price.add(new BigDecimal(8));
+        }*/
+        Order order = new Order();
+        order.setUserId(user.getId());
+        order.setOrderSn("10001");
+        order.setOrderStatus(orderStatus);
+        order.setConsignee(address.getName());
+        order.setMobile(user.getMobile());
+        order.setAddress(address.getAddress());
+        order.setMessage("ok");
+        order.setGoodsPrice(new BigDecimal(0));
+        order.setFreightPrice(price);
+        order.setCouponPrice(price);
+        order.setIntegralPrice(new BigDecimal(0));
+        order.setGrouponPrice(new BigDecimal(0));
+        order.setOrderPrice(new BigDecimal(0));
+        order.setActualPrice(new BigDecimal(0));
+        order.setPayId("1");
+        order.setPayTime(nowTime);
+        order.setShipSn("101");
+        order.setShipTime(nowTime);
+        order.setConfirmTime(nowTime);
+        order.setComments(commit);
+        order.setEndTime(nowTime);
+        order.setAddTime(nowTime);
+        order.setDeleted(false);
+      /*  OrderGoods orderGoods = new OrderGoods();
+        orderGoods.setOrderId(order.getId());
+        orderGoods.setComment(0);
+        orderGoodsMapper.insert(orderGoods);*/
+        int insert = orderMapper.insert(order);
+        return insert;
     }
 
 
@@ -222,4 +260,122 @@ public class OrderServiceImpl implements OrderService {
         return i;
     }
 
+    /**
+     * 确认收货逻辑
+     * @param id
+     * @return
+     */
+    @Override
+    public int orderConfirm(int id) {
+        //查询订单信息
+        Order order = orderMapper.selectByPrimaryKey(id);
+        Short status = 401;
+        order.setOrderStatus(status);
+        //更新订单信息
+        int i = orderMapper.updateByPrimaryKeySelective(order);
+        return i;
+    }
+
+    @Override
+    public Order queryOrderById(Integer id) {
+        Order order = orderMapper.selectByPrimaryKey(id);
+        return order;
+    }
+
+    /**
+     *付款逻辑
+     * @param id
+     * @return
+     */
+    @Override
+    public int payOrders(Integer id) {
+        Order order = orderMapper.selectByPrimaryKey(id);
+        Short orderStatus = 201;
+        order.setOrderStatus(orderStatus);
+        int i = orderMapper.updateByPrimaryKey(order);
+        return i;
+    }
+
+    /**
+     * 查询订单状态
+     * @param user
+     * @return
+     */
+    @Override
+    public OrderStatus selectOrderStatus(User user) {
+        OrderExample orderExample = new OrderExample();
+        orderExample.createCriteria().andUserIdEqualTo(user.getId());
+        List<Order> orders = orderMapper.selectByExample(orderExample);
+
+        OrderExample orderExample1 = new OrderExample();
+        Short status = 101;
+        orderExample1.createCriteria().andOrderStatusEqualTo(status);
+
+        OrderStatus orderStatus = new OrderStatus();
+        Integer uncomment = 0;
+        Integer unpaid = 0;
+        Integer unrecv = 0;
+        Integer unship = 0;
+        for (Order order : orders) {
+            if(order.getOrderStatus() == 101){
+                unpaid += 1;
+            }
+            if(order.getOrderStatus() == 201){
+                unship += 1;
+            }
+            if(order.getOrderStatus() == 301){
+                unrecv += 1;
+            }
+            if(order.getOrderStatus() == 401){
+                uncomment += 1;
+            }
+        }
+        orderStatus.setUncomment(uncomment);
+        orderStatus.setUnpaid(unpaid);
+        orderStatus.setUnrecv(unrecv);
+        orderStatus.setUnship(unship);
+        return orderStatus;
+    }
+
+    /**
+     * 显示评价信息
+     * @param goodsId
+     * @param orderId
+     * @return
+     */
+    @Override
+    public OrderGoodsReturn selectOrderGoodsReturn(Integer goodsId, Integer orderId) {
+        OrderGoodsReturn orderGoodsReturn = new OrderGoodsReturn();
+        OrderGoodsExample orderGoodsExample = new OrderGoodsExample();
+        orderGoodsExample.createCriteria().andOrderIdEqualTo(orderId).andGoodsIdEqualTo(goodsId);
+        List<OrderGoods> orderGoods = orderGoodsMapper.selectByExample(orderGoodsExample);
+        OrderGoods orderGood = orderGoods.get(0);
+        orderGoodsReturn.setGoodsName(orderGood.getGoodsName());
+        orderGoodsReturn.setGoodsSpecificationValues(orderGood.getSpecifications());
+        orderGoodsReturn.setNumber(orderGood.getNumber());
+        orderGoodsReturn.setPicUrl(orderGood.getPicUrl());
+        return orderGoodsReturn;
+    }
+
+    /**
+     *
+     * @param comment
+     * @return
+     */
+    @Override
+    @Transactional
+    public int insertComment(Comment comment,User user) {
+        Date nowTime = new Date();
+        comment.setValueId(0);
+        Byte type = 0;
+        comment.setType(type);
+        comment.setUserId(user.getId());
+        comment.setAddTime(nowTime);
+        comment.setUpdateTime(nowTime);
+        comment.setDeleted(false);
+        int i = commentMapper.insertSelective(comment);
+        //更新订单信息
+
+        return i;
+    }
 }

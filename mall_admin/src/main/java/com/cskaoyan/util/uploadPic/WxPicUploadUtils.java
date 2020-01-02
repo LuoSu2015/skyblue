@@ -4,6 +4,11 @@ import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.PutObjectResult;
 import com.cskaoyan.bean.Storage;
 import com.cskaoyan.service.WxStorageService;
+
+import com.cskaoyan.service.WxStorageServiceImpl;
+//import com.cskaoyan.service.systemManagement.StorageService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;

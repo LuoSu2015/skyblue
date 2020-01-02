@@ -12,7 +12,7 @@ import java.sql.SQLException;
 @ControllerAdvice
 public class ExceptionControllerAdvise {
 
-    /* 授权异常 */
+  /*  *//* 授权异常 *//*
     @ExceptionHandler({AuthorizationException.class})
     @ResponseBody
     public BaseRespVo handlerAuthorException(Exception e){
@@ -31,21 +31,25 @@ public class ExceptionControllerAdvise {
         return baseRespVo;
     }
     //空指针异常
-    @ExceptionHandler({NullPointerException.class})
+/*    @ExceptionHandler({NullPointerException.class})
     @ResponseBody
     public BaseRespVo nullPointException(Exception e){
         BaseRespVo baseRespVo = new BaseRespVo();
         baseRespVo.setErrno(507);
         baseRespVo.setErrmsg("您查询的内容为空");
         return baseRespVo;
-    }
+    }*/
     //数据库异常
-    @ExceptionHandler({SQLException.class})
+
+   /* @ExceptionHandler({SQLException.class})
+=======
+    /*@ExceptionHandler({SQLException.class})
+>>>>>>> f41748a2ef8bfdd6bcee639a5504794d76f0cf5e
     @ResponseBody
     public BaseRespVo sqlException(Exception e){
         BaseRespVo baseRespVo = new BaseRespVo();
         baseRespVo.setErrno(508);
         baseRespVo.setErrmsg("数据库繁忙,稍后再试");
         return baseRespVo;
-    }
+    }*/
 }
