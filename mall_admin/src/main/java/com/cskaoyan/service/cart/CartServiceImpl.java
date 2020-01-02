@@ -216,6 +216,9 @@ public class CartServiceImpl implements CartService {
         List<Cart> checkedCartList = cartStatus.getCheckedCartList();
         List<Address> addressList = queryAddressByDefaultUser();
         Double checkedGoodsAmount = cartStatus.getCartGoodsStatus().getCheckedGoodsAmount();
+        if(addressList.size()==1){
+            addressList.get(0).setIsDefault(true);
+        }
         for (Address address : addressList) {
             if (address.getIsDefault()) {
                 defaultAddress = address;
@@ -239,8 +242,6 @@ public class CartServiceImpl implements CartService {
         /*优惠券折扣*/
         Coupon coupon = queryCouponByCouponId(checkoutWrapper.getCouponId());
         Double discount = coupon.getDiscount().doubleValue();
-
-
         double actualPrice = checkedGoodsAmount + freightPrice;
         hashMap.put("couponPrice", 0);
         /*运费*/
