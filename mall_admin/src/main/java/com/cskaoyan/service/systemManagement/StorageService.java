@@ -11,4 +11,5 @@ public interface StorageService {
     int changeStorageById(Storage storage);
 
     int deleteStorage(Storage storage);
+
 }
