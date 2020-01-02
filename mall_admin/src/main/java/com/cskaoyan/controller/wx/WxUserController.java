@@ -50,9 +50,7 @@ public class WxUserController {
             Date date = new Date(new Date().getTime() + 60 * 60 * 24*10*1000);
             map.put("userInfo", wxWrapper);
             map.put("token",sessionId);
-            map.put("tokenExpire",date);
-            baseRespVo.setErrmsg("成功");
-            baseRespVo.setErrno(0);
+//            map.put("tokenExpire",date);
             baseRespVo.setData(map);
         } catch (AuthenticationException e) {
             baseRespVo.setErrno(402);
@@ -73,9 +71,6 @@ public class WxUserController {
         orderStatus.setUnpaid(0);
         orderStatus.setUnrecv(0);
         orderStatus.setUnship(0);
-
-        baseRespVo.setErrmsg("成功");
-        baseRespVo.setErrno(0);
         baseRespVo.setData(orderStatus);
         return baseRespVo;
     }
@@ -86,8 +81,6 @@ public class WxUserController {
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
         BaseRespVo baseRespVo = new BaseRespVo();
-        baseRespVo.setErrno(0);
-        baseRespVo.setErrmsg("成功");
         return baseRespVo;
     }
 }

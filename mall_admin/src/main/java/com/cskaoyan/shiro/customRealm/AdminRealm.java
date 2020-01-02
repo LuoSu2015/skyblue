@@ -48,9 +48,9 @@ public class AdminRealm extends AuthorizingRealm {
         PermissionExample permissionExample = new PermissionExample();
         PermissionExample.Criteria criteria = permissionExample.createCriteria();
         List<String> permissionList = new ArrayList<>();
-        String[] roleIds = admin.getRoleIds();
-        for (String roleId :roleIds) {
-            criteria.andRoleIdEqualTo(Integer.parseInt(roleId));
+        Integer[] roleIds = admin.getRoleIds();
+        for (Integer roleId :roleIds) {
+            criteria.andRoleIdEqualTo(roleId);
             List<Permission> permissions = permissionMapper.selectByExample(permissionExample);
             for (Permission p : permissions) {
                 String permission = p.getPermission();

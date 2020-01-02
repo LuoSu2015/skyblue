@@ -288,7 +288,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.cskaoyan.bean.Cart">
+  <update id="updateByPrimaryKeySelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.cskaoyan.bean.Cart">
     update cskaoyan_mall_cart
     <set>
       <if test="userId != null">
@@ -350,4 +350,7 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="checkedGoodsAmount" resultType="double">
+    select count(checked) from cskaoyan_mall_cart where user_id = #{userId,jdbcType=INTEGER}
+  </select>
 </mapper>
