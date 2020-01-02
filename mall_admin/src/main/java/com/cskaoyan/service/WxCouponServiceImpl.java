@@ -36,12 +36,14 @@ public class WxCouponServiceImpl implements  WxCouponService{
     @Override
     public List<Coupon> wxCouponList(Map<String, String> map) {
         Integer page = Integer.parseInt(map.get("page"));
-        Integer limit = Integer.parseInt(map.get("limit"));
+        Integer limit = Integer.parseInt(map.get("size"));
         PageHelper.startPage(page, limit);
 
         CouponExample couponExample = new CouponExample();
         //OrderByClause对应排序方式
-        couponExample.setOrderByClause(map.get("sort") + " " + map.get("order"));
+        if (map.get("sort") != null && map.get("order") != null){
+            couponExample.setOrderByClause(map.get("sort") + " " + map.get("order"));
+        }
         //搜索条件（与）
         //判断有没有请求此key
         CouponExample.Criteria criteria = couponExample.createCriteria();
@@ -218,7 +220,7 @@ public class WxCouponServiceImpl implements  WxCouponService{
         couponExample.createCriteria().andCodeEqualTo(coupon1.getCode());
         List<Coupon> coupons = couponMapper.selectByExample(couponExample);
         if(coupons.size() == 0){
-            throw new AdEx("兑换码错误QAQ");
+            throw new AdEx("兑换码错误");
         }
         Coupon coupon = coupons.get(0);
         //获取当前用户信息

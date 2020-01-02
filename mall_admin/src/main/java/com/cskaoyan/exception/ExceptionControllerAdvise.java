@@ -7,12 +7,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-<<<<<<< HEAD
-=======
-import javax.security.auth.message.AuthException;
-import java.sql.SQLException;
 
->>>>>>> 55197a86120fd05d5d27b533e8c37c958755c1ea
+import java.sql.SQLException;
 @ControllerAdvice
 public class ExceptionControllerAdvise {
 

@@ -27,7 +27,7 @@ public class WxCouponController {
      * @param map 分页参数
      * @return 所有的优惠券
      */
-    @RequestMapping("coupon/list")
+    @RequestMapping("wx/coupon/list")
     public BaseRespVo couponList(@RequestParam Map<String,String> map){
         List<Coupon> couponList = wxCouponService.wxCouponList(map);
         PageInfo<Coupon> couponPageInfo = new PageInfo<>(couponList);
@@ -47,7 +47,7 @@ public class WxCouponController {
      * @param map 分页参数
      * @return 指定用户的优惠券
      */
-    @RequestMapping("coupon/mylist")
+    @RequestMapping("wx/coupon/mylist")
     public BaseRespVo couponMylist(@RequestParam Map<String,String> map){
         List<Coupon> couponList = wxCouponService.couponMylist(map);
         PageInfo<Coupon> couponPageInfo = new PageInfo<>(couponList);
@@ -67,7 +67,7 @@ public class WxCouponController {
      * @param map 购物车id，团购id
      * @return 可用优惠券列表
      */
-    @RequestMapping("coupon/selectlist")
+    @RequestMapping("wx/coupon/selectlist")
     public BaseRespVo couponSelectlist(@RequestParam Map<String,String> map) {
         List<Coupon> couponlist = wxCouponService.wxCouponSelectlist(map);
         PageInfo<Coupon> couponPageInfo = new PageInfo<>(couponlist);
@@ -89,7 +89,7 @@ public class WxCouponController {
      * @param couponUser 优惠券领取用户
      * @return 是否领取成功
      */
-    @RequestMapping("coupon/receive")
+    @RequestMapping("wx/coupon/receive")
     public BaseRespVo couponReceive(@RequestBody CouponUser couponUser) throws AdEx {
         Integer couponReceive = wxCouponService.wxCouponReceive(couponUser.getCouponId());
         BaseRespVo baseRespVo = new BaseRespVo();
@@ -110,7 +110,7 @@ public class WxCouponController {
      * @return 是否领取成功
      * @throws AdEx
      */
-    @RequestMapping("coupon/exchange")
+    @RequestMapping("wx/coupon/exchange")
     public BaseRespVo couponExchange(@RequestBody Coupon coupon) throws AdEx {
         Integer couponExchange = wxCouponService.wxCouponExchange(coupon);
         BaseRespVo baseRespVo = new BaseRespVo();
