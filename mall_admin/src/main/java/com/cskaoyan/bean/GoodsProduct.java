@@ -1,8 +1,10 @@
 package com.cskaoyan.bean;
 
+import lombok.Data;
+
 import java.math.BigDecimal;
 import java.util.Date;
-
+@Data
 public class GoodsProduct {
     private Integer id;
 
@@ -21,6 +23,7 @@ public class GoodsProduct {
     private Date updateTime;
 
     private Boolean deleted;
+
 
     public Integer getId() {
         return id;
@@ -90,7 +93,5 @@ public class GoodsProduct {
         return deleted;
     }
 
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
-    }
+
 }
