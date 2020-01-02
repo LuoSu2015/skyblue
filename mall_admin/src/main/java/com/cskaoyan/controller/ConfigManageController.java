@@ -3,6 +3,8 @@ package com.cskaoyan.controller;
 import com.cskaoyan.bean.System;
 import com.cskaoyan.bean.configManage.SystemForTransfer;
 import com.cskaoyan.mapper.SystemMapper;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +28,7 @@ public class ConfigManageController {
     @Autowired
     SystemMapper systemMapper;
 
-
+@RequiresPermissions(value = {"admin:config:mall"})
     @RequestMapping(value = "mall", method = {RequestMethod.GET,RequestMethod.OPTIONS})
     public Map mallConfig(){
         System system1 = systemMapper.selectByPrimaryKey(6); //name
@@ -49,6 +51,8 @@ public class ConfigManageController {
         map.put("errmsg","成功");
         return map;
     }
+
+    @RequiresPermissions(value = {"admin:config:mall"})
     @RequestMapping(value = "mall", method = RequestMethod.POST)
     public Map mallConfig(@RequestBody SystemForTransfer systemForTransfer){
         String address = systemForTransfer.getCskaoyan_mall_mall_address();
@@ -73,6 +77,8 @@ public class ConfigManageController {
         map.put("errmsg","成功");
         return map;
     }
+
+    @RequiresPermissions(value = {"admin:config:express"})
     @RequestMapping(value = "express",method = {RequestMethod.GET,RequestMethod.OPTIONS})
     public Map expressConfig(){
         System system1 = systemMapper.selectByPrimaryKey(5); //min
@@ -86,6 +92,8 @@ public class ConfigManageController {
         map.put("errmsg","成功");
         return map;
     }
+
+    @RequiresPermissions(value = {"admin:config:express"})
     @RequestMapping(value = "express",method = {RequestMethod.POST,RequestMethod.OPTIONS})
     public Map expressConfig(@RequestBody SystemForTransfer systemForTransfer){
         String min = systemForTransfer.getCskaoyan_mall_express_freight_min();
@@ -102,6 +110,8 @@ public class ConfigManageController {
         map.put("errmsg","成功");
         return map;
     }
+
+    @RequiresPermissions(value = {"admin:config:order"})
     @RequestMapping(value = "order",method = {RequestMethod.GET})
     public Map orderConfig(){
         System system1 = systemMapper.selectByPrimaryKey(1); //unpaid
@@ -117,6 +127,8 @@ public class ConfigManageController {
         map.put("errmsg","成功");
         return map;
     }
+
+    @RequiresPermissions(value = {"admin:config:order"})
     @RequestMapping(value = "order",method = {RequestMethod.POST})
     public Map orderConfig(@RequestBody SystemForTransfer systemForTransfer){
         String order_unpaid = systemForTransfer.getCskaoyan_mall_order_unpaid();
@@ -137,6 +149,8 @@ public class ConfigManageController {
         map.put("errmsg","成功");
         return map;
     }
+
+    @RequiresPermissions(value = {"admin:config:wx"})
     @RequestMapping(value = "wx",method = {RequestMethod.GET})
     public Map wxConfig(){
         System system1 = systemMapper.selectByPrimaryKey(2); //new
@@ -160,6 +174,8 @@ public class ConfigManageController {
         map.put("errmsg","成功");
         return map;
     }
+
+    @RequiresPermissions(value = {"admin:config:wx"})
     @RequestMapping(value = "wx",method = {RequestMethod.POST})
     public Map wxConfig(@RequestBody SystemForTransfer systemForTransfer){
         String index_new = systemForTransfer.getCskaoyan_mall_wx_index_new();//2

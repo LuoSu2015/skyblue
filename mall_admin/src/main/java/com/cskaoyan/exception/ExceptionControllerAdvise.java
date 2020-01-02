@@ -12,7 +12,7 @@ import java.sql.SQLException;
 @ControllerAdvice
 public class ExceptionControllerAdvise {
 
-  /*  *//* 授权异常 *//*
+/*//     授权异常
     @ExceptionHandler({AuthorizationException.class})
     @ResponseBody
     public BaseRespVo handlerAuthorException(Exception e){

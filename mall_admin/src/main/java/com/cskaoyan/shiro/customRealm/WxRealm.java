@@ -43,24 +43,24 @@ public class WxRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
 
-        /*Admin admin = (Admin) principalCollection.getPrimaryPrincipal();
+        Admin admin = (Admin) principalCollection.getPrimaryPrincipal();
 //        List<String> stringList=adminMapper.selectPermissionByUsername(username);
 //        数据库里面的role_id是一个数组，需要先把数组查出来，遍历找permission
         PermissionExample permissionExample = new PermissionExample();
         PermissionExample.Criteria criteria = permissionExample.createCriteria();
         List<String> permissionList = new ArrayList<>();
-        String[] roleIds = admin.getRoleIds();
-        for (String roleId : roleIds) {
-            criteria.andRoleIdEqualTo(Integer.parseInt(roleId));
+        Integer[] roleIds = admin.getRoleIds();
+        for (Integer roleId : roleIds) {
+            criteria.andRoleIdEqualTo(roleId);
             List<Permission> permissions = permissionMapper.selectByExample(permissionExample);
             for (Permission p : permissions) {
                 String permission = p.getPermission();
                 permissionList.add(permission);
             }
-        }*/
+        }
 
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        authorizationInfo.addStringPermissions(null);
+        authorizationInfo.addStringPermissions(permissionList);
         return authorizationInfo;
     }
 

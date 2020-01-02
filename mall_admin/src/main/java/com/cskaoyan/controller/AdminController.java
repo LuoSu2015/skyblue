@@ -10,6 +10,8 @@ import com.cskaoyan.shiro.token.UserToken;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -49,7 +51,7 @@ public class AdminController {
         return baseRespVo;
     }
 
-
+//@RequiresPermissions(value = {"admin:auth:info"})
     @RequestMapping("admin/auth/info")
     public BaseRespVo info(String token) {
         Subject subject = SecurityUtils.getSubject();
@@ -74,6 +76,7 @@ public class AdminController {
     }
 
     /*修改密码*/
+    @RequiresPermissions(value = {"admin:profile:password"})
     @RequestMapping("admin/profile/password")
     public BaseRespVo modifyPassword(@RequestBody Map map) {
         String newPassword = (String) map.get("newPassword");

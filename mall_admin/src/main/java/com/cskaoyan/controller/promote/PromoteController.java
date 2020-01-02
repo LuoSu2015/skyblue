@@ -6,6 +6,8 @@ import com.cskaoyan.service.promote.PromoteService;
 import com.cskaoyan.util.promoteUtils.PromoteUtils;
 import com.cskaoyan.util.uploadPic.AliyunOssUtils;
 import com.cskaoyan.util.uploadPic.UploadPicUtils;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +24,7 @@ public class PromoteController {
 
 
     /* 图片上传*/
+    @RequiresPermissions(value = {"admin:storage:create"},logical = Logical.OR)
     @RequestMapping("admin/storage/create")
     public BaseRespVo addPic(MultipartFile file) throws IOException {
         BaseRespVo baseRespVo = AliyunOssUtils.uploadFile(file);
@@ -32,6 +35,7 @@ public class PromoteController {
     }
 
     /* 广告展示 */
+    @RequiresPermissions(value = {"admin:ad:list"},logical = Logical.OR)
     @RequestMapping("admin/ad/list")
     public BaseRespVo<List<Ad>> queryAdListByNameAndContent(PageWrapper pageWrapper) {
 
@@ -43,6 +47,7 @@ public class PromoteController {
     }
 
     /* 添加广告*/
+    @RequiresPermissions(value = {"admin:ad:create"},logical = Logical.OR)
     @RequestMapping("admin/ad/create")
     public BaseRespVo insertAdList(@RequestBody Ad ad) {
         BaseRespVo<Ad> adBaseRespVo = new BaseRespVo<>();
@@ -58,6 +63,7 @@ public class PromoteController {
     }
 
     /*  更新广告*/
+    @RequiresPermissions(value = {"admin:ad:update"},logical = Logical.OR)
     @RequestMapping("admin/ad/update")
     public BaseRespVo updateAd(@RequestBody Ad ad) {
         ArrayList<Ad> adList = new ArrayList<>();
@@ -70,6 +76,7 @@ public class PromoteController {
     }
 
     /*删除广告*/
+    @RequiresPermissions(value = {"admin:ad:delete"},logical = Logical.OR)
     @RequestMapping("admin/ad/delete")
     public BaseRespVo deleteAdList(@RequestBody Ad ad) {
         ArrayList<Ad> adList = new ArrayList<>();
@@ -81,6 +88,7 @@ public class PromoteController {
         return baseRespVo;
     }
 
+    @RequiresPermissions(value = {"admin:coupon:list"},logical = Logical.OR)
     /*  优惠券 */
     @RequestMapping("admin/coupon/list")
     public BaseRespVo queryCouponListByNameAndTypeAndStatus(PageWrapper pageWrapper) {
@@ -93,6 +101,7 @@ public class PromoteController {
     }
 
     /* 添加优惠券*/
+    @RequiresPermissions(value = {"admin:coupon:create"},logical = Logical.OR)
     @RequestMapping("admin/coupon/create")
     public BaseRespVo insertCouponList(@RequestBody Coupon coupon) {
         BaseRespVo<Coupon> CouponBaseRespVo = new BaseRespVo<>();
@@ -108,6 +117,7 @@ public class PromoteController {
     }
 
     /*  更新优惠券*/
+    @RequiresPermissions(value = {"admin:coupon:update"},logical = Logical.OR)
     @RequestMapping("admin/coupon/update")
     public BaseRespVo updateCoupon(@RequestBody Coupon coupon) {
         List<Coupon> couponList = new ArrayList<>();
@@ -121,6 +131,7 @@ public class PromoteController {
     }
 
     /*删除优惠券*/
+    @RequiresPermissions(value = {"admin:coupon:delete"},logical = Logical.OR)
     @RequestMapping("admin/coupon/delete")
     public BaseRespVo deleteCouponList(@RequestBody Coupon coupon) {
         List<Coupon> couponList = new ArrayList<>();
@@ -133,6 +144,7 @@ public class PromoteController {
     }
 
     /*优惠券详情一*/
+    @RequiresPermissions(value = {"admin:coupon:read"},logical = Logical.OR)
     @RequestMapping("admin/coupon/read")
     public BaseRespVo queryCouponReadlList(int id){
         BaseRespVo baseRespVo = new BaseRespVo();
@@ -146,6 +158,7 @@ public class PromoteController {
     }
 
     /*优惠券详情二，因为不知道业务逻辑，所以还没开始写*/
+    @RequiresPermissions(value = {"admin:coupon:listuser"},logical = Logical.OR)
     @RequestMapping("admin/coupon/listuser")
     public BaseRespVo queryCouponListUser(PageWrapper pageWrapper){
         BaseRespVo baseRespVo = PromoteUtils.preSetBaseRespVo(pageWrapper);
@@ -162,6 +175,7 @@ public class PromoteController {
 
     /*  专题管理  */
     /*admin/topic/list title=sfdf&subtitle=dasd*/
+    @RequiresPermissions(value = {"admin:topic:list"},logical = Logical.OR)
     @RequestMapping("admin/topic/list")
     public BaseRespVo queryTopicListByTitleAndSubtitle(PageWrapper pageWrapper) {
 //        PromoteUtils<Topic> adPromoteUtils = new PromoteUtils<>();
@@ -174,6 +188,7 @@ public class PromoteController {
     }
 
     /* 添加专题*/
+    @RequiresPermissions(value = {"admin:topic:create"},logical = Logical.OR)
     @RequestMapping("admin/topic/create")
     public BaseRespVo insertTopicList(@RequestBody Topic topic) {
         BaseRespVo<Topic> topicBaseRespVo = new BaseRespVo<>();
@@ -190,6 +205,7 @@ public class PromoteController {
 
     /*  更新专题*/
     //http://192.168.2.100:8081/topicmin/topic/update
+    @RequiresPermissions(value = {"admin:topic:update"},logical = Logical.OR)
     @RequestMapping("admin/topic/update")
     public BaseRespVo updatetopic(@RequestBody Topic topic) {
         List<Topic> topicList = new ArrayList<>();
@@ -203,6 +219,7 @@ public class PromoteController {
     }
 
     /*删除专题*/
+    @RequiresPermissions(value = {"admin:topic:delete"},logical = Logical.OR)
     @RequestMapping("admin/topic/delete")
     public BaseRespVo deletetopicList(@RequestBody Topic topic) {
         List<Topic> topicList = new ArrayList<>();
@@ -216,6 +233,7 @@ public class PromoteController {
 
     /*  团购规则 */
 //      admin/groupon/list?goodsId=
+    @RequiresPermissions(value = {"admin:groupon:list"},logical = Logical.OR)
     @RequestMapping("admin/groupon/list")
     public BaseRespVo queryGrouponRulesListByGoodsId(PageWrapper pageWrapper) {
 //        PromoteUtils<Groupon_rules> adPromoteUtils = new PromoteUtils<>();
@@ -228,6 +246,7 @@ public class PromoteController {
     }
 
     /* 添加团购规则*/
+    @RequiresPermissions(value = {"admin:groupon:create"},logical = Logical.OR)
     @RequestMapping("admin/groupon/create")
     public BaseRespVo insertGrouponList(@RequestBody Groupon groupon) {
         BaseRespVo<Groupon> grouponBaseRespVo = new BaseRespVo<>();
@@ -244,6 +263,7 @@ public class PromoteController {
 
     /*  更新团购规则*/
     //http://192.168.2.100:8081/grouponmin/groupon/update
+    @RequiresPermissions(value = {"admin:groupon:update"},logical = Logical.OR)
     @RequestMapping("admin/groupon/update")
     public BaseRespVo updateGroupon(@RequestBody GrouponRules groupon_rules) {
         ArrayList<GrouponRules> grouponList = new ArrayList<>();
@@ -257,6 +277,7 @@ public class PromoteController {
     }
 
     /*删除团购规则*/
+    @RequiresPermissions(value = {"admin:groupon:delete"},logical = Logical.OR)
     @RequestMapping("admin/groupon/delete")
     public BaseRespVo deletegrouponList(@RequestBody Groupon groupon) {
         List<Groupon> grouponList = new ArrayList<>();
@@ -269,7 +290,7 @@ public class PromoteController {
     }
 
     /*团购活动*/
-//     admin/groupon/listRecord?page=1&limit=20&sort=add_time&order=desc  grouponrules
+    @RequiresPermissions(value = {"admin:groupon:listRecord"},logical = Logical.OR)
     @RequestMapping("admin/groupon/listRecord")
     public BaseRespVo queryGrouponListRecordByGoodsId(PageWrapper pageWrapper) {
 //        PromoteUtils<Groupon> adPromoteUtils = new PromoteUtils<>();
@@ -281,41 +302,5 @@ public class PromoteController {
 
     }
 
-    /* *//* 添加团购活动*//*
-    @RequestMapping("admin/groupon/create")
-    public BaseRespVo insertgrouponListByNameAndContent(@RequestBody groupon groupon) {
-        BaseRespVo<groupon> grouponBaseRespVo = new BaseRespVo<>();
-        ArrayList<groupon> grouponlist = new ArrayList<>();
-        grouponlist.groupond(groupon);
-        *//* 开启了usegenerateKey，他会自动返回当前对象的Id *//*
-        promoteService.insertgrouponList(grouponlist);
-        grouponBaseRespVo.setData(groupon);
-        grouponBaseRespVo.setErrno(0);
-        grouponBaseRespVo.setErrmsg("成功");
 
-        return grouponBaseRespVo;
-    }
-
-    *//*  更新团购活动*//*
-    //http://192.168.2.100:8081/grouponmin/groupon/update
-    @RequestMapping("grouponmin/groupon/update")
-    public BaseRespVo updategroupon(groupon groupon){
-        ArrayList<groupon> grouponList = new ArrayList<>();
-        promoteService.updategrouponList(grouponList);
-        BaseRespVo<groupon> grouponBaseRespVo = new BaseRespVo<>();
-        grouponBaseRespVo.setErrno(0);
-        grouponBaseRespVo.setErrmsg("成功");
-        grouponBaseRespVo.setData(groupon);
-        return  grouponBaseRespVo;
-    }
-    *//*删除团购活动*//*
-    @RequestMapping("grouponmin/groupon/delete")
-    public BaseRespVo deletegrouponList(groupon groupon){
-        ArrayList<groupon> grouponList = new ArrayList<>();
-        promoteService.deletegrouponList(grouponList);
-        BaseRespVo baseRespVo = new BaseRespVo();
-        baseRespVo.setErrno(0);
-        baseRespVo.setErrmsg("成功");
-        return baseRespVo;
-    }*/
 }

@@ -20,8 +20,8 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager webSecurityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         /*拦截器会把所有的页面请求拦截住，认证失败后的重定向Url*/
-        shiroFilterFactoryBean.setLoginUrl("/admin/auth/login");
         shiroFilterFactoryBean.setSecurityManager(webSecurityManager);
+        shiroFilterFactoryBean.setLoginUrl("/admin/auth/login");
         /*对请求的过滤*/
         /*一定要用Linked，因为它是有序的*/
         LinkedHashMap<String, String> linkedHashMap = new LinkedHashMap<>();
@@ -43,10 +43,14 @@ public class ShiroConfig {
     }
 
     @Bean
-    public DefaultWebSecurityManager webSecurityManager(CustomAuthenticator authenticator, DefaultWebSessionManager webSessionManager) {
+    public DefaultWebSecurityManager webSecurityManager(CustomAuthenticator authenticator, DefaultWebSessionManager webSessionManager,WxRealm wxRealm,AdminRealm adminRealm) {
         DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
-        defaultWebSecurityManager.setSessionManager(webSessionManager);
         defaultWebSecurityManager.setAuthenticator(authenticator);
+        ArrayList<Realm> realms = new ArrayList<>();
+        realms.add(adminRealm);
+        realms.add(wxRealm);
+        defaultWebSecurityManager.setRealms(realms);
+        defaultWebSecurityManager.setSessionManager(webSessionManager);
         return defaultWebSecurityManager;
     }
 

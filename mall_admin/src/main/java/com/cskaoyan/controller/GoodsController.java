@@ -8,6 +8,8 @@ import com.cskaoyan.bean.goods.*;
 import com.cskaoyan.service.GoodsService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -26,6 +28,7 @@ public class GoodsController {
     @Autowired
     GoodsService goodsService;
 
+    @RequiresPermissions(value = {"admin:goods:list"})
     @RequestMapping("admin/goods/list")
     public BaseRespVo goodsList(int page,int limit,String sort,String order,Integer goodsSn,String name){
         BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
@@ -45,7 +48,7 @@ public class GoodsController {
         return baseRespVo;
     }
 
-
+    @RequiresPermissions(value = {"admin:comment:list"})
     @RequestMapping("admin/comment/list")
     public BaseRespVo commentList(int page,int limit,String sort,String order,Integer userId,Integer valueId){
         BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
@@ -65,6 +68,7 @@ public class GoodsController {
         return baseRespVo;
     }
 
+    @RequiresPermissions(value = {"admin:comment:delete"})
     @RequestMapping("admin/comment/delete")
     public BaseRespVo deleteComment(@RequestBody Comment comment){
         BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
@@ -76,6 +80,7 @@ public class GoodsController {
         return baseRespVo;
     }
 
+    @RequiresPermissions(value = {"admin:goods:catAndBrand"})
     @RequestMapping("admin/goods/catAndBrand")
     public BaseRespVo catAndBrand(){
         BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
@@ -93,7 +98,7 @@ public class GoodsController {
     }
 
 
-
+    @RequiresPermissions(value = {"admin:goods:create"})
     @RequestMapping("admin/goods/create")
     public BaseRespVo addGoods(@RequestBody MyGoods goods){
         BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
@@ -105,6 +110,7 @@ public class GoodsController {
         return baseRespVo;
     }
 
+    @RequiresPermissions(value = {"admin:goods:delete"})
     @RequestMapping("admin/goods/delete")
     public BaseRespVo deleteGoods(@RequestBody DeleteGoods goods){
         BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
@@ -116,6 +122,7 @@ public class GoodsController {
         return baseRespVo;
     }
 
+    @RequiresPermissions(value = {"admin:goods:detail"})
     @RequestMapping("admin/goods/detail")
     public BaseRespVo detailGoods(@RequestParam Integer id){
         BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
@@ -140,7 +147,7 @@ public class GoodsController {
         return baseRespVo;
     }
 
-
+    @RequiresPermissions(value = {"admin:goods:update"})
     @RequestMapping("admin/goods/update")
     public BaseRespVo updateGoods(@RequestBody MyGoods goods){
         BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
@@ -152,6 +159,7 @@ public class GoodsController {
         return baseRespVo;
     }
 
+    @RequiresPermissions(value = {"admin:order:reply"})
     @RequestMapping("admin/order/reply")
     public BaseRespVo replyGoods(@RequestBody GoodsReply goodsReply){
         BaseRespVo<Object> baseRespVo = new BaseRespVo<>();

@@ -8,6 +8,8 @@ import com.cskaoyan.mapper.UserMapper;
 
 
 import com.cskaoyan.service.statistics.StatisticsService;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +36,7 @@ public class StatisticsController {
      * 统计报表,统计用户
      * @return
      */
+    @RequiresPermissions(value = {"admin:stat:user"},logical = Logical.OR)
     @RequestMapping("admin/stat/user")
     public BaseRespVo countUser(){
         BaseRespVo baseRespVo = new BaseRespVo();
@@ -51,6 +54,7 @@ public class StatisticsController {
         return baseRespVo;
     }
 
+    @RequiresPermissions(value = {"admin:stat:goods"},logical = Logical.OR)
     @RequestMapping("admin/stat/goods")
     public BaseRespVo countGoods(){
         BaseRespVo baseRespVo = new BaseRespVo();
@@ -69,7 +73,7 @@ public class StatisticsController {
         return baseRespVo;
     }
 
-
+    @RequiresPermissions(value = {"admin:stat:order"},logical = Logical.OR)
     @RequestMapping("admin/stat/order")
     public BaseRespVo countOrders(){
         BaseRespVo baseRespVo = new BaseRespVo();

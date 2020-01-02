@@ -2,6 +2,8 @@ package com.cskaoyan.controller;
 
 import com.cskaoyan.bean.*;
 import com.cskaoyan.service.MarketService;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +17,7 @@ public class MarketController {
 
     @Autowired
     MarketService marketService;
-
+    @RequiresPermissions(value = {"admin:region:list"})
     @RequestMapping("admin/region/list")
     public String showRegion(){
         String s1 = "{\"errno\":0,\"data\":[{\"id\":1,\"name\":\"北京市\",\"type\":1,\"code\":11,\"children\":[{\"id\":32,\"name\":\"市辖区\",\"type\":2,\"code\":1101,\"children\":[{\"id\":376,\"name\":\"东城区\",\"type\":3,\"code\":110101},{\"id\":377,\"name\":\"西城区\",\"type\":3,\"code\":110102},{\"id\":378,\"name\":\"朝阳区\",\"type\":3,\"code\":110105},{\"id\":379,\"name\":\"丰台区\",\"type\":3,\"code\":110106},{\"id\":380,\"name\":\"石景山区\",\"type\":3,\"code\":110107},{\"id\":381,\"name\":\"海淀区\",\"type\":3,\"code\":110108},{\"id\":382,\"name\":\"门头沟区\",\"type\":3,\"code\":110109},{\"id\":383,\"name\":\"房山区\",\"type\":3,\"code\":110111},{\"id\":384,\"name\":\"通州区\",\"type\":3,\"code\":110112},{\"id\":385,\"name\":\"顺义区\",\"type\":3,\"code\":110113},{\"id\":386,\"name\":\"昌平区\",\"type\":3,\"code\":110114},{\"id\":387,\"name\":\"大兴区\",\"type\":3,\"code\":110115},{\"id\":388,\"name\":\"怀柔区\",\"type\":3,\"code\":110116},{\"id\":389,\"name\":\"平谷区\",\"type\":3,\"code\":110117},{\"id\":390,\"name\":\"密云区\",\"type\":3,\"code\":110118},{\"id\":391,\"name\":\"延庆区\",\"type\":3,\"code\":110119}]}]},{\"id\":2,\"name\":\"天津市\",\"type\":1,\"code\":12,\"children\":[{\"id\":33,\"name\":\"市辖区\",\"type\":2,\"code\":1201,\"children\":[{\"id\":392,\"name\":\"和平区\",\"type\":3,\"code\":120101},{\"id\":393,\"name\":\"河东区\",\"type\":3,\"code\":120102},{\"id\":394,\"name\":\"河西区\",\"type\":3,\"code\":120103},{\"id\":395,\"name\":\"南开区\",\"type\":3,\"code\":120104},{\"id\":396,\"name\":\"河北区\",\"type\":3,\"code\":120105},{\"id\":397,\"name\":\"红桥区\",\"type\":3,\"code\":120106},{\"id\":398,\"name\":\"东丽区\",\"type\":3,\"code\":120110},{\"id\":399,\"name\":\"西青区\",\"type\":3,\"code\":120111},{\"id\":400,\"name\":\"津南区\",\"type\":3,\"code\":120112},{\"id\":401,\"name\":\"北辰区\",\"type\":3,\"code\":120113},{\"id\":402,\"name\":\"武清区\",\"type\":3,\"code\":120114},{\"id\":403,\"name\":\"宝坻区\",\"type\":3,\"code\":120115},{\"id\":404,\"name\":\"滨海新区\",\"type\":3,\"code\":120116},{\"id\":405,\"name\":\"宁河区\",\"type\":3,\"code\":120117},{\"id\":406,\"name\":\"静海区\",\"type\":3,\"code\":120118},{\"id\":407,\"name\":\"蓟州区\",\"type\":3,\"code\":120119}]}]},{\"id\":3,\"name\":\"河北省\",\"type\":1,\"code\":13,\"children\":[{\"id\":34,\"name\":\"石家庄市\",\"type\":2,\"code\":1301,\"children\":[{\"id\":408,\"name\":\"长安区\",\"type\":3,\"code\":130102},{\"id\":409,\"name\":\"桥西区\",\"type\":3,\"code\":130104},{\"id\":410,\"name\":\"新华区\",\"type\":3,\"code\":130105},{\"id\":411,\"name\":\"井陉矿区\",\"type\":3,\"code\":130107},{\"id\":412,\"name\":\"裕华区\",\"type\":3,\"code\":130108},{\"id\":413,\"name\":\"藁城区\",\"type\":3,\"code\":130109},{\"id\":414,\"name\":\"鹿泉区\",\"type\":3,\"code\":130110},{\"id\":415,\"name\":\"栾城区\",\"type\":3,\"code\":130111},{\"id\":416,\"name\":\"井陉县\",\"type\":3,\"code\":130121},{\"id\":417,\"name\":\"正定县\",\"type\":3,\"code\":130123},{\"id\":418,\"name\":\"行唐县\",\"type\":3,\"code\":130125},{\"id\":419,\"name\":\"灵寿县\",\"type\":3,\"code\":130126},{\"id\":420,\"name\":\"高邑县\",\"type\":3,\"code\":130127},{\"id\":421,\"name\":\"深泽县\",\"type\":3,\"code\":130128},{\"id\":422,\"name\":\"赞皇县\",\"type\":3,\"code\":130129},{\"id\":423,\"name\":\"无极县\",\"type\":3,\"code\":130130},{\"id\":424,\"name\":\"平山县\",\"type\":3,\"code\":130131},{\"id\":425,\"name\":\"元氏县\",\"type\":3,\"code\":130132},{\"id\":426,\"name\":\"赵县\",\"type\":3,\"code\":130133},{\"id\":427,\"name\":\"晋州市\",\"type\":3,\"code\":130183},{\"id\":428,\"name\":\"新乐市\",\"type\":3,\"code\":130184}]},{\"id\":35,\"name\":\"唐山市\",\"type\":2,\"code\":1302,\"children\":[{\"id\":429,\"name\":\"路南区\",\"type\":3,\"code\":130202},{\"id\":430,\"name\":\"路北区\",\"type\":3,\"code\":130203},{\"id\":431,\"name\":\"古冶区\",\"type\":3,\"code\":130204},{\"id\":432,\"name\":\"开平区\",\"type\":3,\"code\":130205},{\"id\":433,\"name\":\"丰南区\",\"type\":3,\"code\":130207},{\"id\":434,\"name\":\"丰润区\",\"type\":3,\"code\":130208},{\"id\":435,\"name\":\"曹妃甸区\",\"type\":3,\"code\":130209},{\"id\":436,\"name\":\"滦县\",\"type\":3,\"code\":130223},{\"id\":437,\"name\":\"滦南县\",\"type\":3,\"code\":130224},{\"id\":438,\"name\":\"乐亭县\",\"type\":3,\"code\":130225},{\"id\":439,\"name\":\"迁西县\",\"type\":3,\"code\":130227},{\"id\":440,\"name\":\"玉田县\",\"type\":3,\"code\":130229},{\"id\":441,\"name\":\"遵化市\",\"type\":3,\"code\":130281},{\"id\":442,\"name\":\"迁安市\",\"type\":3,\"code\":130283}]},{\"id\":36,\"name\":\"秦皇岛市\",\"type\":2,\"code\":1303,\"children\":[{\"id\":443,\"name\":\"海港区\",\"type\":3,\"code\":130302},{\"id\":444,\"name\":\"山海关区\",\"type\":3,\"code\":130303},{\"id\":445,\"name\":\"北戴河区\",\"type\":3,\"code\":130304},{\"id\":446,\"name\":\"抚宁区\",\"type\":3,\"code\":130306},{\"id\":447,\"name\":\"青龙满族自治县\",\"type\":3,\"code\":130321},{\"id\":448,\"name\":\"昌黎县\",\"type\":3,\"code\":130322},{\"id\":449,\"name\":\"卢龙县\",\"type\":3,\"code\":130324}]},{\"id\":37,\"name\":\"邯郸市\",\"type\":2,\"code\":1304,\"children\":[{\"id\":450,\"name\":\"邯山区\",\"type\":3,\"code\":130402},{\"id\":451,\"name\":\"丛台区\",\"type\":3,\"code\":130403},{\"id\":452,\"name\":\"复兴区\",\"type\":3,\"code\":130404},{\"id\":453,\"name\":\"峰峰矿区\",\"type\":3,\"code\":130406},{\"id\":454,\"name\":\"邯郸县\",\"type\":3,\"code\":130421},{\"id\":455,\"name\":\"临漳县\",\"type\":3,\"code\":130423},{\"id\":456,\"name\":\"成安县\",\"type\":3,\"code\":130424},{\"id\":457,\"name\":\"大名县\",\"type\":3,\"code\":130425},{\"id\":458,\"name\":\"涉县\",\"type\":3,\"code\":130426},{\"id\":459,\"name\":\"磁县\",\"type\":3,\"code\":130427},{\"id\":460,\"name\":\"肥乡县\",\"type\":3,\"code\":130428},{\"id\":461,\"name\":\"永年县\",\"type\":3,\"code\":130429},{\"id\":462,\"name\":\"邱县\",\"type\":3,\"code\":130430},{\"id\":463,\"name\":\"鸡泽县\",\"type\":3,\"code\":130431},{\"id\":464,\"name\":\"广平县\",\"type\":3,\"code\":130432},{\"id\":465,\"name\":\"馆陶县\",\"type\":3,\"code\":130433},{\"id\":466,\"name\":\"魏县\",\"type\":3,\"code\":130434},{\"id\":467,\"name\":\"曲周县\",\"type\":3,\"code\":130435},{\"id\":468,\"name\":\"武安市\",\"type\":3,\"code\":130481}]},{\"id\":38,\"name\":\"邢台市\",\"type\":2,\"code\":1305,\"children\":[{\"id\":469,\"name\":\"桥东区\",\"type\":3,\"code\":130502},{\"id\":470,\"name\":\"桥西区\",\"type\":3,\"code\":130503},{\"id\":471,\"name\":\"邢台县\",\"type\":3,\"code\":130521},{\"id\":472,\"name\":\"临城县\",\"type\":3,\"code\":130522},{\"id\":473,\"name\":\"内丘县\",\"type\":3,\"code\":130523},";
@@ -41,6 +43,7 @@ public class MarketController {
      * @param limit
      * @return
      */
+    @RequiresPermissions(value = {"admin:keyword:list"})
     @RequestMapping("admin/keyword/list")
     public BaseRespVo showKeywords(int page,int limit,String sort,String order,String keyword,String url){
         //查询所有的keyword并分页
@@ -63,6 +66,7 @@ public class MarketController {
      * @param keyword
      * @return
      */
+    @RequiresPermissions(value = {"admin:keyword:create"})
     @RequestMapping("admin/keyword/create")
     public BaseRespVo CreateKeyword(@RequestBody Keyword keyword){
         keyword.setAddTime(new Date());
@@ -82,6 +86,7 @@ public class MarketController {
      * @param keyword
      * @return
      */
+    @RequiresPermissions(value = {"admin:keyword:update"})
     @RequestMapping("admin/keyword/update")
     public BaseRespVo updateKeyword(@RequestBody Keyword keyword){
         BaseRespVo baseRespVo = new BaseRespVo();
@@ -97,6 +102,7 @@ public class MarketController {
      * @param keyword
      * @return
      */
+    @RequiresPermissions(value = {"admin:keyword:delete"})
     @RequestMapping("admin/keyword/delete")
     public BaseRespVo delectKeyword(@RequestBody Keyword keyword){
         marketService.deleteKeyword(keyword);
@@ -114,6 +120,7 @@ public class MarketController {
      * @param order
      * @return
      */
+    @RequiresPermissions(value = {"admin:brand:list"})
     @RequestMapping("admin/brand/list")
     public BaseRespVo showBrands(Integer page,Integer limit,String sort,String order,Integer id,String name){
         BaseRespVo baseRespVo = new BaseRespVo();
@@ -131,9 +138,10 @@ public class MarketController {
 
     /**
      *新建商标
-     * @param brand
+     * @param
      * @return
      */
+    @RequiresPermissions(value = {"admin:brand:create"})
     @RequestMapping("admin/brand/create")
     public BaseRespVo createBrand(@RequestBody BrandSpare brandSpare){
         BaseRespVo baseRespVo = new BaseRespVo();
@@ -159,6 +167,7 @@ public class MarketController {
      * @param brand
      * @return
      */
+    @RequiresPermissions(value = {"admin:brand:delete"})
     @RequestMapping("admin/brand/delete")
     public BaseRespVo delectBrand(@RequestBody Brand brand){
         //在数据库中删除数据
@@ -175,6 +184,7 @@ public class MarketController {
      * @param
      * @return
      */
+    @RequiresPermissions(value = {"admin:brand:update"})
     @RequestMapping("admin/brand/update")
     public BaseRespVo updateBrand(@RequestBody BrandSpare brandSpare){
         BaseRespVo baseRespVo = new BaseRespVo();
@@ -233,6 +243,7 @@ public class MarketController {
      * @param question
      * @return
      */
+    @RequiresPermissions(value = {"admin:issue:list"})
     @RequestMapping("admin/issue/list")
     public BaseRespVo showIssues(Integer page,Integer limit,String sort,String order,String question){
         //显示问题
@@ -255,6 +266,7 @@ public class MarketController {
      * @param issue
      * @return
      */
+    @RequiresPermissions(value = {"admin:issue:create"})
     @RequestMapping("admin/issue/create")
     public BaseRespVo createIssue(@RequestBody Issue issue){
         Date nowTime = new Date();
@@ -275,6 +287,7 @@ public class MarketController {
      * @param issue
      * @return
      */
+    @RequiresPermissions(value = {"admin:issue:update"})
     @RequestMapping("admin/issue/update")
     public BaseRespVo updateIssue(@RequestBody Issue issue){
         //更新问题
@@ -286,7 +299,7 @@ public class MarketController {
         baseRespVo.setErrno(0);
         return baseRespVo;
     }
-
+    @RequiresPermissions(value = {"admin:issue:delete"})
     @RequestMapping("admin/issue/delete")
     public BaseRespVo delectIssue(@RequestBody Issue issue){
         Integer id = issue.getId();
@@ -302,6 +315,7 @@ public class MarketController {
      * 显示所有商品类目
      * @return
      */
+    @RequiresPermissions(value = {"admin:category:list"})
     @RequestMapping("admin/category/list")
     public BaseRespVo showCategory(){
         List<CategorySpare> categorySpares = marketService.queryCategory();
@@ -317,6 +331,7 @@ public class MarketController {
      * 显示L1级别的类目
      * @return
      */
+    @RequiresPermissions(value = {"admin:category:l1"})
     @RequestMapping("admin/category/l1")
     public BaseRespVo showCategoryByL1(){
         List<Map> maps = marketService.queryCategoryByL1();
@@ -333,6 +348,7 @@ public class MarketController {
      * @param category
      * @return
      */
+    @RequiresPermissions(value = {"admin:category:create"})
     @RequestMapping("admin/category/create")
     public BaseRespVo createCategory(@RequestBody Category category){
         Date nowTime = new Date();
@@ -353,6 +369,7 @@ public class MarketController {
      * @param category
      * @return
      */
+    @RequiresPermissions(value = {"admin:category:update"})
     @RequestMapping("admin/category/update")
     public BaseRespVo updateCategory(@RequestBody Category category){
         //更新逻辑
@@ -369,6 +386,7 @@ public class MarketController {
      * @param category
      * @return
      */
+    @RequiresPermissions(value = {"admin:category:delete"})
     @RequestMapping("admin/category/delete")
     public BaseRespVo deleteCategory(@RequestBody Category category){
         marketService.delectCategroy(category);
@@ -390,6 +408,7 @@ public class MarketController {
      * @param orderSn
      * @return
      */
+    @RequiresPermissions(value = {"admin:order:list"})
     @RequestMapping("admin/order/list")
     public BaseRespVo showOrders(Integer page,Integer limit,String sort,String order,Integer userId,Short[] orderStatusArray,String orderSn){
         Map map = marketService.queryOrders(page, limit, sort, order, userId, orderStatusArray, orderSn);
@@ -412,6 +431,7 @@ public class MarketController {
      * @param id
      * @return
      */
+    @RequiresPermissions(value = {"admin:order:detail"})
     @RequestMapping("admin/order/detail")
     public BaseRespVo detailOrder(Integer id){
         List<OrderGoods> orderGoods = marketService.queryGoods(id);

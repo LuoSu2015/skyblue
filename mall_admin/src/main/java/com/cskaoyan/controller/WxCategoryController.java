@@ -18,6 +18,7 @@ public class WxCategoryController {
     @Autowired
     WxCategoryService wxCategoryService;
 
+
     @RequestMapping("wx/catalog/index")
     public BaseRespVo showCategory(){
         BaseRespVo<Object> baseRespVo = new BaseRespVo<>();

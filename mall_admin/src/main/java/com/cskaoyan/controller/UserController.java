@@ -3,6 +3,8 @@ package com.cskaoyan.controller;
 import com.cskaoyan.bean.*;
 import com.cskaoyan.service.UserServiceImpl;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +25,7 @@ public class UserController {
     /**
      * 用户管理模块会员管理功能首页显示和查询具体User
      */
+    @RequiresPermissions(value = {"admin:user:list"},logical = Logical.OR)
     @RequestMapping("admin/user/list")
     public BaseRespVo listuser(int page,int limit,String username,String mobile,String sort,String order){
         List<User> userList = userServiceimpl.listuser(page, limit,username,mobile,sort,order);
@@ -41,6 +44,7 @@ public class UserController {
     /**
      * 用户管理模块收货地址功能首页显示和查询具体User地址接口
      */
+    @RequiresPermissions(value = {"admin:address:list"},logical = Logical.OR)
     @RequestMapping("admin/address/list")
     public BaseRespVo listaddress(int page,int limit,Integer userId,String name,String sort,String order){
         List<Address> listaddress = userServiceimpl.listaddress(page, limit, userId, name,sort,order);
@@ -58,6 +62,7 @@ public class UserController {
     /**
      * 用户管理模块会员收藏功能首页显示和查询具体User收藏商品接口
      */
+    @RequiresPermissions(value = {"admin:collect:list"},logical = Logical.OR)
     @RequestMapping("admin/collect/list")
     public BaseRespVo listcollect(int page,int limit,Integer userId,Integer valueId,String sort,String order){
         List<Collect> listcollect = userServiceimpl.listcollect(page, limit, userId, valueId,sort,order);
@@ -75,6 +80,7 @@ public class UserController {
     /**
      * 用户管理模块会员足迹功能首页显示及具体User浏览信息查询接口
      */
+    @RequiresPermissions(value = {"admin:footprint:list"},logical = Logical.OR)
     @RequestMapping("admin/footprint/list")
     public BaseRespVo listfootprint(int page,int limit,Integer userId,Integer goodsId,String sort,String order){
         List<Footprint> listfootprint = userServiceimpl.listfootprint(page, limit, userId, goodsId, sort, order);
@@ -92,6 +98,7 @@ public class UserController {
     /**
      * 用户管理模块搜索历史功能首页显示及具体User浏览信息查询接口
      */
+    @RequiresPermissions(value = {"admin:history:list"},logical = Logical.OR)
     @RequestMapping("admin/history/list")
     public BaseRespVo listhistory(int page,int limit,Integer userId,String keyword,String sort,String order){
         List<SearchHistory> listhistory = userServiceimpl.listhistory(page, limit, userId, keyword, sort, order);
@@ -106,6 +113,8 @@ public class UserController {
         baseRespVo.setErrmsg("成功");
         return baseRespVo;
     }
+
+    @RequiresPermissions(value = {"admin:feedback:list"},logical = Logical.OR)
     @RequestMapping("admin/feedback/list")
     /**
      * 用户管理模块意见反馈功能首页显示及具体User反馈信息查询接口
