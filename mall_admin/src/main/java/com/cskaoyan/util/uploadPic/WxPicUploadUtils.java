@@ -6,7 +6,7 @@ import com.cskaoyan.bean.Storage;
 import com.cskaoyan.mapper.StorageMapper;
 import com.cskaoyan.service.WxStorageService;
 import com.cskaoyan.service.WxStorageServiceImpl;
-import com.cskaoyan.service.systemManagement.StorageService;
+//import com.cskaoyan.service.systemManagement.StorageService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
